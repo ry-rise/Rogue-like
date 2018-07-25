@@ -11,21 +11,18 @@ public class Map : MonoBehaviour {
 
     void Awake()
     {
-        tex2 = new Texture2D(30, 30);
-        //sprd = gameObject.AddComponent<SpriteRenderer>() as SpriteRenderer;
-        sprd.color = new Color(0, 0, 0);
-        int a = 0;
+        tex2 = new Texture2D(100, 100);
+        int pluslength = 0;
         for (int k = 0; k < map_height; k += 1)
         {
             for (int i = 0; i < map_width; i += 1)
             {
-
                 spr = Sprite.Create(tex2,
                                     new Rect(0, 0, tex2.width, tex2.height),
-                                    new Vector2(0 + a, 0),
+                                    new Vector2(0 + pluslength, 0 + pluslength),
                                     100.0f);
                 sprd.sprite = spr;
-                a += 5;
+                pluslength += 100;
             }
         }
     }
@@ -37,22 +34,25 @@ public class Map : MonoBehaviour {
             for (int i = 0; i < map_width; i += 1)
             {
                 Instantiate(prefab);
-                //spr = Sprite.Create(tex2, 
-                //                    new Rect(0, 0, tex2.width, tex2.height),
-                //                    new Vector2(0 + a, 0), 
-                //                    100.0f);
-                //sprd.sprite = spr;
                 //map_field[i, k].sprite = spr;
                 //map_field[i, k] = sprd;
-                //a += 5;
+                //if ()
+                //{
 
+                //}
             }
         }
     }
 
     void Update()
     {
-        
-        
+        //for (int k = 0; k < map_height; k += 1)
+        //{
+        //    for (int i = 0; i < map_width; i += 1)
+        //    {
+        //        Instantiate(prefab);
+        //    }
+        //}
     }
+
 }

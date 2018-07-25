@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c46ddb21bd830e345a398572642a322f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1334464961864168, guid: 294bc6af1a6a7174286643beffa7a88f, type: 2}
+  prefab: {fileID: 2103018472}
 --- !u!4 &600996589
 Transform:
   m_ObjectHideFlags: 0
@@ -279,6 +279,36 @@ Prefab:
       value: 
       objectReference: {fileID: 1334464961864168, guid: 294bc6af1a6a7174286643beffa7a88f,
         type: 2}
+    - target: {fileID: 212210345223164070, guid: 294bc6af1a6a7174286643beffa7a88f,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 212210345223164070, guid: 294bc6af1a6a7174286643beffa7a88f,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 212210345223164070, guid: 294bc6af1a6a7174286643beffa7a88f,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 212210345223164070, guid: 294bc6af1a6a7174286643beffa7a88f,
+        type: 2}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 212210345223164070, guid: 294bc6af1a6a7174286643beffa7a88f,
+        type: 2}
+      propertyPath: m_DrawMode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 294bc6af1a6a7174286643beffa7a88f, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &2103018472 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1334464961864168, guid: 294bc6af1a6a7174286643beffa7a88f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1360523459}
