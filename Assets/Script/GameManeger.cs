@@ -1,16 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManeger : MonoBehaviour {
 
-	// Use this for initialization
 	void Start () {
 		
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		
 	}
+
+    public void SceneChange()
+    {
+        if (SceneManager.GetActiveScene().name == "GameTitle")
+        {
+            //シーン遷移（タイトル→ゲーム）
+            SceneManager.LoadScene("GamePlay");
+        }
+    }
 }

@@ -17,6 +17,9 @@ public class Map : MonoBehaviour {
         {
             for (int i = 0; i < map_width; i += 1)
             {
+                map_field = new GameObject[map_width, map_height];
+                var obj = GetComponent<SpriteRenderer>();
+                //obj.sprite = spr;
                 spr[i] = Sprite.Create(tex2,
                                     new Rect(0, 0, tex2.width, tex2.height),
                                     new Vector2(0 + pluslength, 0 + pluslength),
@@ -36,10 +39,6 @@ public class Map : MonoBehaviour {
                 Instantiate(prefab);
                 //map_field[i, k].sprite = spr;
                 //map_field[i, k] = sprd;
-                //if ()
-                //{
-
-                //}
             }
         }
     }
