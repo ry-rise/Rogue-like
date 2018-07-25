@@ -4,25 +4,25 @@ public class Map : MonoBehaviour {
     private const int map_width = 5;
     private const int map_height = 5;
     private Texture2D tex2;
-    private Sprite spr;
-    private SpriteRenderer sprd;
+    private Sprite[] spr;
+    private SpriteRenderer[] sprd;
     private GameObject[,] map_field;
     [SerializeField]GameObject prefab;
 
     void Awake()
     {
-        tex2 = new Texture2D(100, 100);
+        tex2 = new Texture2D(32, 32);
         int pluslength = 0;
         for (int k = 0; k < map_height; k += 1)
         {
             for (int i = 0; i < map_width; i += 1)
             {
-                spr = Sprite.Create(tex2,
+                spr[i] = Sprite.Create(tex2,
                                     new Rect(0, 0, tex2.width, tex2.height),
                                     new Vector2(0 + pluslength, 0 + pluslength),
                                     100.0f);
-                sprd.sprite = spr;
-                pluslength += 100;
+                sprd[i].sprite = spr[i];
+                pluslength += 32;
             }
         }
     }
