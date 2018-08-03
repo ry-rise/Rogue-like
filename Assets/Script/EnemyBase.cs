@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class Enemy : MonoBehaviour {
+public abstract class EnemyBase : MonoBehaviour {
     public abstract void Move();
 	void Start () {
 		

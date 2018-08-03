@@ -59,9 +59,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Script\Enemy.cs" />
+    <Compile Include="Assets\Script\EnemyBase.cs" />
     <Compile Include="Assets\Script\GameManeger.cs" />
-    <Compile Include="Assets\Script\Item.cs" />
+    <Compile Include="Assets\Script\ItemBase.cs" />
     <Compile Include="Assets\Script\Map.cs" />
     <Compile Include="Assets\Script\Player.cs" />
     <Compile Include="Assets\Script\UI.cs" />
