@@ -11,11 +11,12 @@ public class GameManeger : MonoBehaviour {
 		
 	}
 
+    //シーン遷移
     public void SceneChange()
     {
         if (SceneManager.GetActiveScene().name == "GameTitle")
         {
-            //シーン遷移（タイトル→ゲーム）
+            //（タイトル→ゲーム）
             SceneManager.LoadScene("GamePlay");
         }
     }
