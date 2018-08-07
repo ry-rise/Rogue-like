@@ -62,6 +62,7 @@
     <Compile Include="Assets\Script\Enemy1.cs" />
     <Compile Include="Assets\Script\EnemyBase.cs" />
     <Compile Include="Assets\Script\GameManeger.cs" />
+    <Compile Include="Assets\Script\Item1.cs" />
     <Compile Include="Assets\Script\ItemBase.cs" />
     <Compile Include="Assets\Script\Map.cs" />
     <Compile Include="Assets\Script\Player.cs" />

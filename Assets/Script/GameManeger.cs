@@ -2,6 +2,7 @@
 using UnityEngine.SceneManagement;
 
 public class GameManeger : MonoBehaviour {
+    [SerializeField] private Player player;
 
 	void Start () {
 		

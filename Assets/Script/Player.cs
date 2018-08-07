@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 
 public class Player : MonoBehaviour {
-    [SerializeField]private int hp = 100;//ヒットポイント
+    //[SerializeField]private int hp = 100;//ヒットポイント
     //private int Level = 1;//レベル
     //private int Exp = 0;//経験値
-    
-    public int Hp { get; set; }
+    public int HP { get; set; }
     public int Level { get; set; }
     public int Exp { get; set; }
     public int ItemLimit { get; set; }
