@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Map : MonoBehaviour {
+public class MapGenerater : MonoBehaviour {
     private const int map_width = 5;
     private const int map_height = 5;
     private Texture2D tex2;

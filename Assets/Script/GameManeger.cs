@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManeger : MonoBehaviour {
     [SerializeField] private Player player;
-
+    [SerializeField] private MapGenerater mapGenerater;
 	void Start () {
 		
 	}
