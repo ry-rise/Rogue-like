@@ -6,19 +6,19 @@ public class MapGenerator : MonoBehaviour {
    
     [SerializeField]private Sprite spr;
     private GameObject[,] map_field;
-    private float[] posx;
+
     void Awake()
     {
+        //map_field = new GameObject[map_width,map_height];
         for (int k = 0; k < map_height; k += 1)
         {
             for (int i = 0; i < map_width; i += 1)
             {
                 new GameObject("map_field").AddComponent<SpriteRenderer>().sprite = spr;
-                for (int a = 0; a < map_height * map_width; a += 1)
-                {
-                    posx[a] = map_field[i, k].transform.position.x;
-                    if (a != 0) { posx[a] += 5; }
-                }
+                //map_field[i, k].AddComponent<SpriteRenderer>().sprite = spr;
+                //obj.transform.parent = transform;
+                //obj.transform.position = new Vector2(i * 1.15F, -k * 1.15F);
+                //map_field[i, k] = obj;
             }
         }
         
@@ -26,26 +26,12 @@ public class MapGenerator : MonoBehaviour {
 
     void Start()
     {
-        //for (int k = 0; k < map_height; k += 1)
-        //{
-        //    for (int i = 0; i < map_width; i += 1)
-        //    {
-        //        Instantiate(prefab);
-        //        //map_field[i, k].sprite = spr;
-        //        //map_field[i, k] = sprd;
-        //    }
-        //}
+        
     }
 
     void Update()
     {
-        //for (int k = 0; k < map_height; k += 1)
-        //{
-        //    for (int i = 0; i < map_width; i += 1)
-        //    {
-        //        Instantiate(prefab);
-        //    }
-        //}
+        
     }
 
 }

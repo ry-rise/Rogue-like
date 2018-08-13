@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
 
-public class Player : MonoBehaviour {
-    //[SerializeField]private int hp = 100;//ヒットポイント
-    //private int Level = 1;//レベル
-    //private int Exp = 0;//経験値
-    public int HP { get; set; }
-    public int Level { get; set; }
-    public int Exp { get; set; }
-    public int ItemLimit { get; set; }
-    public int _Direction { get; set; }
-
+public sealed class Player : MonoBehaviour {
+    [SerializeField] private int hp;
+    [SerializeField] private int level;
+    [SerializeField] private int exp;
+    [SerializeField] private int itemLimit;
+    [SerializeField] private int _direction;
+    public int HP { get { return hp; } set { hp = value; } }
+    public int Level { get { return level; } set { level = value; } }
+    public int Exp { get { return exp; } set { exp = value; } }
+    public int ItemLimit { get { return itemLimit; } set { itemLimit = value; } }
+    public int _Direction { get { return _direction; } set { _direction = value; } }
     enum Direction { UP, DOWN, LEFT, RIGHT }
-
+    private Direction dir;
     void Start () {
         ItemLimit = 10;
 	}
