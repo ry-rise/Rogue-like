@@ -1,18 +1,12 @@
 ﻿using UnityEngine;
 
-public sealed class Player : MonoBehaviour {
-    [SerializeField] private int hp;
-    [SerializeField] private int level;
-    [SerializeField] private int exp;
-    [SerializeField] private int itemLimit;
-    [SerializeField] private int _direction;
-    public int HP { get { return hp; } set { hp = value; } }
-    public int Level { get { return level; } set { level = value; } }
-    public int Exp { get { return exp; } set { exp = value; } }
-    public int ItemLimit { get { return itemLimit; } set { itemLimit = value; } }
-    public int _Direction { get { return _direction; } set { _direction = value; } }
+public sealed class Player : MoverObject {
+    [SerializeField] private int _itemLimit;
+    public int ItemLimit { get { return _itemLimit; } set { _itemLimit = value; } }
+
     enum Direction { UP, DOWN, LEFT, RIGHT }
     private Direction dir;
+
     void Start () {
         ItemLimit = 10;
 	}
@@ -22,7 +16,7 @@ public sealed class Player : MonoBehaviour {
 	}
 
     //プレイヤーの移動
-    private void Move()
+    public override void Move()
     {
         //上方向
         if (Input.GetKey(KeyCode.W)||Input.GetKey(KeyCode.UpArrow))

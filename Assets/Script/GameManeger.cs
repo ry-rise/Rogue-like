@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-
 public class GameManeger : MonoBehaviour {
     [SerializeField] private Player player;
     [SerializeField] private MapGenerator mapGenerator;
@@ -17,8 +16,16 @@ public class GameManeger : MonoBehaviour {
     {
         if (SceneManager.GetActiveScene().name == "GameTitle")
         {
-            //（タイトル→ゲーム）
-            SceneManager.LoadScene("GamePlay");
+            if (transform.name == "Button_Start")
+            {
+                //（タイトル→ゲーム）
+                SceneManager.LoadScene("GamePlay");
+            }
+            if (transform.name == "Button_Exit")
+            {
+                //終了
+                UnityEditor.EditorApplication.isPlaying = false;
+            }
         }
     }
 }

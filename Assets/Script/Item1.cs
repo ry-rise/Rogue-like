@@ -2,6 +2,7 @@
 
 public sealed class Item1 : ItemBase {
     private Player player;
+    private int[] recovery_amount={10,20,30,40,50};
     void Start()
     {
         player = new Player();
@@ -12,7 +13,8 @@ public sealed class Item1 : ItemBase {
     }
     public override void PickUP()
     {
-        player.HP += 10;
+        var i = Random.Range(0, 5);
+        player.HP += recovery_amount[i];
     }
     public override void A()
     {

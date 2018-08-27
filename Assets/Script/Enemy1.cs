@@ -1,17 +1,10 @@
 ﻿using UnityEngine;
 
 public sealed class Enemy1 : EnemyBase {
-
-    protected override void Move()
+    [SerializeField] private Sprite spr;
+    public override void Move()
     {
         
     }
 
-    void Start () {
-		
-	}
-	
-	void Update () {
-		
-	}
 }

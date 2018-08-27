@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
 
-public abstract class EnemyBase : MonoBehaviour {
-    protected abstract void Move();
+public abstract class EnemyBase : MoverObject {
+    
 }
