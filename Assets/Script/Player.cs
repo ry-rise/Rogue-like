@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 
 public sealed class Player : MoverObject {
-    [SerializeField] private int _itemLimit;
-    public int ItemLimit { get { return _itemLimit; } set { _itemLimit = value; } }
-
+    private const int ItemLimit = 99;
+    //public int ItemLimit { get { return _itemLimit; } set { _itemLimit = value; } }
+    private int[] LevelUP_Exp = { 100,150 };
     enum Direction { UP, DOWN, LEFT, RIGHT }
     private Direction dir;
 
     void Start () {
-        ItemLimit = 10;
+        HP = 10;
 	}
 	
 	void Update () {
-		
+        
 	}
 
     //プレイヤーの移動

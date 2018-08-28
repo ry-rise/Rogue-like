@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 public class GameManeger : MonoBehaviour {
-    [SerializeField] private Player player;
-    [SerializeField] private MapGenerator mapGenerator;
+    private Player player;
+    private MapGenerator mapGenerator;
 	void Start () {
 		
 	}
