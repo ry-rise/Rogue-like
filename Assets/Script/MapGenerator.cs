@@ -1,18 +1,29 @@
 ﻿using UnityEngine;
 //マップ生成
 public class MapGenerator : MonoBehaviour {
-    [SerializeField] private int map_width = 8;
-    [SerializeField] private int map_height = 8;
+    private int map_width = 8;
+    private int map_height = 8;
     [SerializeField] private GameObject[] floorPrefab;
     [SerializeField] private GameObject[] wallPrefab;
-    #region マップ作成
-    private void Awake()
+    private Transform mapHolder;
+    #region マップ作成(16*16)
+    public void Awake()
     {
-        for(int x = -1; x < map_width; x += 1)
+        mapHolder = new GameObject("Board").transform;
+        for (int x = -1; x < map_width + 1; x += 1)
         {
-            for(int y = -1; y < map_height; y += 1)
+            for (int y = -1; y < map_height + 1; y += 1)
             {
-
+                GameObject toInstantiate = floorPrefab[0]/*[Random.Range(0, floorPrefab.Length)]*/;
+                if (x == -1 || x == map_width || y == -1 || y == map_height) //外壁
+                {
+                    toInstantiate = wallPrefab[0]/*[Random.Range(0, wallPrefab.Length)]*/;
+                }
+                GameObject instance = Instantiate(toInstantiate,
+                                                  new Vector2(x, y),
+                                                  Quaternion.identity,
+                                                  mapHolder) as GameObject;
+                instance.transform.localScale = new Vector2(5, 5);
             }
         }
     }

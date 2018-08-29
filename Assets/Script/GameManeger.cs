@@ -1,16 +1,26 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 public class GameManeger : MonoBehaviour {
+    public static GameManeger gameManeger;
     private Player player;
-    private MapGenerator mapGenerator;
-	void Start () {
-		
-	}
-	
-	void Update () {
-		
-	}
+    public MapGenerator mapGenerator;
 
+    //private void Awake()
+    //{
+    //    if (gameManeger == null)
+    //    {
+    //        gameManeger = this;
+    //    }
+    //    else if (gameManeger!=this)
+    //    {
+    //        Destroy(gameObject);
+    //    }
+    //    DontDestroyOnLoad(gameObject);
+
+    //    mapGenerator = GetComponent<MapGenerator>();
+    //    mapGenerator.Awake();
+    //}
+    
     //シーン遷移
     public void SceneChange()
     {
