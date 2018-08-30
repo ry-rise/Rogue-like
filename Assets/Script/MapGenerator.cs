@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 //マップ生成
 public class MapGenerator : MonoBehaviour {
-    private int map_width = 8;
-    private int map_height = 8;
+    private const int map_width = 8;
+    private const int map_height = 8;
     [SerializeField] private GameObject[] floorPrefab;
     [SerializeField] private GameObject[] wallPrefab;
     private Transform mapHolder;
-    #region マップ作成(16*16)
+    #region マップ作成(32*32)
     public void Awake()
     {
         mapHolder = new GameObject("Board").transform;
@@ -14,8 +14,10 @@ public class MapGenerator : MonoBehaviour {
         {
             for (int y = -1; y < map_height + 1; y += 1)
             {
+                //床
                 GameObject toInstantiate = floorPrefab[0]/*[Random.Range(0, floorPrefab.Length)]*/;
-                if (x == -1 || x == map_width || y == -1 || y == map_height) //外壁
+                //外壁
+                if (x == -1 || x == map_width || y == -1 || y == map_height) 
                 {
                     toInstantiate = wallPrefab[0]/*[Random.Range(0, wallPrefab.Length)]*/;
                 }
@@ -23,7 +25,7 @@ public class MapGenerator : MonoBehaviour {
                                                   new Vector2(x, y),
                                                   Quaternion.identity,
                                                   mapHolder) as GameObject;
-                instance.transform.localScale = new Vector2(5, 5);
+                instance.transform.localScale = new Vector2(3,3);
             }
         }
     }
