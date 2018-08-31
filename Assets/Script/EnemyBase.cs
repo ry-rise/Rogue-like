@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
 
-public abstract class EnemyBase : MoverObject {
+public abstract class EnemyBase : MoveObject {
     
 }

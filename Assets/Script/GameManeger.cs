@@ -4,7 +4,7 @@ public class GameManeger : MonoBehaviour {
     public static GameManeger gameManeger;
     private Player player;
     public MapGenerator mapGenerator;
-
+    public int floor_number = 1;
     //private void Awake()
     //{
     //    if (gameManeger == null)

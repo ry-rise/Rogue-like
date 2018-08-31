@@ -5,7 +5,7 @@ public sealed class Item1 : ItemBase {
     private int[] recovery_amount={10,20,30,40,50};
     void Start()
     {
-        player = new Player();
+        
     }
     void Update()
     {

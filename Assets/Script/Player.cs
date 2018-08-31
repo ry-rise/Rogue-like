@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public sealed class Player : MoverObject {
+public sealed class Player : MoveObject {
     private const int ItemLimit = 99;
     //public int ItemLimit { get { return _itemLimit; } set { _itemLimit = value; } }
     private int[] LevelUP_Exp = { 100,150 };

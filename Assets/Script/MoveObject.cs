@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class MoverObject : MonoBehaviour {
+public abstract class MoveObject : MonoBehaviour {
     [SerializeField] private int _hp;
     [SerializeField] private int _level;
     [SerializeField] private int _exp;
@@ -10,5 +10,6 @@ public abstract class MoverObject : MonoBehaviour {
     public int Exp { get { return _exp; } set { _exp = value; } }
     public int _Direction { get { return _direction; } set { _direction = value; } }
     enum Direction { UP, DOWN, LEFT, RIGHT }
+    public virtual void Start() { }
     public abstract void Move();
 }
