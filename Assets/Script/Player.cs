@@ -7,7 +7,7 @@ public sealed class Player : MoveObject {
     enum Direction { UP, DOWN, LEFT, RIGHT }
     private Direction dir;
     int px, py;
-    void Start () {
+    protected override void Start () {
         HP = 10;
         px = (int)transform.position.x;
         py = (int)transform.position.y;
@@ -54,15 +54,17 @@ public sealed class Player : MoveObject {
         }
     }
 
-    //攻撃
+    #region 攻撃
     private void Attack()
     {
 
     }
+    #endregion
 
-    //レベルアップ時の挙動
+    #region レベルアップ時の挙動
     private void LevelUP()
     {
 
     }
+    #endregion
 }

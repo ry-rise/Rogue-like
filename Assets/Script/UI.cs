@@ -2,10 +2,11 @@
 using UnityEngine.UI;
 
 public class UI : MonoBehaviour {
-    [SerializeField] private GameObject LevelText;
-    [SerializeField] private GameObject FloarText;
+    [SerializeField] private Text LevelText;
+    [SerializeField] private Text FloarText;
+    private Player player;
 	void Start () {
-        FloarText.AddComponent<Text>();
+        
 	}
 	
 	void Update () {
