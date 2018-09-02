@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public abstract class MoveObject : MonoBehaviour {
     [SerializeField] private int _hp;
@@ -12,10 +13,18 @@ public abstract class MoveObject : MonoBehaviour {
     public int _Direction { get { return _direction; } set { _direction = value; } }
     enum Direction { UP, DOWN, LEFT, RIGHT }
     enum Action { standby,act_start,act,act_end,move_start,_moving,move_end,turn_end }
+    public BoxCollider2D boxCollider;
+    public Rigidbody2D rigidbody2;
     protected virtual void Updating() { }
     protected virtual void Start()
     {
-
+        boxCollider = GetComponent<BoxCollider2D>();
+        rigidbody2 = GetComponent<Rigidbody2D>();
     }
     public abstract void Move();
+    protected IEnumerator Moving()
+    {
+
+        yield return null;
+    }
 }
