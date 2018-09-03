@@ -3,11 +3,12 @@
 public sealed class Player : MoveObject {
     private const int ItemLimit = 99;
     //public int ItemLimit { get { return _itemLimit; } set { _itemLimit = value; } }
-    private int[] LevelUP_Exp = { 100,150 };
+    //private int[] LevelUP_Exp = { 100,150 };
     enum Direction { UP, DOWN, LEFT, RIGHT }
     private Direction dir;
     int px, py;
     protected override void Start () {
+        Level = 1;
         HP = 10;
         px = (int)transform.position.x;
         py = (int)transform.position.y;
