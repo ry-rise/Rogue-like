@@ -52,14 +52,6 @@ public class MapGenerator : MonoBehaviour {
 
     //}
     #endregion
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
+    
 
 }

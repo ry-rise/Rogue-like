@@ -13,25 +13,52 @@ public sealed class Player : MoveObject {
     protected override void Start () {
         Level = 1;
         HP = 10;
-        px = (int)transform.position.x;
-        py = (int)transform.position.y;
+        px = (int)GetComponent<Transform>().position.x;
+        py = (int)GetComponent<Transform>().position.y;
         player_animator = GetComponent<Animator>();
         base.Start();
 	}
 
     void Update()
     {
-        int h = 0;
-        int v = 0;
-        h = (int)Input.GetAxisRaw("Horizontal");
-        v = (int)Input.GetAxisRaw("Vertical");
-        if (h != 0)
+        //int h = 0;
+        //int v = 0;
+        //h = (int)Input.GetAxisRaw("Horizontal");
+        //v = (int)Input.GetAxisRaw("Vertical");
+        //if (h != 0)
+        //{
+        //    v = 0;
+        //}
+        //if (h != 0 || v != 0)
+        //{
+
+        //}
+        if (GameManeger.gameManeger.nowTurn == GameManeger.TURN.TURN_PLAYER)
         {
-            v = 0;
-        }
-        if (h != 0 || v != 0)
-        {
-            AttemptMove<Enemy1>(h, v);
+            //上方向
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+            {
+                py += 1;
+                GameManeger.gameManeger.nowTurn = GameManeger.TURN.TURN_ENEMY;
+            }
+            //下方向
+            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+            {
+                py -= 1;
+                GameManeger.gameManeger.nowTurn = GameManeger.TURN.TURN_ENEMY;
+            }
+            //左方向
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+            {
+                px -= 1;
+                GameManeger.gameManeger.nowTurn = GameManeger.TURN.TURN_ENEMY;
+            }
+            //右方向
+            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+            {
+                px += 1;
+                GameManeger.gameManeger.nowTurn = GameManeger.TURN.TURN_ENEMY;
+            }
         }
     }
     #region 当たり判定
@@ -50,31 +77,29 @@ public sealed class Player : MoveObject {
     #endregion
 
     //プレイヤーの移動
-    //private bool Movement()
-    //{
-    //    if (px == -1 || py == -1) { return true; }
-    //    //上方向
-    //    if (Input.GetKey(KeyCode.W)||Input.GetKey(KeyCode.UpArrow))
-    //    {
-    //        py += 1;
-    //    }
-    //    //下方向
-    //    if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-    //    {
-    //        py -= 1;
-    //    }
-    //    //左方向
-    //    if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-    //    {
-    //        px -= 1;
-    //    }
-    //    //右方向
-    //    if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-    //    {
-    //        px += 1;
-    //    }
-    //    return true;
-    //}
+    private void Movement()
+    {
+        //上方向
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        {
+            py += 1;
+        }
+        //下方向
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        {
+            py -= 1;
+        }
+        //左方向
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        {
+            px -= 1;
+        }
+        //右方向
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        {
+            px += 1;
+        }
+    }
 
     #region 攻撃
     private void Attack()
@@ -90,8 +115,4 @@ public sealed class Player : MoveObject {
     }
     #endregion
 
-    protected override void CantMove<T>(T component)
-    {
-        
-    }
 }
