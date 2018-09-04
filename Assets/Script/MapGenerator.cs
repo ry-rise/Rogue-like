@@ -5,6 +5,7 @@ public class MapGenerator : MonoBehaviour {
     private const int map_height = 8;
     [SerializeField] private GameObject[] floorPrefab;
     [SerializeField] private GameObject[] wallPrefab;
+    [SerializeField] private GameObject exitPrefab;
     private Transform mapHolder;
     #region マップ作成(32*32)
     public void Awake()

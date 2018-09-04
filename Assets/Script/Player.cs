@@ -2,11 +2,13 @@
 
 public sealed class Player : MoveObject {
     private const int ItemLimit = 99;
+    private int Satiety;//満腹度
     //public int ItemLimit { get { return _itemLimit; } set { _itemLimit = value; } }
     //private int[] LevelUP_Exp = { 100,150 };
     enum Direction { UP, DOWN, LEFT, RIGHT }
     private Direction dir;
     int px, py;
+    private Animator player_animator;
     protected override void Start () {
         Level = 1;
         HP = 10;
@@ -25,14 +27,14 @@ public sealed class Player : MoveObject {
 
         if (h != 0 || v != 0)
         {
-            Move();
+            h = 0;
         }
     }
 
     //プレイヤーの移動
-    public override void Move()
+    private bool Movement()
     {
-        if (px == -1 || py == -1) { return; }
+        if (px == -1 || py == -1) { return true; }
         //上方向
         if (Input.GetKey(KeyCode.W)||Input.GetKey(KeyCode.UpArrow))
         {
@@ -53,6 +55,7 @@ public sealed class Player : MoveObject {
         {
             px += 1;
         }
+        return true;
     }
 
     #region 攻撃
@@ -68,4 +71,9 @@ public sealed class Player : MoveObject {
 
     }
     #endregion
+
+    protected override void OnCantMove<T>(T component)
+    {
+        
+    }
 }
