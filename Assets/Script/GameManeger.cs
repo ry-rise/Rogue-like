@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-public class GameManeger : MonoBehaviour {
-    public static GameManeger gameManeger;
+public sealed class GameManeger : MonoBehaviour {
+    public static GameManeger gameManeger = null;
     private Player player;
     public MapGenerator mapGenerator;
     public int floor_number = 1;

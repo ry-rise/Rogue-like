@@ -29,14 +29,14 @@ public abstract class MoveObject : MonoBehaviour {
     }
     protected bool MoveCheck(int x,int y,out RaycastHit2D hit)
     {
-        Vector2 startpos = transform.position;
-        Vector2 endpos = startpos + new Vector2(x, y);
+        Vector3 startpos = transform.position;
+        Vector3 endpos = startpos + new Vector3(x, y, 0);
         boxCollider.enabled = false;
         hit = Physics2D.Linecast(startpos, endpos, Hitlayer);
         boxCollider.enabled = true;
         if (hit.transform == null)
         {
-            StartCoroutine("Moving");
+            StartCoroutine(Moving(endpos));
             return true;
         }
         return false;
@@ -63,8 +63,6 @@ public abstract class MoveObject : MonoBehaviour {
     }
 
     //移動を試みるメソッド
-    //virtual : 継承されるメソッドに付ける修飾子
-    //<T>：ジェネリック機能　型を決めておかず、後から指定する
     protected virtual void AttemptMove<T>(int xDir, int yDir)
         //ジェネリック用の型引数をComponent型で限定
         where T : Component
@@ -72,7 +70,7 @@ public abstract class MoveObject : MonoBehaviour {
         RaycastHit2D hit;
         //Moveメソッド実行 戻り値がtrueなら移動成功、falseなら移動失敗
         bool canMove = MoveCheck(xDir, yDir, out hit);
-        //Moveメソッドで確認した障害物が何も無ければメソッド終了
+        //Moveメソッドで確認した障害物が何も無ければ終了
         if (hit.transform == null)
         {
             return;
@@ -80,15 +78,13 @@ public abstract class MoveObject : MonoBehaviour {
         //障害物があった場合、障害物を型引数の型で取得
         //型が<T>で指定したものと違う場合、取得できない
         T hitComponent = hit.transform.GetComponent<T>();
-        //障害物がある場合OnCantMoveを呼び出す
+        //障害物がある場合CantMoveを呼び出す
         if (!canMove && hitComponent != null)
         {
-            OnCantMove(hitComponent);
+            CantMove(hitComponent);
         }
     }
 
-    //abstract: メソッドの中身はこちらでは書かず、サブクラスにて書く
-    //<T>：AttemptMoveと同じくジェネリック機能
     //障害物があり移動ができなかった場合に呼び出される
-    protected abstract void OnCantMove<T>(T component) where T : Component;
+    protected abstract void CantMove<T>(T component) where T : Component;
 }

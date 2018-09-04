@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class UI : MonoBehaviour {
     [SerializeField] private Text LevelText;
     [SerializeField] private Text FloarText;
+    [SerializeField] private Text SatietyText;
     private Player player;
     private GameManeger gameManeger;
 	void Start () {
@@ -15,6 +16,7 @@ public class UI : MonoBehaviour {
 	void Update () {
         LevelText.text = "LV:" + player.Level.ToString();
         FloarText.text = gameManeger.floor_number.ToString() + "F";
+        SatietyText.text = "満腹度:" + player.Satiety.ToString();
     }
 
 }
