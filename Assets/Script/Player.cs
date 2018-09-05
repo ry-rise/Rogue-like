@@ -2,12 +2,13 @@
 
 public sealed class Player : MoveObject {
     private const int ItemLimit = 99;
-    private int _Satiety = 100;//満腹度
+    private const int Satiety = 100;//満腹度
+    private int dec_Satiety;
     //public int ItemLimit { get { return _itemLimit; } set { _itemLimit = value; } }
-    public int Satiety { get { return _Satiety; }set { _Satiety = value; } }
+    //public int Satiety { get { return _Satiety; }set { _Satiety = value; } }
     //private int[] LevelUP_Exp = { 100,150 };
-    enum Direction { UP, DOWN, LEFT, RIGHT }
-    private Direction dir;
+    //enum Direction { UP, DOWN, LEFT, RIGHT }
+    //private Direction dir;
     int px, py;
     private Animator player_animator;
     protected override void Start () {

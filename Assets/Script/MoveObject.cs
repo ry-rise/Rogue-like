@@ -3,8 +3,8 @@ using UnityEngine;
 
 public abstract class MoveObject : MonoBehaviour {
     #region バッキングフィールド
-    [SerializeField] private int _hp;
-    [SerializeField] private int _level;
+    //[SerializeField] private int _hp;
+    //[SerializeField] private int _level;
     //[SerializeField] private int _exp;
     //[SerializeField] private int _direction;
     #endregion
@@ -14,8 +14,12 @@ public abstract class MoveObject : MonoBehaviour {
     protected int h = 0;
     protected int v = 0;
     #region プロパティ
-    public int HP { get { return _hp; } set { _hp = value; } }
-    public int Level { get { return _level; } set { _level = value; } }
+    public int HP { get; set; }
+    public int Level { get; set; }
+    public int Exp { get; set; }
+    public int Direction { get; set; }
+    //public int HP { get { return _hp; } set { _hp = value; } }
+    //public int Level { get { return _level; } set { _level = value; } }
     //public int Exp { get { return _exp; } set { _exp = value; } }
     //public int Direction { get { return _direction; } set { _direction = value; } }
     #endregion

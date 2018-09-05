@@ -11,7 +11,7 @@ public sealed class Enemy1 : EnemyBase {
     }
     private void Update()
     {
-        if (GameManeger.gameManeger.nowTurn ==GameManeger.TURN.TURN_ENEMY)
+        if (GameManeger.gameManeger.nowTurn == GameManeger.TURN.TURN_ENEMY)
         {
             MoveEnemy();
             GameManeger.gameManeger.nowTurn = GameManeger.TURN.TURN_PLAYER;

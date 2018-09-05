@@ -17,6 +17,11 @@ public class MapGenerator : MonoBehaviour {
             {
                 //床
                 GameObject toInstantiate = floorPrefab[0]/*[Random.Range(0, floorPrefab.Length)]*/;
+                //出口
+                if (x == 5 && y == 5)
+                {
+                    toInstantiate = exitPrefab;
+                }
                 //外壁
                 if (x == -1 || x == map_width || y == -1 || y == map_height) 
                 {
@@ -49,7 +54,6 @@ public class MapGenerator : MonoBehaviour {
     //            //map_field[i, k] = obj;
     //        }
     //    }
-
     //}
     #endregion
     
