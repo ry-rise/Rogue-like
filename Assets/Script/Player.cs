@@ -6,7 +6,6 @@ public sealed class Player : MoveObject {
     public int Satiety { get; set; }//満腹度
     //private bool func_end = false;
     //public int ItemLimit { get { return _itemLimit; } set { _itemLimit = value; } }
-    //public int Satiety { get { return _Satiety; }set { _Satiety = value; } }
     //private int[] LevelUP_Exp = { 100,150 };
     //private Animator player_animator;
     private Rigidbody2D rigidbody2;
@@ -30,11 +29,11 @@ public sealed class Player : MoveObject {
             if (func_end == true)
             {
                 if (Satiety==0) {
-                    HP -= HP;
+                    HP -= 1;
                 }
                 else
                 {
-                    Satiety -= Satiety;
+                    Satiety -= 1;
                 }
                 gameManeger.turn_player = false;
                 gameManeger.turn_enemy = true;
