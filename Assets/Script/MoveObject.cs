@@ -9,8 +9,8 @@ public abstract class MoveObject : MonoBehaviour {
     //[SerializeField] private int _direction;
     #endregion
     private int State;//状態
-    private float MoveTime = 0.1f;
-    private float calMoveTime;//移動時間を計算
+    //private float MoveTime = 0.1f;
+    //private float calMoveTime;//移動時間を計算
     protected int h = 0;
     protected int v = 0;
     #region プロパティ
@@ -18,22 +18,18 @@ public abstract class MoveObject : MonoBehaviour {
     public int Level { get; set; }
     public int Exp { get; set; }
     public int Direction { get; set; }
-    //public int HP { get { return _hp; } set { _hp = value; } }
-    //public int Level { get { return _level; } set { _level = value; } }
-    //public int Exp { get { return _exp; } set { _exp = value; } }
-    //public int Direction { get { return _direction; } set { _direction = value; } }
     #endregion
     enum DIRECTION { UP, DOWN, LEFT, RIGHT }
     enum ACTION { TURN_STANDBY,ACT_START,ACT,ACT_END,MOVE_START,MOVING,MOVE_END,TURN_END }
     private BoxCollider2D boxCollider;
-    private Rigidbody2D rigidbody2;
+    //private Rigidbody2D rigidbody2;
     public LayerMask Hitlayer;
     
     protected virtual void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
-        rigidbody2 = GetComponent<Rigidbody2D>();
-        calMoveTime = 1f / MoveTime;
+        //rigidbody2 = GetComponent<Rigidbody2D>();
+        //calMoveTime = 1f / MoveTime;
         h = (int)Input.GetAxisRaw("Horizontal");
         v = (int)Input.GetAxisRaw("Vertical");
     }

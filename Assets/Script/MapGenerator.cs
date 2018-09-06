@@ -10,7 +10,7 @@ public class MapGenerator : MonoBehaviour {
     #region マップ作成(32*32)
     public void Awake()
     {
-        mapHolder = new GameObject("Board").transform;
+        mapHolder = new GameObject("Map").transform;
         for (int x = -1; x < map_width + 1; x += 1)
         {
             for (int y = -1; y < map_height + 1; y += 1)

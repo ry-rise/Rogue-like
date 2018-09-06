@@ -2,29 +2,21 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public sealed class GameManeger : MonoBehaviour {
-    public static GameManeger gameManeger = null;
     private Player player;
-    public MapGenerator mapGenerator;
+    //private MapGenerator mapGenerator;
     public int floor_number = 1;
     public List<Enemy1> enemies1;
-    public enum TURN {TURN_PLAYER,TURN_ENEMY }
-    public TURN nowTurn = TURN.TURN_PLAYER;
+    public bool turn_player = false;
+    public bool turn_enemy = false;
+    public bool[] turn_enemies;
     private void Awake()
     {
-        if (gameManeger == null)
-        {
-            gameManeger = this;
-        }
-        else if (gameManeger != this)
-        {
-            Destroy(gameObject);
-        }
         DontDestroyOnLoad(gameObject);
-
-        //    mapGenerator = GetComponent<MapGenerator>();
-        //    mapGenerator.Awake();
-        }
-
+    }
+    private void Start()
+    {
+        turn_player = true;
+    }
     //シーン遷移
     public void SceneChange()
     {

@@ -19,8 +19,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4863472124553058}
-  - component: {fileID: 50859821564056024}
   - component: {fileID: 61057450398688762}
+  - component: {fileID: 50453685448083516}
   - component: {fileID: 212146031288397682}
   - component: {fileID: 114081782246130120}
   m_Layer: 0
@@ -43,7 +43,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50859821564056024
+--- !u!50 &50453685448083516
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 1
@@ -99,9 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a10e2938e70a9ac4cb39164437310957, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hp: 0
-  _level: 0
-  layer:
+  Hitlayer:
     serializedVersion: 2
     m_Bits: 0
 --- !u!212 &212146031288397682
