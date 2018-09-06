@@ -33,5 +33,9 @@ public sealed class GameManeger : MonoBehaviour {
                 UnityEditor.EditorApplication.isPlaying = false;
             }
         }
+        if (SceneManager.GetActiveScene().name == "GamePlay")
+        {
+            SceneManager.LoadScene("GameOver");
+        }
     }
 }

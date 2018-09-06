@@ -3,22 +3,18 @@
 public sealed class Player : MoveObject {
     private GameManeger gameManeger;
     private const int ItemLimit = 99;
-    private const int Satiety = 100;//満腹度
-    private int dec_Satiety;
+    public int Satiety { get; set; }//満腹度
+    //private bool func_end = false;
     //public int ItemLimit { get { return _itemLimit; } set { _itemLimit = value; } }
     //public int Satiety { get { return _Satiety; }set { _Satiety = value; } }
     //private int[] LevelUP_Exp = { 100,150 };
-    private Transform pos;
-    int px, py;
     //private Animator player_animator;
     private Rigidbody2D rigidbody2;
 
     protected override void Start () {
         Level = 1;
         HP = 10;
-        pos = GetComponent<Transform>();
-        px = (int)pos.position.x;
-        py = (int)pos.position.y;
+        Satiety = 100;
         rigidbody2 = GetComponent<Rigidbody2D>();
         //player_animator = GetComponent<Animator>();
         gameManeger = GameObject.Find("GameManeger").GetComponent<GameManeger>();
@@ -27,42 +23,28 @@ public sealed class Player : MoveObject {
 
     void Update()
     {
+        //Vector3 pos = gameObject.transform.position;
         if (gameManeger.turn_player == true)
         {
-            //上方向
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+            Movement();
+            if (func_end == true)
             {
-                py += 1;
+                if (Satiety==0) {
+                    HP -= HP;
+                }
+                else
+                {
+                    Satiety -= Satiety;
+                }
                 gameManeger.turn_player = false;
                 gameManeger.turn_enemy = true;
-            }
-            //下方向
-            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-            {
-                py -= 1;
-                gameManeger.turn_player = false;
-                gameManeger.turn_enemy = true;
-            }
-            //左方向
-            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-            {
-                px -= 1;
-                gameManeger.turn_player = false;
-                gameManeger.turn_enemy = true;
-            }
-            //右方向
-            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-            {
-                px += 1;
-                gameManeger.turn_player = false;
-                gameManeger.turn_enemy = true;
+                func_end = false;
             }
         }
-
-        int a = (int)Input.GetAxisRaw("Horizontal");
-        int b = (int)Input.GetAxisRaw("Vertical");
-        Vector2 move = new Vector2(a, b);
-        rigidbody2.AddForce(move);
+        if (HP <= 0)
+        {
+            gameManeger.SceneChange();
+        }
     }
 
     #region 当たり判定
@@ -80,30 +62,39 @@ public sealed class Player : MoveObject {
     }
     #endregion
 
-    //プレイヤーの移動
+    #region プレイヤーの移動
     private void Movement()
     {
         //上方向
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            py += 1;
+            gameObject.transform.position = new Vector2(gameObject.transform.position.x,
+                                                        gameObject.transform.position.y + 1);
+            func_end = true;
         }
         //下方向
-        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            py -= 1;
+            gameObject.transform.position = new Vector2(gameObject.transform.position.x,
+                                                        gameObject.transform.position.y - 1);
+            func_end = true;
         }
         //左方向
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            px -= 1;
+            gameObject.transform.position = new Vector2(gameObject.transform.position.x - 1,
+                                                        gameObject.transform.position.y);
+            func_end = true;
         }
         //右方向
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
-            px += 1;
+            gameObject.transform.position = new Vector2(gameObject.transform.position.x + 1,
+                                                        gameObject.transform.position.y);
+            func_end = true;
         }
     }
+    #endregion
 
     #region 攻撃
     private void Attack()

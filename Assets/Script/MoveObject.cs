@@ -13,6 +13,7 @@ public abstract class MoveObject : MonoBehaviour {
     //private float calMoveTime;//移動時間を計算
     protected int h = 0;
     protected int v = 0;
+    protected bool func_end = false;
     #region プロパティ
     public int HP { get; set; }
     public int Level { get; set; }
@@ -33,31 +34,31 @@ public abstract class MoveObject : MonoBehaviour {
         h = (int)Input.GetAxisRaw("Horizontal");
         v = (int)Input.GetAxisRaw("Vertical");
     }
-    protected bool MoveCheck(int x,int y,out RaycastHit2D hit)
-    {
-        Vector2 startpos = transform.position;
-        Vector2 endpos = startpos + new Vector2(x, y);
-        boxCollider.enabled = false;
-        hit = Physics2D.Linecast(startpos, endpos, Hitlayer);
-        boxCollider.enabled = true;
-        if (hit.transform == null)
-        {
-            StartCoroutine("Moving");
-            return true;
-        }
-        return false;
-    }
-    protected IEnumerator Moving()
-    {
-        if (h != 0 && v == 0)
-        {
+    //protected bool MoveCheck(int x,int y,out RaycastHit2D hit)
+    //{
+    //    Vector2 startpos = transform.position;
+    //    Vector2 endpos = startpos + new Vector2(x, y);
+    //    boxCollider.enabled = false;
+    //    hit = Physics2D.Linecast(startpos, endpos, Hitlayer);
+    //    boxCollider.enabled = true;
+    //    if (hit.transform == null)
+    //    {
+    //        StartCoroutine("Moving");
+    //        return true;
+    //    }
+    //    return false;
+    //}
+    //protected IEnumerator Moving()
+    //{
+    //    if (h != 0 && v == 0)
+    //    {
             
-        }
-        if (h == 0 && v != 0)
-        {
+    //    }
+    //    if (h == 0 && v != 0)
+    //    {
             
-        }
-        yield return null;
-    }
+    //    }
+    //    yield return null;
+    //}
     
 }

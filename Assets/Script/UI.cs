@@ -16,7 +16,7 @@ public class UI : MonoBehaviour {
 	void Update () {
         LevelText.text = "LV:" + player.Level.ToString();
         FloarText.text = gameManeger.floor_number.ToString() + "F";
-        //SatietyText.text = "満腹度:" + player.Satiety.ToString();
+        SatietyText.text = "満腹度:" + player.Satiety.ToString();
     }
 
 }
