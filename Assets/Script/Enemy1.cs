@@ -23,16 +23,20 @@ public sealed class Enemy1 : MoveObject {
     }
     public void MoveEnemy()
     {
-        int mov_x = (int)(player_pos.position.x - gameObject.transform.position.x);
-        int mov_y = (int)(player_pos.position.y - gameObject.transform.position.y);
+        //int mov_x = (int)(player_pos.position.x - gameObject.transform.position.x);
+        //int mov_y = (int)(player_pos.position.y - gameObject.transform.position.y);
         Vector2 mov = player_pos.position - gameObject.transform.position;
         mov.Normalize();
-        Vector2 moving = mov * 1;
-        moving.x += gameObject.transform.position.x;
-        moving.y += gameObject.transform.position.y;
+        
+        //Vector2 moving = mov;
+        //mov.x = (int)mov.x;
+        //mov.y = (int)mov.y;
+
+        gameObject.transform.position = new Vector2(gameObject.transform.position.x + mov.x,
+                                                    gameObject.transform.position.y + mov.y);
         func_end = true;
-        int xDir = 0;
-        int yDir = 0;
+        //int xDir = 0;
+        //int yDir = 0;
         //if (Mathf.Abs(player_pos.position.x - gameObject.transform.position.x) < float.Epsilon)
         //{
         //    //プレイヤーが上にいれば+1、下に入れば-1する

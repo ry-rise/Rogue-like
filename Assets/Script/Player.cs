@@ -2,6 +2,7 @@
 
 public sealed class Player : MoveObject {
     private GameManeger gameManeger;
+    private SceneManeger sceneManeger;
     private const int ItemLimit = 99;
     public int Satiety { get; set; }//満腹度
     //private bool func_end = false;
@@ -12,7 +13,7 @@ public sealed class Player : MoveObject {
 
     protected override void Start () {
         Level = 1;
-        HP = 10;
+        HP = 100;
         Satiety = 100;
         rigidbody2 = GetComponent<Rigidbody2D>();
         //player_animator = GetComponent<Animator>();
@@ -42,22 +43,31 @@ public sealed class Player : MoveObject {
         }
         if (HP <= 0)
         {
-            gameManeger.SceneChange();
+            sceneManeger.SceneChange();
         }
     }
 
     #region 当たり判定
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.tag == "Exit")
-        {
-            enabled = false;
-        }
-        if (collision.tag == "Item")
+        if (collision.gameObject.tag == "Item")
         {
             collision.gameObject.SetActive(false);
         }
+        if (collision.gameObject.tag == "Wall")
+        {
+            
+        }
+    }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Exit")
+        {
+            enabled = false;
+            //sceneManeger.SceneChange();
+            gameManeger.SceneChange();
+        }
     }
     #endregion
 

@@ -22,13 +22,13 @@ public abstract class MoveObject : MonoBehaviour {
     #endregion
     enum DIRECTION { UP, DOWN, LEFT, RIGHT }
     enum ACTION { TURN_STANDBY,ACT_START,ACT,ACT_END,MOVE_START,MOVING,MOVE_END,TURN_END }
-    private BoxCollider2D boxCollider;
+    //private BoxCollider2D boxCollider;
     //private Rigidbody2D rigidbody2;
     public LayerMask Hitlayer;
     
     protected virtual void Start()
     {
-        boxCollider = GetComponent<BoxCollider2D>();
+        //boxCollider = GetComponent<BoxCollider2D>();
         //rigidbody2 = GetComponent<Rigidbody2D>();
         //calMoveTime = 1f / MoveTime;
         h = (int)Input.GetAxisRaw("Horizontal");
