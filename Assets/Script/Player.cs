@@ -56,7 +56,8 @@ public sealed class Player : MoveObject {
         }
         if (collision.gameObject.tag == "Wall")
         {
-            
+            var a = gameObject.transform.position.x;
+            a -= 1;
         }
     }
 

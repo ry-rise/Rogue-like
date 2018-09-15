@@ -56,6 +56,7 @@ public class MapGenerator : MonoBehaviour {
                 instance.transform.localScale = new Vector2(3, 3);
             }
         }
+
     }
     #endregion
     
