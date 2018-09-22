@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public sealed class GameManeger : MonoBehaviour {
     private Player player;
+    private GameObject cam_pos;
     //private MapGenerator mapGenerator;
     public int floor_number = 1;
     public List<Enemy1> enemies1;
@@ -17,7 +18,15 @@ public sealed class GameManeger : MonoBehaviour {
     }
     private void Start()
     {
+        cam_pos = GameObject.Find("Main Camera");
+        player = GameObject.Find("Player").GetComponent<Player>();
         turn_player = true;
+    }
+    private void Update()
+    {
+        cam_pos.transform.position = new Vector3(player.transform.position.x,
+                                                 player.transform.position.y,
+                                                 player.transform.position.z-1);
     }
     public void SceneChange()
     {

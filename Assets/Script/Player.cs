@@ -3,7 +3,6 @@
 public sealed class Player : MoveObject {
     private GameManeger gameManeger;
     private SceneManeger sceneManeger;
-    //private GameObject camera;
     private const int ItemLimit = 99;
     public int Satiety { get; set; }//満腹度
     //private bool func_end = false;
@@ -16,25 +15,24 @@ public sealed class Player : MoveObject {
         Level = 1;
         HP = 100;
         Satiety = 100;
-        //camera = GameObject.Find("Main Camera");
         rigidbody2 = GetComponent<Rigidbody2D>();
         //player_animator = GetComponent<Animator>();
         gameManeger = GameObject.Find("GameManeger").GetComponent<GameManeger>();
-        sceneManeger = GameObject.Find("GameManeger").AddComponent<SceneManeger>();
+        sceneManeger = GameObject.Find("GameManeger").GetComponent<SceneManeger>();
         //base.Start();
 	}
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.A)) { HP = 0; }
-        //camera.transform.position = new Vector2(transform.position.x, transform.position.y);
         //Vector3 pos = gameObject.transform.position;
         if (gameManeger.turn_player == true)
         {
             Movement();
             if (func_end == true)
             {
-                if (Satiety==0) {
+                if (Satiety == 0)
+                {
                     HP -= 1;
                 }
                 else
