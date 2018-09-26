@@ -1,21 +1,26 @@
-﻿using UnityEngine;
+﻿//#define DEBUG_1
+using UnityEngine;
 
 public sealed class Player : MoveObject {
     private GameManeger gameManeger;
     private SceneManeger sceneManeger;
-    private const int ItemLimit = 99;
+    private MapGenerator mapGenerator;
+    //private const int ItemLimit = 99;
     public int Satiety { get; set; }//満腹度
     //private bool func_end = false;
     //public int ItemLimit { get { return _itemLimit; } set { _itemLimit = value; } }
     //private int[] LevelUP_Exp = { 100,150 };
     //private Animator player_animator;
-    private Rigidbody2D rigidbody2;
-
+    //private Rigidbody2D rigidbody2;
+    private void Awake()
+    {
+       
+    }
     protected override void Start () {
         Level = 1;
         HP = 100;
         Satiety = 100;
-        rigidbody2 = GetComponent<Rigidbody2D>();
+        //rigidbody2 = GetComponent<Rigidbody2D>();
         //player_animator = GetComponent<Animator>();
         gameManeger = GameObject.Find("GameManeger").GetComponent<GameManeger>();
         sceneManeger = GameObject.Find("GameManeger").GetComponent<SceneManeger>();
@@ -24,7 +29,9 @@ public sealed class Player : MoveObject {
 
     void Update()
     {
+#if DEBUG_1
         if (Input.GetKeyDown(KeyCode.A)) { HP = 0; }
+#endif
         //Vector3 pos = gameObject.transform.position;
         if (gameManeger.turn_player == true)
         {
@@ -50,7 +57,7 @@ public sealed class Player : MoveObject {
         }
     }
 
-    #region 当たり判定
+#region 当たり判定
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Item")
@@ -73,9 +80,17 @@ public sealed class Player : MoveObject {
             gameManeger.SceneChange();
         }
     }
-    #endregion
+#endregion
 
-    #region プレイヤーの移動
+#region プレイヤーの移動
+    private bool MoveCheck(int x,int y)
+    {
+        if (mapGenerator.map_status[x, y] == -1)
+        {
+            return false;
+        }
+        return true;
+    }
     private void Movement()
     {
         //上方向
@@ -107,20 +122,20 @@ public sealed class Player : MoveObject {
             func_end = true;
         }
     }
-    #endregion
+#endregion
 
-    #region 攻撃
+#region 攻撃
     private void Attack()
     {
 
     }
-    #endregion
+#endregion
 
-    #region レベルアップ時の挙動
+#region レベルアップ時の挙動
     private void LevelUP()
     {
-
+        Level += 1;
     }
-    #endregion
+#endregion
 
 }

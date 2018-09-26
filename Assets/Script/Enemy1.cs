@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public sealed class Enemy1 : MoveObject {
     private GameManeger gameManeger;
@@ -23,17 +24,32 @@ public sealed class Enemy1 : MoveObject {
     }
     public void MoveEnemy()
     {
-        //int mov_x = (int)(player_pos.position.x - gameObject.transform.position.x);
-        //int mov_y = (int)(player_pos.position.y - gameObject.transform.position.y);
+        int mov_x = (int)(player_pos.position.x - gameObject.transform.position.x);
+        int mov_y = (int)(player_pos.position.y - gameObject.transform.position.y);
         Vector2 mov = player_pos.position - gameObject.transform.position;
         mov.Normalize();
-        
-        //Vector2 moving = mov;
-        //mov.x = (int)mov.x;
-        //mov.y = (int)mov.y;
-
-        gameObject.transform.position = new Vector2(gameObject.transform.position.x + mov.x,
-                                                    gameObject.transform.position.y + mov.y);
+        if (Math.Abs(mov_x) > Math.Abs(mov_y))
+        {
+            if (mov_x<0) {
+                gameObject.transform.position = new Vector2(gameObject.transform.position.x - 1,
+                                                            gameObject.transform.position.y);
+            }
+            else {
+                gameObject.transform.position = new Vector2(gameObject.transform.position.x + 1,
+                                                            gameObject.transform.position.y);
+            }
+        }
+        else
+        {
+            if (mov_y<0) {
+                gameObject.transform.position = new Vector2(gameObject.transform.position.x,
+                                                  gameObject.transform.position.y-1);
+            }
+            else {
+                gameObject.transform.position = new Vector2(gameObject.transform.position.x,
+                                                         gameObject.transform.position.y+1);
+            }
+        }
         func_end = true;
         //int xDir = 0;
         //int yDir = 0;
