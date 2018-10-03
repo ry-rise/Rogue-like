@@ -51,7 +51,7 @@ public class MapGenerator : MonoBehaviour
     ////}
     #endregion
     #region マップ生成
-    public int[,] map_status;
+    private int[,] map_status;
     private Player player_pos; 
     //private GameObject[,] map_field;
 
@@ -73,12 +73,12 @@ public class MapGenerator : MonoBehaviour
             for (int x = 0; x < map_width; x += 1)
             {
                 map_status[x, y] = wall;
-                GameObject toInstantiate = wallPrefab[0];
-                GameObject instance = Instantiate(toInstantiate,
-                                      new Vector2(x, y),
-                                      Quaternion.identity,
-                                      mapHolder) as GameObject;
-                instance.transform.localScale = new Vector2(3, 3);
+                //GameObject toInstantiate = wallPrefab[0];
+                //GameObject instance = Instantiate(toInstantiate,
+                //                      new Vector2(x, y),
+                //                      Quaternion.identity,
+                //                      mapHolder) as GameObject;
+                //instance.transform.localScale = new Vector2(3, 3);
             }
         }
     }
@@ -91,8 +91,8 @@ public class MapGenerator : MonoBehaviour
         int[] road_agg_pointY = new int[road_point];
         for (int i = 0; i < road_agg_pointX.Length; i += 1)
         {
-            road_agg_pointX[i] = Random.Range(map_width / 3, map_width * 4 / 3);
-            road_agg_pointY[i] = Random.Range(map_height / 3, map_height * 4 / 3);
+            road_agg_pointX[i] = Random.Range(1,map_width/*map_width / 3, map_width * 4 / 3*/);
+            road_agg_pointY[i] = Random.Range(1,map_height/*map_height / 3, map_height * 4 / 3*/);
             map_status[road_agg_pointY[i], road_agg_pointX[i]] = road;
         }
         //部屋を作る
@@ -107,7 +107,7 @@ public class MapGenerator : MonoBehaviour
             bool RoomCheck = CheckRoomCreate(room_width, room_height, room_pointX, room_pointY);
             if (RoomCheck == false)
             {
-                CreateRoadData(road_start_pointX, road_start_pointY, road_agg_pointX[Random.Range(0, 0)], road_agg_pointY[Random.Range(0, 0)]);
+                CreateRoad(road_start_pointX, road_start_pointY, road_agg_pointX[Random.Range(0, 0)], road_agg_pointY[Random.Range(0, 0)]);
             }
         }
     }
@@ -131,7 +131,7 @@ public class MapGenerator : MonoBehaviour
         }
         return create_floor;
     }
-    private void CreateRoadData(int roadStartPointX, int roadStartPointY, int meetPointX, int meetPointY)
+    private void CreateRoad(int roadStartPointX, int roadStartPointY, int meetPointX, int meetPointY)
     {
         bool isRight;
         if (roadStartPointX > meetPointX)

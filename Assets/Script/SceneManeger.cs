@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneManeger : MonoBehaviour {
@@ -15,7 +16,11 @@ public class SceneManeger : MonoBehaviour {
             if (transform.name == "Button_Exit")
             {
                 //終了
+                Application.Quit();
+
+#if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
+#endif
             }
         }
         if (SceneManager.GetActiveScene().name == "GamePlay")

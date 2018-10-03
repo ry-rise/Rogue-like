@@ -9,8 +9,6 @@ public abstract class MoveObject : MonoBehaviour {
     //[SerializeField] private int _direction;
     #endregion
     private int State;//状態
-    protected int h = 0;
-    protected int v = 0;
     protected bool func_end = false;
     #region プロパティ
     public int HP { get; set; }
@@ -26,10 +24,6 @@ public abstract class MoveObject : MonoBehaviour {
     
     protected virtual void Start()
     {
-        //boxCollider = GetComponent<BoxCollider2D>();
-        //rigidbody2 = GetComponent<Rigidbody2D>();
-        //calMoveTime = 1f / MoveTime;
-        h = (int)Input.GetAxisRaw("Horizontal");
-        v = (int)Input.GetAxisRaw("Vertical");
+        
     }    
 }

@@ -12,10 +12,12 @@ public sealed class Player : MoveObject {
     //private int[] LevelUP_Exp = { 100,150 };
     //private Animator player_animator;
     //private Rigidbody2D rigidbody2;
+
     private void Awake()
     {
        
     }
+
     protected override void Start () {
         Level = 1;
         HP = 100;
@@ -32,7 +34,6 @@ public sealed class Player : MoveObject {
 #if DEBUG_1
         if (Input.GetKeyDown(KeyCode.A)) { HP = 0; }
 #endif
-        //Vector3 pos = gameObject.transform.position;
         if (gameManeger.turn_player == true)
         {
             Movement();
@@ -85,10 +86,10 @@ public sealed class Player : MoveObject {
 #region プレイヤーの移動
     private bool MoveCheck(int x,int y)
     {
-        if (mapGenerator.map_status[x, y] == -1)
-        {
-            return false;
-        }
+        //if (mapGenerator.map_status[x, y] == -1)
+        //{
+        //    return false;
+        //}
         return true;
     }
     private void Movement()
