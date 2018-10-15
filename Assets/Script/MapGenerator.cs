@@ -53,7 +53,6 @@ public class MapGenerator : MonoBehaviour
     #region マップ生成
     private int[,] map_status;
     private Player player_pos; 
-    //private GameObject[,] map_field;
 
     void Awake()
     {
