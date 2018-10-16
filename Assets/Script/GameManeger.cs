@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public sealed class GameManeger : MonoBehaviour {
     private Player player;
     private GameObject cam_pos;
-    //private MapGenerator mapGenerator;
+    //[SerializeField] private MapGenerator mapGenerator;
     public int floor_number = 1;
     public List<Enemy1> enemies1;
     public bool turn_player = false;
