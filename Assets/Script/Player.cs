@@ -1,17 +1,14 @@
-﻿//#define DEBUG_1
+﻿//#define DEBUG_KEYDOWN
 using UnityEngine;
 
 public sealed class Player : MoveObject {
-    private GameManeger gameManeger;
-    private SceneManeger sceneManeger;
-    private MapGenerator mapGenerator;
+    //private GameManager gameManeger;
     //private const int ItemLimit = 99;
     public int Satiety { get; set; }//満腹度
     //private bool func_end = false;
     //public int ItemLimit { get { return _itemLimit; } set { _itemLimit = value; } }
     //private int[] LevelUP_Exp = { 100,150 };
     //private Animator player_animator;
-    //private Rigidbody2D rigidbody2;
 
     private void Awake()
     {
@@ -22,22 +19,21 @@ public sealed class Player : MoveObject {
         Level = 1;
         HP = 100;
         Satiety = 100;
-        //rigidbody2 = GetComponent<Rigidbody2D>();
         //player_animator = GetComponent<Animator>();
-        gameManeger = GameObject.Find("GameManeger").GetComponent<GameManeger>();
-        sceneManeger = GameObject.Find("GameManeger").GetComponent<SceneManeger>();
-        //base.Start();
+        //gameManeger = GameObject.Find("GameManeger").GetComponent<GameManager>();
+        //sceneManeger = GameObject.Find("GameManeger").GetComponent<SceneManeger>();
+        base.Start();
 	}
 
     void Update()
     {
-#if DEBUG_1
+#if DEBUG_KEYDOWN
         if (Input.GetKeyDown(KeyCode.A)) { HP = 0; }
 #endif
-        if (gameManeger.turn_player == true)
+        if (gameManager.TurnPlayer == true)
         {
-            Movement();
-            if (func_end == true)
+            MovePlayer();
+            if (funcEnd == true)
             {
                 if (Satiety == 0)
                 {
@@ -47,14 +43,14 @@ public sealed class Player : MoveObject {
                 {
                     Satiety -= 1;
                 }
-                gameManeger.turn_player = false;
-                gameManeger.turn_enemy = true;
-                func_end = false;
+                gameManager.TurnPlayer = false;
+                gameManager.TurnEnemy = true;
+                funcEnd = false;
             }
         }
         if (HP <= 0)
         {
-            sceneManeger.SceneChange();
+            gameManager.SceneChange();
         }
     }
 
@@ -77,8 +73,9 @@ public sealed class Player : MoveObject {
         if (collision.gameObject.tag == "Exit")
         {
             enabled = false;
+            gameManager.Floor_number += 1;
             //sceneManeger.SceneChange();
-            gameManeger.SceneChange();
+            gameManager.SceneChange();
         }
     }
 #endregion
@@ -92,35 +89,35 @@ public sealed class Player : MoveObject {
         //}
         return true;
     }
-    private void Movement()
+    private void MovePlayer()
     {
         //上方向
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             gameObject.transform.position = new Vector2(gameObject.transform.position.x,
                                                         gameObject.transform.position.y + 1);
-            func_end = true;
+            funcEnd = true;
         }
         //下方向
         if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
             gameObject.transform.position = new Vector2(gameObject.transform.position.x,
                                                         gameObject.transform.position.y - 1);
-            func_end = true;
+            funcEnd = true;
         }
         //左方向
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
             gameObject.transform.position = new Vector2(gameObject.transform.position.x - 1,
                                                         gameObject.transform.position.y);
-            func_end = true;
+            funcEnd = true;
         }
         //右方向
         if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
             gameObject.transform.position = new Vector2(gameObject.transform.position.x + 1,
                                                         gameObject.transform.position.y);
-            func_end = true;
+            funcEnd = true;
         }
     }
 #endregion

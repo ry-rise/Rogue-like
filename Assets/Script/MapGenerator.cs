@@ -10,68 +10,82 @@ public class MapGenerator : MonoBehaviour
     private const int max_room_width = 10;
     private const int max_room_height = 10;
     private const int min_room_amount = 20;
-    private const int max_room_amount = 30;
+    private const int max_room_amount = 25;
     private const int road_point = 1;
     private const int wall = -1;
     private const int road = 0;
     private const int floor = 0;
     private const int player = 1;
+    public enum STATE
+    {
+        FLOOR,
+        ROAD,
+        PLAYER,
+        ENEMY,
+        EXIT,
+        WALL = -1
+    }
+    //public STATE state; 
     [SerializeField] private GameObject[] floorPrefab;
     [SerializeField] private GameObject[] wallPrefab;
     [SerializeField] private GameObject exitPrefab;
     private Transform mapHolder;
     #endregion
     #region マップ作成(32*32)
-    ////public void Awake()
-    ////{
-    ////    mapHolder = new GameObject("Map").transform;
-    ////    for (int x = -1; x < map_width + 1; x += 1)
-    ////    {
-    ////        for (int y = -1; y < map_height + 1; y += 1)
-    ////        {
-    ////            //床
-    ////            GameObject toInstantiate = floorPrefab[0]/*[Random.Range(0, floorPrefab.Length)]*/;
-    ////            //出口
-    ////            if (x == 5 && y == 5)
-    ////            {
-    ////                toInstantiate = exitPrefab;
-    ////            }
-    ////            //外壁
-    ////            if (x == -1 || x == map_width || y == -1 || y == map_height) 
-    ////            {
-    ////                toInstantiate = wallPrefab[0]/*[Random.Range(0, wallPrefab.Length)]*/;
-    ////            }
-    ////            GameObject instance = Instantiate(toInstantiate,
-    ////                                              new Vector2(x, y),
-    ////                                              Quaternion.identity,
-    ////                                              mapHolder) as GameObject;
-    ////            instance.transform.localScale = new Vector2(3,3);
-    ////        }
-    ////    }
-    ////}
+    //public void Awake()
+    //{
+    //    mapHolder = new GameObject("Map").transform;
+    //    for (int x = -1; x < map_width + 1; x += 1)
+    //    {
+    //        for (int y = -1; y < map_height + 1; y += 1)
+    //        {
+    //            //床
+    //            GameObject toInstantiate = floorPrefab[0]/*[Random.Range(0, floorPrefab.Length)]*/;
+    //            //出口
+    //            if (x == 5 && y == 5)
+    //            {
+    //                toInstantiate = exitPrefab;
+    //            }
+    //            //外壁
+    //            if (x == -1 || x == map_width || y == -1 || y == map_height) 
+    //            {
+    //                toInstantiate = wallPrefab[0]/*[Random.Range(0, wallPrefab.Length)]*/;
+    //            }
+    //            GameObject instance = Instantiate(toInstantiate,
+    //                                              new Vector2(x, y),
+    //                                              Quaternion.identity,
+    //                                              mapHolder) as GameObject;
+    //            instance.transform.localScale = new Vector2(3,3);
+    //        }
+    //    }
+    //}
     #endregion
     #region マップ生成
-    private int[,] map_status;
-    private Player player_pos; 
-
+    public int[,] mapStatus;
+    private Player playerPos;
+    private GameManager gameManager;
     void Awake()
     {
-        player_pos = GameObject.Find("Player").GetComponent<Player>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         mapHolder = new GameObject("Map").transform;
         InitializeMap();
         RoomCreate();
         CreateDungeon();
     }
+    private void Start()
+    {
+        playerPos = gameManager.playerObject.GetComponent<Player>();
+    }
 
     private void InitializeMap()
     {
-        map_status = new int[map_width, map_height];
+        mapStatus = new int[map_width, map_height];
         //一旦、すべて壁で初期化
         for (int y = 0; y < map_height; y += 1)
         {
             for (int x = 0; x < map_width; x += 1)
             {
-                map_status[x, y] = wall;
+                mapStatus[x, y] = (int)STATE.WALL;
                 //GameObject toInstantiate = wallPrefab[0];
                 //GameObject instance = Instantiate(toInstantiate,
                 //                      new Vector2(x, y),
@@ -85,17 +99,17 @@ public class MapGenerator : MonoBehaviour
     private void RoomCreate()
     {
         //通路を作る
-        int room_amount = Random.Range(min_room_amount, max_room_amount);
+        int roomAmount = Random.Range(min_room_amount, max_room_amount);
         int[] road_agg_pointX = new int[road_point];
         int[] road_agg_pointY = new int[road_point];
         for (int i = 0; i < road_agg_pointX.Length; i += 1)
         {
             road_agg_pointX[i] = Random.Range(1,map_width/*map_width / 3, map_width * 4 / 3*/);
             road_agg_pointY[i] = Random.Range(1,map_height/*map_height / 3, map_height * 4 / 3*/);
-            map_status[road_agg_pointY[i], road_agg_pointX[i]] = road;
+            mapStatus[road_agg_pointY[i], road_agg_pointX[i]] = road;
         }
         //部屋を作る
-        for (int i = 0; i < room_amount; i += 1)
+        for (int i = 0; i < roomAmount; i += 1)
         {
             int room_height = Random.Range(min_room_height, max_room_height);
             int room_width = Random.Range(min_room_width, max_room_width);
@@ -113,22 +127,22 @@ public class MapGenerator : MonoBehaviour
 
     private bool CheckRoomCreate(int room_width, int room_height, int room_pointX, int room_pointY)
     {
-        bool create_floor = false;
+        bool createFloor = false;
         for (int y = 0; y < room_height; y += 1)
         {
             for (int x = 0; x < room_width; x += 1)
             {
-                if (map_status[room_pointY + y, room_pointX + x] == floor)
+                if (mapStatus[room_pointY + y, room_pointX + x] == (int)STATE.FLOOR)
                 {
-                    create_floor = true;
+                    createFloor = true;
                 }
                 else
                 {
-                    map_status[room_pointY + y, room_pointX + x] = floor;
+                    mapStatus[room_pointY + y, room_pointX + x] = (int)STATE.FLOOR;
                 }
             }
         }
-        return create_floor;
+        return createFloor;
     }
     private void CreateRoad(int roadStartPointX, int roadStartPointY, int meetPointX, int meetPointY)
     {
@@ -155,7 +169,7 @@ public class MapGenerator : MonoBehaviour
         {
             while (roadStartPointX != meetPointX)
             {
-                map_status[roadStartPointY, roadStartPointX] = road;
+                mapStatus[roadStartPointY, roadStartPointX] = (int)STATE.ROAD;
                 if (isRight == true)
                 {
                     roadStartPointX--;
@@ -167,7 +181,7 @@ public class MapGenerator : MonoBehaviour
             }
             while (roadStartPointY != meetPointY)
             {
-                map_status[roadStartPointY, roadStartPointX] = road;
+                mapStatus[roadStartPointY, roadStartPointX] = (int)STATE.ROAD;
                 if (isUnder == true)
                 {
                     roadStartPointY++;
@@ -183,7 +197,7 @@ public class MapGenerator : MonoBehaviour
         {
             while (roadStartPointY != meetPointY)
             {
-                map_status[roadStartPointY, roadStartPointX] = road;
+                mapStatus[roadStartPointY, roadStartPointX] = (int)STATE.ROAD;
                 if (isUnder == true)
                 {
                     roadStartPointY++;
@@ -195,7 +209,7 @@ public class MapGenerator : MonoBehaviour
             }
             while (roadStartPointX != meetPointX)
             {
-                map_status[roadStartPointY, roadStartPointX] = road;
+                mapStatus[roadStartPointY, roadStartPointX] = (int)STATE.ROAD;
                 if (isRight == true)
                 {
                     roadStartPointX--;
@@ -213,7 +227,7 @@ public class MapGenerator : MonoBehaviour
         {
             for (int x = 0; x < map_width; x += 1)
             {
-                if (map_status[x, y] == wall)
+                if (mapStatus[x, y] == (int)STATE.WALL)
                 {
                     GameObject instance = Instantiate(wallPrefab[0],
                                                       new Vector2(x, y),
@@ -221,14 +235,14 @@ public class MapGenerator : MonoBehaviour
                                                       mapHolder) as GameObject;
                     instance.transform.localScale = new Vector2(3, 3);
                 }
-                else if (map_status[x,y]==player)
+                else if (mapStatus[x, y] == (int)STATE.PLAYER)
                 {
                     GameObject instance = Instantiate(floorPrefab[0],
                                                       new Vector2(x, y),
                                                       Quaternion.identity,
                                                       mapHolder) as GameObject;
                     instance.transform.localScale = new Vector2(3, 3);
-                    player_pos.transform.position = new Vector2(x, y);
+                    playerPos.transform.position = new Vector2(x, y);
                 }
                 else
                 {

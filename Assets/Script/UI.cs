@@ -6,19 +6,19 @@ public class UI : MonoBehaviour {
     [SerializeField] private Text FloorText;
     [SerializeField] private Text HPText;
     [SerializeField] private Text SatietyText;
-    [SerializeField] private GameObject Inventory_screen;
+    [SerializeField] private GameObject InventoryScreen;
     private Player player;
-    private GameManeger gameManeger;
+    private GameManager gameManager;
 
 	void Start ()
     {
-        player = GameObject.Find("Player").GetComponent<Player>();
-        gameManeger = GameObject.Find("GameManeger").GetComponent<GameManeger>();
+        player = GameObject.Find("Player(Clone)").GetComponent<Player>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 	}
 	void Update ()
     {
         LevelText.text = "LV:" + player.Level.ToString();
-        FloorText.text = gameManeger.floor_number.ToString() + "F";
+        FloorText.text = gameManager.Floor_number.ToString() + "F";
         HPText.text = "HP:" + player.HP.ToString();
         SatietyText.text = "空腹度:" + player.Satiety.ToString();
         Inventory();
@@ -29,13 +29,13 @@ public class UI : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            switch (Inventory_screen.activeSelf)
+            switch (InventoryScreen.activeSelf)
             {
                 case true:
-                    Inventory_screen.SetActive(false);
+                    InventoryScreen.SetActive(false);
                     break;
                 case false:
-                    Inventory_screen.SetActive(true);
+                    InventoryScreen.SetActive(true);
                     break;
             }
         }

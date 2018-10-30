@@ -2,55 +2,61 @@
 using UnityEngine;
 
 public sealed class Enemy1 : MoveObject {
-    private GameManeger gameManeger;
-    //private Animator enemy_animator;
-    private Transform player_pos;
+    //private GameManager gameManeger;
+    private Transform playerPos;
+    //private Animator enemyAnimator;
+
     protected override void Start()
     {
-        //enemy_animator = GetComponent<Animator>();
-        player_pos = GameObject.FindGameObjectWithTag("Player").transform;
-        gameManeger = GameObject.Find("GameManeger").GetComponent<GameManeger>();
-        //base.Start();
+        //enemyAnimator = GetComponent<Animator>();
+        playerPos = GameObject.FindGameObjectWithTag("Player").transform;
+        //gameManeger = GameObject.Find("GameManeger").GetComponent<GameManager>();
+        base.Start();
     }
     private void Update()
     {
-        if (gameManeger.turn_enemy == true)
+        if (gameManager.TurnEnemy == true)
         {
             MoveEnemy();
-            if (func_end == true)
-            gameManeger.turn_player = true;
-            gameManeger.turn_enemy = false;
+            if (funcEnd == true)
+            gameManager.TurnPlayer = true;
+            gameManager.TurnEnemy = false;
         }
     }
     public void MoveEnemy()
     {
-        int mov_x = (int)(player_pos.position.x - gameObject.transform.position.x);
-        int mov_y = (int)(player_pos.position.y - gameObject.transform.position.y);
-        Vector2 mov = player_pos.position - gameObject.transform.position;
+        int mov_x = (int)(playerPos.position.x - gameObject.transform.position.x);
+        int mov_y = (int)(playerPos.position.y - gameObject.transform.position.y);
+        Vector2 mov = playerPos.position - gameObject.transform.position;
         mov.Normalize();
         if (Math.Abs(mov_x) > Math.Abs(mov_y))
         {
-            if (mov_x<0) {
+            if (mov_x < 0)
+            {
                 gameObject.transform.position = new Vector2(gameObject.transform.position.x - 1,
                                                             gameObject.transform.position.y);
             }
-            else {
+            else
+            {
                 gameObject.transform.position = new Vector2(gameObject.transform.position.x + 1,
                                                             gameObject.transform.position.y);
             }
         }
         else
         {
-            if (mov_y<0) {
+            if (mov_y < 0)
+            {
                 gameObject.transform.position = new Vector2(gameObject.transform.position.x,
-                                                  gameObject.transform.position.y-1);
+                                                  gameObject.transform.position.y - 1);
             }
-            else {
+            else
+            {
                 gameObject.transform.position = new Vector2(gameObject.transform.position.x,
-                                                         gameObject.transform.position.y+1);
+                                                         gameObject.transform.position.y + 1);
             }
         }
-        func_end = true;
+        funcEnd = true;
+        #region a
         //int xDir = 0;
         //int yDir = 0;
         //if (Mathf.Abs(player_pos.position.x - gameObject.transform.position.x) < float.Epsilon)
@@ -67,5 +73,7 @@ public sealed class Enemy1 : MoveObject {
         //    xDir += (int)gameObject.transform.position.x;
         //    func_end = true;
         //}
+        #endregion
     }
+
 }
