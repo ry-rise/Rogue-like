@@ -61,13 +61,12 @@
   <ItemGroup>
     <Compile Include="Assets\Script\Enemy1.cs" />
     <Compile Include="Assets\Script\EnemyBase.cs" />
-    <Compile Include="Assets\Script\GameManeger.cs" />
+    <Compile Include="Assets\Script\GameManager.cs" />
     <Compile Include="Assets\Script\Item1.cs" />
     <Compile Include="Assets\Script\ItemBase.cs" />
     <Compile Include="Assets\Script\MapGenerator.cs" />
     <Compile Include="Assets\Script\MoveObject.cs" />
     <Compile Include="Assets\Script\Player.cs" />
-    <Compile Include="Assets\Script\SceneManeger.cs" />
     <Compile Include="Assets\Script\UI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />

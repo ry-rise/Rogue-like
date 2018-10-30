@@ -2,14 +2,9 @@
 using UnityEngine;
 
 public abstract class MoveObject : MonoBehaviour {
-    #region バッキングフィールド
-    //[SerializeField] private int _hp;
-    //[SerializeField] private int _level;
-    //[SerializeField] private int _exp;
-    //[SerializeField] private int _direction;
-    #endregion
+    protected GameManager gameManager;
     private int State;//状態
-    protected bool func_end = false;
+    protected bool funcEnd = false;
     #region プロパティ
     public int HP { get; set; }
     public int Level { get; set; }
@@ -20,10 +15,10 @@ public abstract class MoveObject : MonoBehaviour {
     enum ACTION { TURN_STANDBY,ACT_START,ACT,ACT_END,MOVE_START,MOVING,MOVE_END,TURN_END }
     //private BoxCollider2D boxCollider;
     //private Rigidbody2D rigidbody2;
-    public LayerMask Hitlayer;
+    public LayerMask HitLayer;
     
     protected virtual void Start()
     {
-        
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }    
 }
