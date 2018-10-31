@@ -740,10 +740,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerObject: {fileID: 0}
+  enemyObject: {fileID: 0}
   mapGenerator: {fileID: 1437518964}
-  playerPrafab: {fileID: 1819099947091336, guid: d95c7e3f9015af646a76fa93fa77ee25,
+  playerPrefab: {fileID: 1819099947091336, guid: d95c7e3f9015af646a76fa93fa77ee25,
     type: 2}
-  enemyPrafab:
+  enemyPrefab:
   - {fileID: 1826253905578890, guid: 04ea7ed2b384df747aa8846e347ee78f, type: 2}
   TurnPlayer: 0
   TurnEnemy: 0
