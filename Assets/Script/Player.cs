@@ -73,7 +73,7 @@ public sealed class Player : MoveObject {
         if (collision.gameObject.tag == "Exit")
         {
             enabled = false;
-            gameManager.Floor_number += 1;
+            gameManager.FloorNumber += 1;
             //sceneManeger.SceneChange();
             gameManager.SceneChange();
         }

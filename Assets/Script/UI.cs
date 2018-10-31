@@ -18,7 +18,7 @@ public class UI : MonoBehaviour {
 	void Update ()
     {
         LevelText.text = "LV:" + player.Level.ToString();
-        FloorText.text = gameManager.Floor_number.ToString() + "F";
+        FloorText.text = gameManager.FloorNumber.ToString() + "F";
         HPText.text = "HP:" + player.HP.ToString();
         SatietyText.text = "空腹度:" + player.Satiety.ToString();
         Inventory();
