@@ -5,9 +5,10 @@ public sealed class Enemy1 : MoveObject {
     //private GameManager gameManeger;
     private Transform playerPos;
     //private Animator enemyAnimator;
-
+    
     protected override void Start()
     {
+        HP = 10;
         //enemyAnimator = GetComponent<Animator>();
         playerPos = GameObject.FindGameObjectWithTag("Player").transform;
         //gameManeger = GameObject.Find("GameManeger").GetComponent<GameManager>();

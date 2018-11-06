@@ -60,7 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\Enemy1.cs" />
-    <Compile Include="Assets\Script\EnemyBase.cs" />
     <Compile Include="Assets\Script\GameManager.cs" />
     <Compile Include="Assets\Script\Item1.cs" />
     <Compile Include="Assets\Script\ItemBase.cs" />

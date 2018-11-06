@@ -7,14 +7,14 @@ public sealed class GameManager : MonoBehaviour {
     [HideInInspector] public GameObject playerObject;
     private Player player;
     private GameObject camPos;
-    private List<Enemy1> enemy1Script;
+    public List<GameObject> enemies1;
+    private List<GameObject> enemy1Script;
     [SerializeField] private MapGenerator mapGenerator;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject[] enemyPrefab;
     public int FloorNumber { get; set; }
     public bool TurnPlayer = false;
     public bool TurnEnemy = false;
-    public List<GameObject> enemies1;
     private int playerRandomX;
     private int playerRandomY;
     private int enemyRandomX;
@@ -22,17 +22,18 @@ public sealed class GameManager : MonoBehaviour {
     private Transform enemyHolder;
     private void Awake()
     {
+
         enemyHolder = new GameObject("enemy").transform;
         FloorNumber = 1;
         enemies1 = new List<GameObject>();
-        enemy1Script = new List<Enemy1>();
+        enemy1Script = new List<GameObject>();
         camPos = GameObject.Find("Main Camera");
         playerObject = Instantiate(playerPrefab);
     }
     private void Start()
     {
-        //FLOORのところにランダムでPlayerを生成
-        while(true)
+        //FLOORのところにランダムでPlayerを移動
+        while (true)
         {
             playerRandomX = Random.Range(0, 80);
             playerRandomY = Random.Range(0, 80);
@@ -50,7 +51,7 @@ public sealed class GameManager : MonoBehaviour {
         //ListにenemyPrefabを追加、生成
         for (int j = 0; j < 20; j += 1)
         {
-            enemies1.Add(Instantiate(enemyPrefab[0],enemyHolder));
+            enemies1.Add(Instantiate(enemyPrefab[0], enemyHolder)as GameObject);
         }
         //FLOORのところにenemyを移動
         for (int i = 0; i < 20; i += 1)
@@ -72,23 +73,27 @@ public sealed class GameManager : MonoBehaviour {
                 }
             }
         }
-      
+        //プレイヤーのターン
         TurnPlayer = true;
-
     }
     private void Update()
     {
+        //カメラの中心にプレイヤーがいる
         camPos.transform.position = new Vector3(playerObject.transform.position.x,
                                                 playerObject.transform.position.y,
                                                 playerObject.transform.position.z-1);
+        //プレイヤーの行動が終わったら
         if (TurnPlayer == false)
         {
-            for(int i = 0; i < 20; i += 1)
+            //敵の処理をする
+            for (int i = 0; i < enemies1.Count - 1; i += 1)
             {
                 //enemies1[i].
             }
+            TurnPlayer = true;
         }
     }
+    #region シーン切り替え
     public void SceneChange()
     {
         if (SceneManager.GetActiveScene().name == "GameTitle")
@@ -116,4 +121,5 @@ public sealed class GameManager : MonoBehaviour {
             SceneManager.LoadScene("GameTitle");
         }
     }
+    #endregion
 }

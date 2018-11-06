@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class MoveObject : MonoBehaviour {
     protected GameManager gameManager;
+    protected MapGenerator mapGenerator;
     private int State;//状態
     protected bool funcEnd = false;
     #region プロパティ
@@ -11,14 +12,15 @@ public abstract class MoveObject : MonoBehaviour {
     public int Exp { get; set; }
     public int Direction { get; set; }
     #endregion
-    enum DIRECTION { UP, DOWN, LEFT, RIGHT }
-    enum ACTION { TURN_STANDBY,ACT_START,ACT,ACT_END,MOVE_START,MOVING,MOVE_END,TURN_END }
+    protected enum DIRECTION { UP, DOWN, LEFT, RIGHT }
+    //enum ACTION { TURN_STANDBY,ACT_START,ACT,ACT_END,MOVE_START,MOVING,MOVE_END,TURN_END }
     //private BoxCollider2D boxCollider;
     //private Rigidbody2D rigidbody2;
-    public LayerMask HitLayer;
+    //public LayerMask HitLayer;
     
     protected virtual void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        mapGenerator = GameObject.Find("GameManager").GetComponent<MapGenerator>();
     }    
 }
