@@ -9,13 +9,14 @@ public sealed class Player : MoveObject {
     //public int ItemLimit { get { return _itemLimit; } set { _itemLimit = value; } }
     //private int[] LevelUP_Exp = { 100,150 };
     //private Animator player_animator;
-
+    private DIRECTION direction;
     private void Awake()
     {
        
     }
 
-    protected override void Start () {
+    protected override void Start ()
+    {
         Level = 1;
         HP = 100;
         Satiety = 100;
@@ -61,11 +62,6 @@ public sealed class Player : MoveObject {
         {
             collision.gameObject.SetActive(false);
         }
-        if (collision.gameObject.tag == "Wall")
-        {
-            var a = gameObject.transform.position.x;
-            a -= 1;
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -83,10 +79,10 @@ public sealed class Player : MoveObject {
 #region プレイヤーの移動
     private bool MoveCheck(int x,int y)
     {
-        //if (mapGenerator.map_status[x, y] == -1)
-        //{
-        //    return false;
-        //}
+        if (mapGenerator.mapStatus[x, y] == -1)
+        {
+            return false;
+        }
         return true;
     }
     private void MovePlayer()
@@ -94,6 +90,7 @@ public sealed class Player : MoveObject {
         //上方向
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
+            //mapGenerator.mapStatus[]
             gameObject.transform.position = new Vector2(gameObject.transform.position.x,
                                                         gameObject.transform.position.y + 1);
             funcEnd = true;
@@ -125,7 +122,10 @@ public sealed class Player : MoveObject {
 #region 攻撃
     private void Attack()
     {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
 
+        }
     }
 #endregion
 

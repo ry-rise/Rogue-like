@@ -86,12 +86,6 @@ public class MapGenerator : MonoBehaviour
             for (int x = 0; x < map_width; x += 1)
             {
                 mapStatus[x, y] = (int)STATE.WALL;
-                //GameObject toInstantiate = wallPrefab[0];
-                //GameObject instance = Instantiate(toInstantiate,
-                //                      new Vector2(x, y),
-                //                      Quaternion.identity,
-                //                      mapHolder) as GameObject;
-                //instance.transform.localScale = new Vector2(3, 3);
             }
         }
     }
@@ -104,8 +98,8 @@ public class MapGenerator : MonoBehaviour
         int[] road_agg_pointY = new int[road_point];
         for (int i = 0; i < road_agg_pointX.Length; i += 1)
         {
-            road_agg_pointX[i] = Random.Range(1,map_width/*map_width / 3, map_width * 4 / 3*/);
-            road_agg_pointY[i] = Random.Range(1,map_height/*map_height / 3, map_height * 4 / 3*/);
+            road_agg_pointX[i] = Random.Range(1, map_width);
+            road_agg_pointY[i] = Random.Range(1, map_height);
             mapStatus[road_agg_pointY[i], road_agg_pointX[i]] = road;
         }
         //部屋を作る
