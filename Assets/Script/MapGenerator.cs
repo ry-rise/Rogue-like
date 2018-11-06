@@ -3,6 +3,7 @@
 public class MapGenerator : MonoBehaviour
 {
     #region 変数
+    public int mapWidth { get; set; } = 80;
     private const int map_width = 80;
     private const int map_height = 80;
     private const int min_room_width = 6;
