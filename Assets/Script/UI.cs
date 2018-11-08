@@ -12,7 +12,7 @@ public class UI : MonoBehaviour {
 
 	void Start ()
     {
-        player = GameObject.Find("Player(Clone)").GetComponent<Player>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 	}
 	void Update ()

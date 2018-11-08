@@ -3,36 +3,34 @@ using UnityEngine;
 
 public sealed class Enemy1 : MoveObject {
     //private GameManager gameManeger;
-    private Transform playerPos;
     //private Animator enemyAnimator;
+    private Transform playerPos;
     
     protected override void Start()
     {
         HP = 10;
-        //enemyAnimator = GetComponent<Animator>();
         playerPos = GameObject.FindGameObjectWithTag("Player").transform;
-        //gameManeger = GameObject.Find("GameManeger").GetComponent<GameManager>();
         base.Start();
     }
     private void Update()
     {
-        if (gameManager.TurnEnemy == true)
-        {
-            MoveEnemy();
-            if (funcEnd == true)
-            gameManager.TurnPlayer = true;
-            gameManager.TurnEnemy = false;
-        }
+        //if (gameManager.TurnEnemy == true)
+        //{
+        //    MoveEnemy();
+        //    if (funcEnd == true)
+        //    gameManager.TurnPlayer = true;
+        //    gameManager.TurnEnemy = false;
+        //}
     }
     public void MoveEnemy()
     {
-        int mov_x = (int)(playerPos.position.x - gameObject.transform.position.x);
-        int mov_y = (int)(playerPos.position.y - gameObject.transform.position.y);
+        int movX = (int)(playerPos.position.x - gameObject.transform.position.x);
+        int movY = (int)(playerPos.position.y - gameObject.transform.position.y);
         Vector2 mov = playerPos.position - gameObject.transform.position;
         mov.Normalize();
-        if (Math.Abs(mov_x) > Math.Abs(mov_y))
+        if (Math.Abs(movX) > Math.Abs(movY))
         {
-            if (mov_x < 0)
+            if (movX < 0)
             {
                 gameObject.transform.position = new Vector2(gameObject.transform.position.x - 1,
                                                             gameObject.transform.position.y);
@@ -45,7 +43,7 @@ public sealed class Enemy1 : MoveObject {
         }
         else
         {
-            if (mov_y < 0)
+            if (movY < 0)
             {
                 gameObject.transform.position = new Vector2(gameObject.transform.position.x,
                                                   gameObject.transform.position.y - 1);

@@ -1,16 +1,29 @@
 ﻿using UnityEngine;
 
 public sealed class Item1 : ItemBase {
-    private int[] recovery_amount = { 10, 20, 30, 40, 50 };
+    private int[] recoveryAmount = { 10, 20, 30, 40, 50 };
 
-    private void Start()
+    protected override void Start()
     {
-        player = GameObject.Find("Player").GetComponent<Player>();
+        base.Start();
+    }
+    private void Update()
+    {
+        
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            PickUP();
+            Destroy(gameObject);
+        }
     }
     public override void PickUP()
     {
-        var i = Random.Range(0, 5);
-        player.HP += recovery_amount[i];
+        Debug.Log($"PlusHP={recoveryAmount[0]}");
+        var i = Random.Range(0, recoveryAmount.Length);
+        player.HP += recoveryAmount[i];
     }
     
 }
