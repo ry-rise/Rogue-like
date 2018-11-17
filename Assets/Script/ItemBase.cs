@@ -2,7 +2,8 @@
 
 public abstract class ItemBase : MonoBehaviour {
     protected Player player;
-    public abstract void PickUP(); //アイテムを取った時の処理
+    //アイテムを取った時、トラップに引っ掛かったときの処理
+    protected abstract void PickUP(); 
 
     protected virtual void Start()
     {

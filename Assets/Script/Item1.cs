@@ -19,7 +19,7 @@ public sealed class Item1 : ItemBase {
             Destroy(gameObject);
         }
     }
-    public override void PickUP()
+    protected override void PickUP()
     {
         Debug.Log($"PlusHP={recoveryAmount[0]}");
         var i = Random.Range(0, recoveryAmount.Length);

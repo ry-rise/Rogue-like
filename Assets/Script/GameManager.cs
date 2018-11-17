@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public sealed class GameManager : MonoBehaviour {
@@ -56,7 +55,7 @@ public sealed class GameManager : MonoBehaviour {
         //ListにenemyPrefabを追加、生成
         for (int j = 0; j < 20; j += 1)
         {
-            enemies1.Add(Instantiate(enemyPrefab[0], enemyHolder)as GameObject);
+            enemies1.Add(Instantiate(enemyPrefab[0], enemyHolder) as GameObject);
         }
         //ListにitemPrefabを追加、生成
         for(int k = 0; k < 20; k += 1)
@@ -125,33 +124,5 @@ public sealed class GameManager : MonoBehaviour {
             TurnPlayer = true;
         }
     }
-    #region シーン切り替え
-    public void SceneChange()
-    {
-        if (SceneManager.GetActiveScene().name == "GameTitle")
-        {
-            if (transform.name == "Button_Start")
-            {
-                //（タイトル→ゲーム）
-                SceneManager.LoadScene("GamePlay");
-            }
-            if (transform.name == "Button_Exit")
-            {
-                //終了
-                Application.Quit();
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-#endif
-            }
-        }
-        if (SceneManager.GetActiveScene().name == "GamePlay")
-        {
-            SceneManager.LoadScene("GameOver");
-        }
-        if (SceneManager.GetActiveScene().name == "GameOver")
-        {
-            SceneManager.LoadScene("GameTitle");
-        }
-    }
-    #endregion
+    
 }

@@ -10,6 +10,7 @@ public class UI : MonoBehaviour {
     private Player player;
     private GameManager gameManager;
 
+
 	void Start ()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
@@ -17,16 +18,17 @@ public class UI : MonoBehaviour {
 	}
 	void Update ()
     {
-        LevelText.text = "LV:" + player.Level.ToString();
-        FloorText.text = gameManager.FloorNumber.ToString() + "F";
-        HPText.text = "HP:" + player.HP.ToString();
-        SatietyText.text = "空腹度:" + player.Satiety.ToString();
+        LevelText.text = $"LV:{player.Level.ToString()}";
+        FloorText.text = $"{gameManager.FloorNumber.ToString()}F";
+        HPText.text = $"HP:{player.HP.ToString()}";
+        SatietyText.text = $"空腹度:{player.Satiety.ToString()}";
         Inventory();
     }
 
     //インベントリ
     void Inventory()
     {
+        //Iキーを押すとインベントリが表示/非表示
         if (Input.GetKeyDown(KeyCode.I))
         {
             switch (InventoryScreen.activeSelf)
@@ -40,5 +42,5 @@ public class UI : MonoBehaviour {
             }
         }
     }
-
+   
 }

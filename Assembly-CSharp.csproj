@@ -65,6 +65,8 @@
     <Compile Include="Assets\Script\MapGenerator.cs" />
     <Compile Include="Assets\Script\MoveObject.cs" />
     <Compile Include="Assets\Script\Player.cs" />
+    <Compile Include="Assets\Script\SceneChanger.cs" />
+    <Compile Include="Assets\Script\Trap1.cs" />
     <Compile Include="Assets\Script\UI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />

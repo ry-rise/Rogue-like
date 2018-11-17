@@ -1,28 +1,19 @@
 ﻿//#define DEBUG_KEYDOWN
+using System.Collections.Generic;
 using UnityEngine;
 
 public sealed class Player : MoveObject {
-    //private GameManager gameManeger;
     //private const int ItemLimit = 99;
-    public int Satiety { get; set; }//満腹度
-    //private bool func_end = false;
-    //public int ItemLimit { get { return _itemLimit; } set { _itemLimit = value; } }
     //private int[] LevelUP_Exp = { 100,150 };
-    //private Animator player_animator;
+    public List<GameObject> Inventory;
+    public int Satiety { get; set; }//満腹度
     private DIRECTION direction;
-    private void Awake()
-    {
-       
-    }
 
     protected override void Start ()
     {
         Level = 1;
         HP = 100;
         Satiety = 100;
-        //player_animator = GetComponent<Animator>();
-        //gameManeger = GameObject.Find("GameManeger").GetComponent<GameManager>();
-        //sceneManeger = GameObject.Find("GameManeger").GetComponent<SceneManeger>();
         base.Start();
 	}
 
@@ -31,9 +22,12 @@ public sealed class Player : MoveObject {
 #if DEBUG_KEYDOWN
         if (Input.GetKeyDown(KeyCode.A)) { HP = 0; }
 #endif
+        //プレイヤーのターン
         if (gameManager.TurnPlayer == true)
         {
+            //行動する
             MovePlayer();
+
             if (funcEnd == true)
             {
                 if (Satiety == 0)
@@ -51,7 +45,7 @@ public sealed class Player : MoveObject {
         }
         if (HP <= 0)
         {
-            gameManager.SceneChange();
+            sceneChanger.SceneChange();
         }
     }
 
@@ -70,8 +64,7 @@ public sealed class Player : MoveObject {
         {
             enabled = false;
             gameManager.FloorNumber += 1;
-            //sceneManeger.SceneChange();
-            gameManager.SceneChange();
+            sceneChanger.SceneChange();
         }
     }
 #endregion
