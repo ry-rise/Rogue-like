@@ -2,7 +2,6 @@
 using UnityEngine;
 
 public sealed class Enemy1 : MoveObject {
-    //private GameManager gameManeger;
     //private Animator enemyAnimator;
     private Transform playerPos;
     
@@ -12,16 +11,7 @@ public sealed class Enemy1 : MoveObject {
         playerPos = GameObject.FindGameObjectWithTag("Player").transform;
         base.Start();
     }
-    private void Update()
-    {
-        //if (gameManager.TurnEnemy == true)
-        //{
-        //    MoveEnemy();
-        //    if (funcEnd == true)
-        //    gameManager.TurnPlayer = true;
-        //    gameManager.TurnEnemy = false;
-        //}
-    }
+    
     public void MoveEnemy()
     {
         int movX = (int)(playerPos.position.x - gameObject.transform.position.x);

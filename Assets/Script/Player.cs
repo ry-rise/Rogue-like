@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public sealed class Player : MoveObject {
-    //private const int ItemLimit = 99;
     //private int[] LevelUP_Exp = { 100,150 };
     public List<GameObject> Inventory;
     public int Satiety { get; set; }//満腹度
@@ -27,22 +26,25 @@ public sealed class Player : MoveObject {
         {
             //行動する
             MovePlayer();
-
+            //行動終了
             if (funcEnd == true)
             {
+                //空腹度が０
                 if (Satiety == 0)
                 {
                     HP -= 1;
                 }
+                //０以外
                 else
                 {
                     Satiety -= 1;
                 }
                 gameManager.TurnPlayer = false;
-                gameManager.TurnEnemy = true;
+                //gameManager.TurnEnemy = true;
                 funcEnd = false;
             }
         }
+        //死ぬとシーンチェンジ
         if (HP <= 0)
         {
             sceneChanger.SceneChange();

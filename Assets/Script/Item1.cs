@@ -7,10 +7,6 @@ public sealed class Item1 : ItemBase {
     {
         base.Start();
     }
-    private void Update()
-    {
-        
-    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")

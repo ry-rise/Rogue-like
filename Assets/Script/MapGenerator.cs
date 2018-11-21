@@ -5,17 +5,14 @@ public class MapGenerator : MonoBehaviour
     #region 変数
     public int MapWidth { get; private set; } = 80;
     public int MapHeight { get; private set; } = 80;
-    private const int minRoomWidth = 6;
-    private const int minRoomHeight = 6;
-    private const int maxRoomWidth = 10;
-    private const int maxRoomHeight = 10;
-    private const int minRoomAmount = 20;
-    private const int maxRoomAmount = 25;
-    private const int roadPoint = 1;
-    //private const int wall = -1;
-    //private const int road = 0;
-    //private const int floor = 0;
-    //private const int player = 1;
+    private readonly int minRoomWidth = 6;
+    private readonly int minRoomHeight = 6;
+    private readonly int maxRoomWidth = 10;
+    private readonly int maxRoomHeight = 10;
+    private readonly int minRoomAmount = 20;
+    private readonly int maxRoomAmount = 25;
+    private readonly int roadPoint = 1;
+    
     public enum STATE
     {
         FLOOR,
@@ -26,7 +23,6 @@ public class MapGenerator : MonoBehaviour
         EXIT,
         WALL = -1
     }
-    //public STATE state; 
     [SerializeField] private GameObject[] floorPrefab;
     [SerializeField] private GameObject[] wallPrefab;
     [SerializeField] private GameObject exitPrefab;
