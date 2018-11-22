@@ -7,6 +7,13 @@ public sealed class Item1 : ItemBase {
     {
         base.Start();
     }
+    private void Update()
+    {
+        if (player)
+        {
+            
+        }
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
@@ -17,7 +24,7 @@ public sealed class Item1 : ItemBase {
     }
     protected override void PickUP()
     {
-        Debug.Log($"PlusHP={recoveryAmount[0]}");
+        //Debug.Log($"PlusHP={recoveryAmount[0]}");
         var i = Random.Range(0, recoveryAmount.Length);
         player.HP += recoveryAmount[i];
     }

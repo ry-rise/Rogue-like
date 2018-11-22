@@ -20,6 +20,7 @@ public class MapGenerator : MonoBehaviour
         PLAYER,
         ITEM,
         ENEMY,
+        TRAP,
         EXIT,
         WALL = -1
     }
@@ -30,6 +31,7 @@ public class MapGenerator : MonoBehaviour
     #endregion
     #region マップ生成
     public int[,] mapStatus;
+    public int[,] mapStatusItem;
     private Player playerPos;
     private GameManager gameManager;
     void Awake()
