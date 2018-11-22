@@ -62,6 +62,7 @@ public sealed class GameManager : MonoBehaviour {
         {
             items1.Add(Instantiate(itemPrefab[0], itemHolder) as GameObject);
         }
+        //コメント
         //FLOORのところにenemyを移動
         for (int i = 0; i < 20; i += 1)
         {
