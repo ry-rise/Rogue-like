@@ -10,7 +10,6 @@ public class UI : MonoBehaviour {
     private Player player;
     private GameManager gameManager;
 
-
 	void Start ()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();

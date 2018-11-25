@@ -122,11 +122,11 @@
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Bangers - OFL.txt" />
-    <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>D:/VGA/shinsa_unity/Rogue-like/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
       <HintPath>D:/VGA/shinsa_unity/Rogue-like/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.StandardEvents">
+      <HintPath>D:/VGA/shinsa_unity/Rogue-like/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity 2018.1.1f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

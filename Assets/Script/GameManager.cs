@@ -6,8 +6,9 @@ public sealed class GameManager : MonoBehaviour {
     [HideInInspector] public GameObject playerObject;
     private Player player;
     private GameObject camPos;
-    public List<GameObject> enemies1;
-    public List<GameObject> items1;
+    public List<GameObject> enemies1List;
+    public List<GameObject> items1List;
+    public List<GameObject> inventoryList;
     [SerializeField] private MapGenerator mapGenerator;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject[] enemyPrefab;
@@ -29,8 +30,8 @@ public sealed class GameManager : MonoBehaviour {
         enemyHolder = new GameObject("enemy").transform;
         itemHolder = new GameObject("item").transform;
         FloorNumber = 1;
-        enemies1 = new List<GameObject>();
-        items1 = new List<GameObject>();
+        enemies1List = new List<GameObject>();
+        items1List = new List<GameObject>();
         camPos = GameObject.Find("Main Camera");
         playerObject = Instantiate(playerPrefab);
     }
@@ -55,26 +56,24 @@ public sealed class GameManager : MonoBehaviour {
         //ListにenemyPrefabを追加、生成
         for (int j = 0; j < 20; j += 1)
         {
-            enemies1.Add(Instantiate(enemyPrefab[0], enemyHolder) as GameObject);
+            enemies1List.Add(Instantiate(enemyPrefab[0], enemyHolder) as GameObject);
         }
         //ListにitemPrefabを追加、生成
         for(int k = 0; k < 20; k += 1)
         {
-            items1.Add(Instantiate(itemPrefab[0], itemHolder) as GameObject);
+            items1List.Add(Instantiate(itemPrefab[0], itemHolder) as GameObject);
         }
-        //コメント
         //FLOORのところにenemyを移動
         for (int i = 0; i < 20; i += 1)
         {
             while (true)
             {
                 enemyRandomX = Random.Range(0, mapGenerator.MapWidth);
-                enemyRandomY = Random.Range(0, mapGenerator.MapHeight
-);
+                enemyRandomY = Random.Range(0, mapGenerator.MapHeight);
                 if (mapGenerator.mapStatus[enemyRandomX, enemyRandomY]
                    == (int)MapGenerator.STATE.FLOOR)
                 {
-                    enemies1[i].transform.position = new Vector2(enemyRandomX, enemyRandomY);
+                    enemies1List[i].transform.position = new Vector2(enemyRandomX, enemyRandomY);
                     mapGenerator.mapStatus[enemyRandomX, enemyRandomY] = (int)MapGenerator.STATE.ENEMY;
                     break;
                 }
@@ -94,7 +93,7 @@ public sealed class GameManager : MonoBehaviour {
                 if (mapGenerator.mapStatus[itemRandomX, itemRandomY]
                     == (int)MapGenerator.STATE.FLOOR)
                 {
-                    items1[it].transform.position = new Vector2(itemRandomX, itemRandomY);
+                    items1List[it].transform.position = new Vector2(itemRandomX, itemRandomY);
                     mapGenerator.mapStatus[itemRandomX, itemRandomY] = (int)MapGenerator.STATE.ITEM;
                     break;
                 }
@@ -117,9 +116,9 @@ public sealed class GameManager : MonoBehaviour {
         if (TurnPlayer == false)
         {
             //敵の処理をする
-            for (int i = 0; i < enemies1.Count - 1; i += 1)
+            for (int i = 0; i < enemies1List.Count - 1; i += 1)
             {
-                Enemy1 Enemy1Script = enemies1[i].GetComponent<Enemy1>();
+                Enemy1 Enemy1Script = enemies1List[i].GetComponent<Enemy1>();
                 Enemy1Script.MoveEnemy();
             }
             TurnPlayer = true;
