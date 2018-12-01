@@ -15,7 +15,7 @@ public sealed class GameManager : MonoBehaviour {
     [SerializeField] private GameObject[] itemPrefab;
     public int FloorNumber { get; set; }
     public bool TurnPlayer = false;
-    public bool TurnEnemy = false;
+    //public bool TurnEnemy = false;
     private int playerRandomX;
     private int playerRandomY;
     private int enemyRandomX;
