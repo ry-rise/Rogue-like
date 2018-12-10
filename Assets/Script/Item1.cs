@@ -18,17 +18,21 @@ public sealed class Item1 : ItemBase {
     {
         if (collision.gameObject.tag == "Player")
         {
+            Debug.Log("item1");
             PickUP();
         }
     }
     protected override void PickUP()
     {
-        //Debug.Log($"PlusHP={recoveryAmount[0]}");
-        gameManager.inventoryList.Add(gameObject);
+        player.inventoryList.Add(gameObject);
         gameManager.items1List.Remove(gameObject);
         Destroy(gameObject);
-        //var i = Random.Range(0, recoveryAmount.Length);
-        //player.HP += recoveryAmount[i];
+    }
+
+    protected override void Use()
+    {
+        int i = Random.Range(0, recoveryAmount.Length - 1);
+        player.HP += recoveryAmount[i];
     }
 
 }

@@ -2,7 +2,6 @@
 using UnityEngine;
 
 public sealed class Enemy1 : MoveObject {
-    //private Animator enemyAnimator;
     private Transform playerPos;
     
     protected override void Start()

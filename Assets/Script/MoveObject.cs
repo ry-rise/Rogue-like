@@ -12,12 +12,9 @@ public abstract class MoveObject : MonoBehaviour {
     public int Exp { get; set; }
     public int Direction { get; set; }
     #endregion
-    protected enum DIRECTION { FRONT, REAR, LEFT, RIGHT }
+    protected enum DIRECTION { UP, DOWN, LEFT, RIGHT }
     protected enum STATE { NONE, POISON, PARALYSIS }
     //enum ACTION { TURN_STANDBY,ACT_START,ACT,ACT_END,MOVE_START,MOVING,MOVE_END,TURN_END }
-    //private BoxCollider2D boxCollider;
-    //private Rigidbody2D rigidbody2;
-    //public LayerMask HitLayer;
     
     protected virtual void Start()
     {

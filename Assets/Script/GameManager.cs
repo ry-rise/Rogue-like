@@ -8,7 +8,6 @@ public sealed class GameManager : MonoBehaviour {
     private GameObject camPos;
     public List<GameObject> enemies1List;
     public List<GameObject> items1List;
-    public List<GameObject> inventoryList;
     [SerializeField] private MapGenerator mapGenerator;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject[] enemyPrefab;
@@ -16,12 +15,6 @@ public sealed class GameManager : MonoBehaviour {
     public int FloorNumber { get; set; }
     public bool TurnPlayer = false;
     //public bool TurnEnemy = false;
-    private int playerRandomX;
-    private int playerRandomY;
-    private int enemyRandomX;
-    private int enemyRandomY;
-    private int itemRandomX;
-    private int itemRandomY;
     private Transform enemyHolder;
     private Transform itemHolder;
 
@@ -37,22 +30,8 @@ public sealed class GameManager : MonoBehaviour {
     }
     private void Start()
     {
-        //FLOORのところにランダムでPlayerを移動
-        while (true)
-        {
-            playerRandomX = Random.Range(0, mapGenerator.MapWidth);
-            playerRandomY = Random.Range(0, mapGenerator.MapHeight);
-            if (mapGenerator.mapStatus[playerRandomX, playerRandomY]
-                == (int)MapGenerator.STATE.FLOOR)
-            {
-                playerObject.transform.position = new Vector2(playerRandomX, playerRandomY);
-                break;
-            }
-            else
-            {
-                continue;
-            }
-        }
+        RandomDeploy();
+        CameraOnCenter();
         //ListにenemyPrefabを追加、生成
         for (int j = 0; j < 20; j += 1)
         {
@@ -63,18 +42,56 @@ public sealed class GameManager : MonoBehaviour {
         {
             items1List.Add(Instantiate(itemPrefab[0], itemHolder) as GameObject);
         }
+        //プレイヤーのターン
+        TurnPlayer = true;
+    }
+    private void Update()
+    {
+        //プレイヤーの行動が終わったら
+        if (TurnPlayer == false)
+        {
+            //敵の処理をする
+            for (int i = 0; i < enemies1List.Count; i += 1)
+            {
+                Enemy1 Enemy1Script = enemies1List[i].GetComponent<Enemy1>();
+                Enemy1Script.MoveEnemy();
+            }
+            TurnPlayer = true;
+        }
+    }
+    /// <summary>
+    /// Player,Enemy,Itemを配置
+    /// </summary>
+    private void RandomDeploy()
+    {
+        //FLOORのところにランダムでPlayerを配置
+        while (true)
+        {
+            int playerRandomX = Random.Range(0, mapGenerator.MapWidth);
+            int playerRandomY = Random.Range(0, mapGenerator.MapHeight);
+            if (mapGenerator.MapStatusType[playerRandomX, playerRandomY]
+                == (int)MapGenerator.STATE.FLOOR)
+            {
+                playerObject.transform.position = new Vector2(playerRandomX, playerRandomY);
+                break;
+            }
+            else
+            {
+                continue;
+            }
+        }
         //FLOORのところにenemyを移動
-        for (int i = 0; i < 20; i += 1)
+        for (int i = 0; i < enemies1List.Count - 1; i += 1)
         {
             while (true)
             {
-                enemyRandomX = Random.Range(0, mapGenerator.MapWidth);
-                enemyRandomY = Random.Range(0, mapGenerator.MapHeight);
-                if (mapGenerator.mapStatus[enemyRandomX, enemyRandomY]
+                int enemyRandomX = Random.Range(0, mapGenerator.MapWidth);
+                int enemyRandomY = Random.Range(0, mapGenerator.MapHeight);
+                if (mapGenerator.MapStatusType[enemyRandomX, enemyRandomY]
                    == (int)MapGenerator.STATE.FLOOR)
                 {
                     enemies1List[i].transform.position = new Vector2(enemyRandomX, enemyRandomY);
-                    mapGenerator.mapStatus[enemyRandomX, enemyRandomY] = (int)MapGenerator.STATE.ENEMY;
+                    mapGenerator.MapStatusType[enemyRandomX, enemyRandomY] = (int)MapGenerator.STATE.ENEMY;
                     break;
                 }
                 else
@@ -84,17 +101,17 @@ public sealed class GameManager : MonoBehaviour {
             }
         }
         //FLOORのところにitemを移動
-        for(int it = 0; it < 20; it += 1)
+        for (int it = 0; it < items1List.Count - 1; it += 1)
         {
             while (true)
             {
-                itemRandomX = Random.Range(0, mapGenerator.MapWidth);
-                itemRandomY = Random.Range(0, mapGenerator.MapHeight);
-                if (mapGenerator.mapStatus[itemRandomX, itemRandomY]
+                int itemRandomX = Random.Range(0, mapGenerator.MapWidth);
+                int itemRandomY = Random.Range(0, mapGenerator.MapHeight);
+                if (mapGenerator.MapStatusType[itemRandomX, itemRandomY]
                     == (int)MapGenerator.STATE.FLOOR)
                 {
                     items1List[it].transform.position = new Vector2(itemRandomX, itemRandomY);
-                    mapGenerator.mapStatus[itemRandomX, itemRandomY] = (int)MapGenerator.STATE.ITEM;
+                    mapGenerator.MapStatusType[itemRandomX, itemRandomY] = (int)MapGenerator.STATE.ITEM;
                     break;
                 }
                 else
@@ -103,26 +120,14 @@ public sealed class GameManager : MonoBehaviour {
                 }
             }
         }
-        //プレイヤーのターン
-        TurnPlayer = true;
     }
-    private void Update()
+    /// <summary>
+    /// カメラの中心にプレイヤーがいる
+    /// </summary>
+    public void CameraOnCenter()
     {
-        //カメラの中心にプレイヤーがいる
         camPos.transform.position = new Vector3(playerObject.transform.position.x,
                                                 playerObject.transform.position.y,
-                                                playerObject.transform.position.z-1);
-        //プレイヤーの行動が終わったら
-        if (TurnPlayer == false)
-        {
-            //敵の処理をする
-            for (int i = 0; i < enemies1List.Count - 1; i += 1)
-            {
-                Enemy1 Enemy1Script = enemies1List[i].GetComponent<Enemy1>();
-                Enemy1Script.MoveEnemy();
-            }
-            TurnPlayer = true;
-        }
+                                                playerObject.transform.position.z - 1);
     }
-    
 }

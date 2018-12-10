@@ -61,13 +61,14 @@
     <Compile Include="Assets\Script\Enemy1.cs" />
     <Compile Include="Assets\Script\GameManager.cs" />
     <Compile Include="Assets\Script\Item1.cs" />
+    <Compile Include="Assets\Script\Item2.cs" />
     <Compile Include="Assets\Script\ItemBase.cs" />
     <Compile Include="Assets\Script\MapGenerator.cs" />
     <Compile Include="Assets\Script\MoveObject.cs" />
     <Compile Include="Assets\Script\Player.cs" />
     <Compile Include="Assets\Script\SceneChanger.cs" />
     <Compile Include="Assets\Script\Trap1.cs" />
-    <Compile Include="Assets\Script\UI.cs" />
+    <Compile Include="Assets\Script\UIManager.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>D:/VGA/shinsa_unity/Rogue-like/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

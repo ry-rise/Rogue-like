@@ -4,7 +4,7 @@ using UnityEngine;
 
 public sealed class Player : MoveObject {
     //private int[] LevelUP_Exp = { 100,150 };
-    public List<GameObject> Inventory;
+    public List<GameObject> inventoryList;
     public int Satiety { get; set; }//満腹度
     private DIRECTION direction;
 
@@ -13,6 +13,7 @@ public sealed class Player : MoveObject {
         Level = 1;
         HP = 100;
         Satiety = 100;
+        direction = DIRECTION.DOWN;
         base.Start();
 	}
 
@@ -25,7 +26,13 @@ public sealed class Player : MoveObject {
         if (gameManager.TurnPlayer == true)
         {
             //行動する
-            MovePlayer();
+            MovePlayer((int)gameObject.transform.position.x,
+                       (int)gameObject.transform.position.y);
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                AttackPlayer((int)gameObject.transform.position.x,
+                             (int)gameObject.transform.position.y);
+            }
             //行動終了
             if (funcEnd == true)
             {
@@ -47,84 +54,189 @@ public sealed class Player : MoveObject {
         //死ぬとシーンチェンジ
         if (HP <= 0)
         {
-            sceneChanger.SceneChange();
+            sceneChanger.FromPlayToOver();
         }
     }
 
-#region 当たり判定
-    private void OnCollisionEnter2D(Collision2D collision)
+#region 判定       
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Item")
         {
             collision.gameObject.SetActive(false);
         }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
         if (collision.gameObject.tag == "Exit")
         {
-            enabled = false;
+            Debug.Log("exit");
+            //enabled = false;
             gameManager.FloorNumber += 1;
-            sceneChanger.SceneChange();
+            mapGenerator.InitializeMap();
+            mapGenerator.RoomCreate();
+            mapGenerator.CreateDungeon();
+            //sceneChanger.SceneChange();
         }
     }
-#endregion
+    #endregion
 
-#region プレイヤーの移動
-    private bool MoveCheck(int x,int y)
+    #region プレイヤーの移動
+    private bool CheckMovePlayer(DIRECTION direction, int x, int y)
     {
-        if (mapGenerator.mapStatus[x, y] == -1)
+        switch (direction)
         {
-            return false;
+            case DIRECTION.UP:
+                if (mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.WALL ||
+                    mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.ENEMY)
+                {
+                    return false;
+                }
+                return true;
+            case DIRECTION.DOWN:
+                if (mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.WALL ||
+                    mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.ENEMY)
+                {
+                    return false;
+                }
+                return true;
+            case DIRECTION.LEFT:
+                if (mapGenerator.MapStatusType[x - 1, y] == (int)MapGenerator.STATE.WALL ||
+                    mapGenerator.MapStatusType[x - 1, y] == (int)MapGenerator.STATE.ENEMY)
+                {
+                    return false;
+                }
+                return true;
+            case DIRECTION.RIGHT:
+                if (mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.WALL ||
+                    mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.ENEMY)
+                {
+                    return false;
+                }
+                return true;
+            default:
+                return false;
         }
-        return true;
     }
-    private void MovePlayer()
+    private void MovePlayer(int x,int y)
     {
         //上方向
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            //mapGenerator.mapStatus[]
-            gameObject.transform.position = new Vector2(gameObject.transform.position.x,
-                                                        gameObject.transform.position.y + 1);
+            direction = DIRECTION.UP;
+            if (CheckMovePlayer(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
+            {
+                mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
+                mapGenerator.MapStatusType[x, y + 1] = (int)MapGenerator.STATE.PLAYER;
+                gameObject.transform.position = new Vector2(gameObject.transform.position.x,
+                                                            gameObject.transform.position.y + 1);
+                gameManager.CameraOnCenter();
+            }
             funcEnd = true;
         }
         //下方向
         if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            gameObject.transform.position = new Vector2(gameObject.transform.position.x,
-                                                        gameObject.transform.position.y - 1);
+            direction = DIRECTION.DOWN;
+            if (CheckMovePlayer(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
+            {
+                mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
+                mapGenerator.MapStatusType[x, y - 1] = (int)MapGenerator.STATE.PLAYER;
+                gameObject.transform.position = new Vector2(gameObject.transform.position.x,
+                                                            gameObject.transform.position.y - 1);
+                gameManager.CameraOnCenter();
+            }
+
             funcEnd = true;
         }
         //左方向
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            gameObject.transform.position = new Vector2(gameObject.transform.position.x - 1,
-                                                        gameObject.transform.position.y);
+            direction = DIRECTION.LEFT;
+            if (CheckMovePlayer(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
+            {
+                mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
+                mapGenerator.MapStatusType[x-1, y] = (int)MapGenerator.STATE.PLAYER;
+                gameObject.transform.position = new Vector2(gameObject.transform.position.x - 1,
+                                                            gameObject.transform.position.y);
+                gameManager.CameraOnCenter();
+            }
             funcEnd = true;
         }
         //右方向
         if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
-            gameObject.transform.position = new Vector2(gameObject.transform.position.x + 1,
+            direction = DIRECTION.RIGHT;
+            if (CheckMovePlayer(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y))
+            {
+                mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
+                mapGenerator.MapStatusType[x + 1, y] = (int)MapGenerator.STATE.PLAYER;
+                gameObject.transform.position = new Vector2(gameObject.transform.position.x + 1,
                                                         gameObject.transform.position.y);
+                gameManager.CameraOnCenter();
+            }
             funcEnd = true;
         }
     }
-#endregion
+    #endregion
 
-#region 攻撃
-    private void Attack()
+    #region 攻撃
+    private void AttackPlayer(int x,int y)
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        switch (direction)
         {
+            case DIRECTION.UP:
+                if (mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.ENEMY)
+                {
+                    JudgeAttack();
+                    if (JudgeAttack() == true)
+                    {
 
+                    }
+                }
+                funcEnd = true;
+                break;
+            case DIRECTION.DOWN:
+                if (mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.ENEMY)
+                {
+                    JudgeAttack();
+                    if (JudgeAttack() == true)
+                    {
+
+                    }
+                }
+                funcEnd = true;
+                break;
+            case DIRECTION.LEFT:
+                if (mapGenerator.MapStatusType[x - 1, y] == (int)MapGenerator.STATE.ENEMY)
+                {
+                    JudgeAttack();
+                    if (JudgeAttack() == true)
+                    {
+
+                    }
+                }
+                funcEnd = true;
+                break;
+            case DIRECTION.RIGHT:
+                if (mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.ENEMY)
+                {
+                    JudgeAttack();
+                    if (JudgeAttack() == true)
+                    {
+
+                    }
+                }
+                funcEnd = true;
+                break;
         }
+    }
+    private bool JudgeAttack()
+    {
+        int i = Random.Range(0, 2);
+        if (i == 1) { return true; }
+        else { return false; }
     }
 #endregion
 
-#region レベルアップ時の挙動
+    #region レベルアップ時の挙動
     private void LevelUP()
     {
         Level += 1;

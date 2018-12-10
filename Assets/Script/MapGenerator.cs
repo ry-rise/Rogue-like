@@ -12,7 +12,8 @@ public class MapGenerator : MonoBehaviour
     private readonly int minRoomAmount = 20;
     private readonly int maxRoomAmount = 25;
     private readonly int roadPoint = 1;
-    
+    private int RandomX;
+    private int RandomY;
     public enum STATE
     {
         FLOOR,
@@ -30,8 +31,9 @@ public class MapGenerator : MonoBehaviour
     private Transform mapHolder;
     #endregion
     #region マップ生成
-    public int[,] mapStatus;
-    public int[,] mapStatusItem;
+    public int[,] MapStatusType;
+    public int[,] MapStatusItem;
+    public int[,] MapStatusMoveObject;
     private Player playerPos;
     private GameManager gameManager;
     void Awake()
@@ -47,20 +49,20 @@ public class MapGenerator : MonoBehaviour
         playerPos = gameManager.playerObject.GetComponent<Player>();
     }
 
-    private void InitializeMap()
+    public void InitializeMap()
     {
-        mapStatus = new int[MapWidth, MapHeight];
+        MapStatusType = new int[MapWidth, MapHeight];
         //一旦、すべて壁で初期化
         for (int y = 0; y < MapHeight; y += 1)
         {
             for (int x = 0; x < MapWidth; x += 1)
             {
-                mapStatus[x, y] = (int)STATE.WALL;
+                MapStatusType[x, y] = (int)STATE.WALL;
             }
         }
     }
 
-    private void RoomCreate()
+    public void RoomCreate()
     {
         //通路を作る
         int roomAmount = Random.Range(minRoomAmount, maxRoomAmount);
@@ -70,7 +72,7 @@ public class MapGenerator : MonoBehaviour
         {
             roadAggPointX[i] = Random.Range(1, MapWidth);
             roadAggPointY[i] = Random.Range(1, MapHeight);
-            mapStatus[roadAggPointY[i], roadAggPointX[i]] = (int)MapGenerator.STATE.ROAD;
+            MapStatusType[roadAggPointY[i], roadAggPointX[i]] = (int)STATE.ROAD;
         }
         //部屋を作る
         for (int i = 0; i < roomAmount; i += 1)
@@ -87,6 +89,22 @@ public class MapGenerator : MonoBehaviour
                 CreateRoad(roadStartPointX, roadStartPointY, roadAggPointX[Random.Range(0, 0)], roadAggPointY[Random.Range(0, 0)]);
             }
         }
+        while (true)
+        {
+            RandomX = Random.Range(0, MapWidth);
+            RandomY = Random.Range(0, MapHeight);
+            //FLOORのところにExitをランダムで配置
+            if (MapStatusType[RandomX, RandomY]
+                == (int)STATE.FLOOR)
+            {
+                MapStatusType[RandomX, RandomY] = (int)STATE.EXIT;
+                break;
+            }
+            else
+            {
+                continue;
+            }
+        }
     }
 
     private bool CheckRoomCreate(int roomWidth, int roomHeight, int roomPointX, int roomPointY)
@@ -96,13 +114,13 @@ public class MapGenerator : MonoBehaviour
         {
             for (int x = 0; x < roomWidth; x += 1)
             {
-                if (mapStatus[roomPointY + y, roomPointX + x] == (int)STATE.FLOOR)
+                if (MapStatusType[roomPointY + y, roomPointX + x] == (int)STATE.FLOOR)
                 {
                     createFloor = true;
                 }
                 else
                 {
-                    mapStatus[roomPointY + y, roomPointX + x] = (int)STATE.FLOOR;
+                    MapStatusType[roomPointY + y, roomPointX + x] = (int)STATE.FLOOR;
                 }
             }
         }
@@ -133,26 +151,26 @@ public class MapGenerator : MonoBehaviour
         {
             while (roadStartPointX != meetPointX)
             {
-                mapStatus[roadStartPointY, roadStartPointX] = (int)STATE.ROAD;
+                MapStatusType[roadStartPointY, roadStartPointX] = (int)STATE.ROAD;
                 if (isRight == true)
                 {
-                    roadStartPointX--;
+                    roadStartPointX -= 1;
                 }
                 else
                 {
-                    roadStartPointX++;
+                    roadStartPointX += 1;
                 }
             }
             while (roadStartPointY != meetPointY)
             {
-                mapStatus[roadStartPointY, roadStartPointX] = (int)STATE.ROAD;
+                MapStatusType[roadStartPointY, roadStartPointX] = (int)STATE.ROAD;
                 if (isUnder == true)
                 {
-                    roadStartPointY++;
+                    roadStartPointY += 1;
                 }
                 else
                 {
-                    roadStartPointY--;
+                    roadStartPointY -= 1;
                 }
             }
         }
@@ -161,37 +179,37 @@ public class MapGenerator : MonoBehaviour
         {
             while (roadStartPointY != meetPointY)
             {
-                mapStatus[roadStartPointY, roadStartPointX] = (int)STATE.ROAD;
+                MapStatusType[roadStartPointY, roadStartPointX] = (int)STATE.ROAD;
                 if (isUnder == true)
                 {
-                    roadStartPointY++;
+                    roadStartPointY += 1;
                 }
                 else
                 {
-                    roadStartPointY--;
+                    roadStartPointY -= 1;
                 }
             }
             while (roadStartPointX != meetPointX)
             {
-                mapStatus[roadStartPointY, roadStartPointX] = (int)STATE.ROAD;
+                MapStatusType[roadStartPointY, roadStartPointX] = (int)STATE.ROAD;
                 if (isRight == true)
                 {
-                    roadStartPointX--;
+                    roadStartPointX -= 1;
                 }
                 else
                 {
-                    roadStartPointX++;
+                    roadStartPointX += 1;
                 }
             }
         }
     }
-    private void CreateDungeon()
+    public void CreateDungeon()
     {
         for (int y = 0; y < MapHeight; y += 1)
         {
             for (int x = 0; x < MapWidth; x += 1)
             {
-                if (mapStatus[x, y] == (int)STATE.WALL)
+                if (MapStatusType[x, y] == (int)STATE.WALL)
                 {
                     GameObject instance = Instantiate(wallPrefab[0],
                                                       new Vector2(x, y),
@@ -199,7 +217,7 @@ public class MapGenerator : MonoBehaviour
                                                       mapHolder) as GameObject;
                     instance.transform.localScale = new Vector2(3, 3);
                 }
-                else if (mapStatus[x, y] == (int)STATE.PLAYER)
+                else if (MapStatusType[x, y] == (int)STATE.PLAYER)
                 {
                     GameObject instance = Instantiate(floorPrefab[0],
                                                       new Vector2(x, y),
@@ -207,6 +225,14 @@ public class MapGenerator : MonoBehaviour
                                                       mapHolder) as GameObject;
                     instance.transform.localScale = new Vector2(3, 3);
                     playerPos.transform.position = new Vector2(x, y);
+                }
+                else if (MapStatusType[x, y] == (int)STATE.EXIT)
+                {
+                    GameObject instance = Instantiate(exitPrefab,
+                                                      new Vector2(x, y),
+                                                      Quaternion.identity,
+                                                      mapHolder) as GameObject;
+                    instance.transform.localScale = new Vector2(3, 3);
                 }
                 else
                 {

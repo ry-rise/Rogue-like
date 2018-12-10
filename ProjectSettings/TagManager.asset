@@ -48,9 +48,9 @@ TagManager:
   - name: Floor
     uniqueID: 794959549
     locked: 0
-  - name: MoveObject
-    uniqueID: 1173442111
-    locked: 0
   - name: Item
     uniqueID: 4176790665
+    locked: 0
+  - name: MoveObject
+    uniqueID: 1173442111
     locked: 0

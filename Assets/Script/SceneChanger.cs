@@ -1,44 +1,46 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//シーン切り替え
 public class SceneChanger : MonoBehaviour
 {
-    #region シーン切り替え
-    public void SceneChange()
+    /// <summary>
+    /// タイトル画面からゲーム画面に
+    /// </summary>
+    public void FromTitleToStart()
     {
-        switch (SceneManager.GetActiveScene().name)
-        {
-            //タイトル画面の時
-            case "GameTitle":
-                if (transform.name == "Button_Start")
-                {
-                    //（タイトル→ゲーム）
-                    SceneManager.LoadScene("GamePlay");
-                }
-                if (transform.name == "Button_Settings")
-                {
-                    SceneManager.LoadScene("Settings");
-                }
-                if (transform.name == "Button_Exit")
-                {
-                    //終了
-                    Application.Quit();
+        SceneManager.LoadScene("GamePlay");
+    }
+    /// <summary>
+    /// タイトル画面から設定画面に
+    /// </summary>
+    public void FromTitleToSettings()
+    {
+        SceneManager.LoadScene("Settings");
+    }
+    /// <summary>
+    /// タイトル画面から終了する
+    /// </summary>
+    public void FromTitleToExit()
+    {
+        Application.Quit();
 #if UNITY_EDITOR
-                    UnityEditor.EditorApplication.isPlaying = false;
+        UnityEditor.EditorApplication.isPlaying = false;
 #endif
-                }
-                break;
-            //ゲーム画面の時
-            case "GamePlay":
-                SceneManager.LoadScene("GameOver");
-                break;
-            //ゲームオーバーになった時
-            case "GameOver":
-                SceneManager.LoadScene("GameTitle");
-                break;
-        }
+    }
+    /// <summary>
+    /// ゲーム画面からゲームオーバーに
+    /// </summary>
+    public void FromPlayToOver()
+    {
+        SceneManager.LoadScene("GameOver");
+    }
+    /// <summary>
+    /// ゲームオーバーからタイトル画面に
+    /// </summary>
+    public void FromOverToTitle()
+    {
+        SceneManager.LoadScene("GameTitle");
     }
 }
-    #endregion
 
-    
