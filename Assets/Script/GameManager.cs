@@ -13,7 +13,7 @@ public sealed class GameManager : MonoBehaviour {
     [SerializeField] private GameObject[] enemyPrefab;
     [SerializeField] private GameObject[] itemPrefab;
     public int FloorNumber { get; set; }
-    public bool TurnPlayer = false;
+    public bool TurnPlayer { get; set; } = false;
     //public bool TurnEnemy = false;
     private Transform enemyHolder;
     private Transform itemHolder;
@@ -30,18 +30,18 @@ public sealed class GameManager : MonoBehaviour {
     }
     private void Start()
     {
-        RandomDeploy();
-        CameraOnCenter();
         //ListにenemyPrefabを追加、生成
         for (int j = 0; j < 20; j += 1)
         {
             enemies1List.Add(Instantiate(enemyPrefab[0], enemyHolder) as GameObject);
         }
         //ListにitemPrefabを追加、生成
-        for(int k = 0; k < 20; k += 1)
+        for (int k = 0; k < 20; k += 1)
         {
             items1List.Add(Instantiate(itemPrefab[0], itemHolder) as GameObject);
         }
+        RandomDeploy();
+        CameraOnCenter();
         //プレイヤーのターン
         TurnPlayer = true;
     }

@@ -26,13 +26,17 @@ public sealed class Item1 : ItemBase {
     {
         player.inventoryList.Add(gameObject);
         gameManager.items1List.Remove(gameObject);
-        Destroy(gameObject);
+        //gameObject.SetActive(false);
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        //Destroy(gameObject);
     }
 
     protected override void Use()
     {
         int i = Random.Range(0, recoveryAmount.Length - 1);
         player.HP += recoveryAmount[i];
+        player.inventoryList.Remove(gameObject);
     }
 
 }

@@ -11,6 +11,7 @@ public abstract class MoveObject : MonoBehaviour {
     public int Level { get; set; }
     public int Exp { get; set; }
     public int Direction { get; set; }
+    public int ATK { get; set; }
     #endregion
     protected enum DIRECTION { UP, DOWN, LEFT, RIGHT }
     protected enum STATE { NONE, POISON, PARALYSIS }

@@ -13,6 +13,7 @@ public sealed class Player : MoveObject {
         Level = 1;
         HP = 100;
         Satiety = 100;
+        ATK = 10;
         direction = DIRECTION.DOWN;
         base.Start();
 	}
@@ -61,10 +62,7 @@ public sealed class Player : MoveObject {
 #region 判定       
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Item")
-        {
-            collision.gameObject.SetActive(false);
-        }
+        
         if (collision.gameObject.tag == "Exit")
         {
             Debug.Log("exit");
