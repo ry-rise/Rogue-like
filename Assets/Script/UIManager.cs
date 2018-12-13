@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour {
     [SerializeField] private Text HPText;
     [SerializeField] private Text SatietyText;
     [SerializeField] private GameObject InventoryScreen;
+    [SerializeField] private GameObject Log;
     private Player player;
     private GameManager gameManager;
 
@@ -16,16 +17,6 @@ public class UIManager : MonoBehaviour {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 	}
 	void Update ()
-    {
-        LevelText.text = $"LV:{player.Level.ToString()}";
-        FloorText.text = $"{gameManager.FloorNumber.ToString()}F";
-        HPText.text = $"HP:{player.HP.ToString()}";
-        SatietyText.text = $"空腹度:{player.Satiety.ToString()}";
-        Inventory();
-    }
-
-    //インベントリ
-    void Inventory()
     {
         //Iキーを押すとインベントリが表示/非表示
         if (Input.GetKeyDown(KeyCode.I))
@@ -40,6 +31,20 @@ public class UIManager : MonoBehaviour {
                     break;
             }
         }
+        if (InventoryScreen.activeSelf==false)
+        {
+            LevelText.text = $"LV:{player.Level.ToString()}";
+            FloorText.text = $"{gameManager.FloorNumber.ToString()}F";
+            HPText.text = $"HP:{player.HP.ToString()}";
+            SatietyText.text = $"空腹度:{player.Satiety.ToString()}";
+        }
+        
+    }
+
+    //インベントリ
+    void Inventory()
+    {
+        
     }
    
 }

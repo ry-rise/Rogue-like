@@ -6,8 +6,8 @@ public sealed class GameManager : MonoBehaviour {
     [HideInInspector] public GameObject playerObject;
     private Player player;
     private GameObject camPos;
-    public List<GameObject> enemies1List;
-    public List<GameObject> items1List;
+    public List<GameObject> enemiesZombieList;
+    public List<GameObject> itemsPortionList;
     [SerializeField] private MapGenerator mapGenerator;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject[] enemyPrefab;
@@ -23,8 +23,8 @@ public sealed class GameManager : MonoBehaviour {
         enemyHolder = new GameObject("enemy").transform;
         itemHolder = new GameObject("item").transform;
         FloorNumber = 1;
-        enemies1List = new List<GameObject>();
-        items1List = new List<GameObject>();
+        enemiesZombieList = new List<GameObject>();
+        itemsPortionList = new List<GameObject>();
         camPos = GameObject.Find("Main Camera");
         playerObject = Instantiate(playerPrefab);
     }
@@ -33,12 +33,12 @@ public sealed class GameManager : MonoBehaviour {
         //ListにenemyPrefabを追加、生成
         for (int j = 0; j < 20; j += 1)
         {
-            enemies1List.Add(Instantiate(enemyPrefab[0], enemyHolder) as GameObject);
+            enemiesZombieList.Add(Instantiate(enemyPrefab[0], enemyHolder) as GameObject);
         }
         //ListにitemPrefabを追加、生成
         for (int k = 0; k < 20; k += 1)
         {
-            items1List.Add(Instantiate(itemPrefab[0], itemHolder) as GameObject);
+            itemsPortionList.Add(Instantiate(itemPrefab[0], itemHolder) as GameObject);
         }
         RandomDeploy();
         CameraOnCenter();
@@ -51,10 +51,10 @@ public sealed class GameManager : MonoBehaviour {
         if (TurnPlayer == false)
         {
             //敵の処理をする
-            for (int i = 0; i < enemies1List.Count; i += 1)
+            for (int i = 0; i < enemiesZombieList.Count; i += 1)
             {
-                Enemy1 Enemy1Script = enemies1List[i].GetComponent<Enemy1>();
-                Enemy1Script.MoveEnemy();
+                EnemyZombie EnemyZombieScript = enemiesZombieList[i].GetComponent<EnemyZombie>();
+                EnemyZombieScript.MoveEnemy();
             }
             TurnPlayer = true;
         }
@@ -62,7 +62,7 @@ public sealed class GameManager : MonoBehaviour {
     /// <summary>
     /// Player,Enemy,Itemを配置
     /// </summary>
-    private void RandomDeploy()
+    public void RandomDeploy()
     {
         //FLOORのところにランダムでPlayerを配置
         while (true)
@@ -81,7 +81,7 @@ public sealed class GameManager : MonoBehaviour {
             }
         }
         //FLOORのところにenemyを移動
-        for (int i = 0; i < enemies1List.Count - 1; i += 1)
+        for (int i = 0; i < enemiesZombieList.Count - 1; i += 1)
         {
             while (true)
             {
@@ -90,7 +90,7 @@ public sealed class GameManager : MonoBehaviour {
                 if (mapGenerator.MapStatusType[enemyRandomX, enemyRandomY]
                    == (int)MapGenerator.STATE.FLOOR)
                 {
-                    enemies1List[i].transform.position = new Vector2(enemyRandomX, enemyRandomY);
+                    enemiesZombieList[i].transform.position = new Vector2(enemyRandomX, enemyRandomY);
                     mapGenerator.MapStatusType[enemyRandomX, enemyRandomY] = (int)MapGenerator.STATE.ENEMY;
                     break;
                 }
@@ -101,7 +101,7 @@ public sealed class GameManager : MonoBehaviour {
             }
         }
         //FLOORのところにitemを移動
-        for (int it = 0; it < items1List.Count - 1; it += 1)
+        for (int it = 0; it < itemsPortionList.Count - 1; it += 1)
         {
             while (true)
             {
@@ -110,7 +110,7 @@ public sealed class GameManager : MonoBehaviour {
                 if (mapGenerator.MapStatusType[itemRandomX, itemRandomY]
                     == (int)MapGenerator.STATE.FLOOR)
                 {
-                    items1List[it].transform.position = new Vector2(itemRandomX, itemRandomY);
+                    itemsPortionList[it].transform.position = new Vector2(itemRandomX, itemRandomY);
                     mapGenerator.MapStatusType[itemRandomX, itemRandomY] = (int)MapGenerator.STATE.ITEM;
                     break;
                 }

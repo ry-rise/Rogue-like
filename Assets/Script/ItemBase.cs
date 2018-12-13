@@ -3,6 +3,8 @@
 public abstract class ItemBase : MonoBehaviour {
     protected GameManager gameManager;
     protected Player player;
+    protected string Name;
+
     //アイテムを取った時、トラップに引っ掛かったときの処理
     protected abstract void PickUP();
     //アイテムを使うときの処理

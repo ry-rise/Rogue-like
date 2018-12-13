@@ -5,17 +5,14 @@ public abstract class MoveObject : MonoBehaviour {
     protected MapGenerator mapGenerator;
     protected SceneChanger sceneChanger;
     private int State;//状態
-    protected bool funcEnd = false;
-    #region プロパティ
+    protected bool TurnEnd { get; set; } = false;
     public int HP { get; set; }
     public int Level { get; set; }
     public int Exp { get; set; }
     public int Direction { get; set; }
     public int ATK { get; set; }
-    #endregion
     protected enum DIRECTION { UP, DOWN, LEFT, RIGHT }
     protected enum STATE { NONE, POISON, PARALYSIS }
-    //enum ACTION { TURN_STANDBY,ACT_START,ACT,ACT_END,MOVE_START,MOVING,MOVE_END,TURN_END }
     
     protected virtual void Start()
     {

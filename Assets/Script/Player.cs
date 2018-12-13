@@ -7,7 +7,7 @@ public sealed class Player : MoveObject {
     public List<GameObject> inventoryList;
     public int Satiety { get; set; }//満腹度
     private DIRECTION direction;
-
+    private STATE state;
     protected override void Start ()
     {
         Level = 1;
@@ -15,6 +15,7 @@ public sealed class Player : MoveObject {
         Satiety = 100;
         ATK = 10;
         direction = DIRECTION.DOWN;
+        state = STATE.NONE;
         base.Start();
 	}
 
@@ -34,8 +35,16 @@ public sealed class Player : MoveObject {
                 AttackPlayer((int)gameObject.transform.position.x,
                              (int)gameObject.transform.position.y);
             }
+            switch(state)
+            {
+                case STATE.POISON:
+                    HP -= 1;
+                    break;
+                default:
+                    break;
+            }
             //行動終了
-            if (funcEnd == true)
+            if (TurnEnd == true)
             {
                 //空腹度が０
                 if (Satiety == 0)
@@ -48,8 +57,7 @@ public sealed class Player : MoveObject {
                     Satiety -= 1;
                 }
                 gameManager.TurnPlayer = false;
-                //gameManager.TurnEnemy = true;
-                funcEnd = false;
+                TurnEnd = false;
             }
         }
         //死ぬとシーンチェンジ
@@ -62,16 +70,15 @@ public sealed class Player : MoveObject {
 #region 判定       
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
         if (collision.gameObject.tag == "Exit")
         {
             Debug.Log("exit");
-            //enabled = false;
             gameManager.FloorNumber += 1;
             mapGenerator.InitializeMap();
             mapGenerator.RoomCreate();
             mapGenerator.CreateDungeon();
-            //sceneChanger.SceneChange();
+            gameManager.RandomDeploy();
+            gameManager.CameraOnCenter();
         }
     }
     #endregion
@@ -127,7 +134,7 @@ public sealed class Player : MoveObject {
                                                             gameObject.transform.position.y + 1);
                 gameManager.CameraOnCenter();
             }
-            funcEnd = true;
+            TurnEnd = true;
         }
         //下方向
         if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
@@ -142,7 +149,7 @@ public sealed class Player : MoveObject {
                 gameManager.CameraOnCenter();
             }
 
-            funcEnd = true;
+            TurnEnd = true;
         }
         //左方向
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
@@ -156,7 +163,7 @@ public sealed class Player : MoveObject {
                                                             gameObject.transform.position.y);
                 gameManager.CameraOnCenter();
             }
-            funcEnd = true;
+            TurnEnd = true;
         }
         //右方向
         if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
@@ -170,7 +177,7 @@ public sealed class Player : MoveObject {
                                                         gameObject.transform.position.y);
                 gameManager.CameraOnCenter();
             }
-            funcEnd = true;
+            TurnEnd = true;
         }
     }
     #endregion
@@ -186,10 +193,16 @@ public sealed class Player : MoveObject {
                     JudgeAttack();
                     if (JudgeAttack() == true)
                     {
-
+                        for (int i = 0; i < gameManager.enemiesZombieList.Count; i += 1)
+                        {
+                            if (gameManager.enemiesZombieList[i].transform.position ==new Vector3(x, y + 1))
+                            {
+                                gameManager.enemiesZombieList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
+                            }
+                        }
                     }
                 }
-                funcEnd = true;
+                TurnEnd = true;
                 break;
             case DIRECTION.DOWN:
                 if (mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.ENEMY)
@@ -197,10 +210,16 @@ public sealed class Player : MoveObject {
                     JudgeAttack();
                     if (JudgeAttack() == true)
                     {
-
+                        for (int i = 0; i < gameManager.enemiesZombieList.Count; i += 1)
+                        {
+                            if (gameManager.enemiesZombieList[i].transform.position == new Vector3(x, y - 1))
+                            {
+                                gameManager.enemiesZombieList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
+                            }
+                        }
                     }
                 }
-                funcEnd = true;
+                TurnEnd = true;
                 break;
             case DIRECTION.LEFT:
                 if (mapGenerator.MapStatusType[x - 1, y] == (int)MapGenerator.STATE.ENEMY)
@@ -208,10 +227,16 @@ public sealed class Player : MoveObject {
                     JudgeAttack();
                     if (JudgeAttack() == true)
                     {
-
+                        for (int i = 0; i < gameManager.enemiesZombieList.Count; i += 1)
+                        {
+                            if (gameManager.enemiesZombieList[i].transform.position == new Vector3(x - 1, y))
+                            {
+                                gameManager.enemiesZombieList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
+                            }
+                        }
                     }
                 }
-                funcEnd = true;
+                TurnEnd = true;
                 break;
             case DIRECTION.RIGHT:
                 if (mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.ENEMY)
@@ -219,10 +244,16 @@ public sealed class Player : MoveObject {
                     JudgeAttack();
                     if (JudgeAttack() == true)
                     {
-
+                        for (int i = 0; i < gameManager.enemiesZombieList.Count; i += 1)
+                        {
+                            if (gameManager.enemiesZombieList[i].transform.position == new Vector3(x + 1, y))
+                            {
+                                gameManager.enemiesZombieList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
+                            }
+                        }
                     }
                 }
-                funcEnd = true;
+                TurnEnd = true;
                 break;
         }
     }
