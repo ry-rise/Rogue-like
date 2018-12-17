@@ -51,10 +51,17 @@ public sealed class GameManager : MonoBehaviour {
         if (TurnPlayer == false)
         {
             //敵の処理をする
-            for (int i = 0; i < enemiesZombieList.Count; i += 1)
+            //for (int i = 0; i < enemiesZombieList.Count; i += 1)
+            //{
+            //    EnemyZombie EnemyZombieScript = enemiesZombieList[i].GetComponent<EnemyZombie>();
+            //    EnemyZombieScript.MoveEnemy((int)enemiesZombieList[i].transform.position.x,
+            //                                (int)enemiesZombieList[i].transform.position.y);
+            //}
+            foreach(var Zombie in enemiesZombieList)
             {
-                EnemyZombie EnemyZombieScript = enemiesZombieList[i].GetComponent<EnemyZombie>();
-                EnemyZombieScript.MoveEnemy();
+                EnemyZombie enemyZombie = Zombie.GetComponent<EnemyZombie>();
+                enemyZombie.MoveEnemy((int)Zombie.transform.position.x,
+                                      (int)Zombie.transform.position.y);
             }
             TurnPlayer = true;
         }
