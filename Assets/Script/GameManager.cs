@@ -14,7 +14,6 @@ public sealed class GameManager : MonoBehaviour {
     [SerializeField] private GameObject[] itemPrefab;
     public int FloorNumber { get; set; }
     public bool TurnPlayer { get; set; } = false;
-    //public bool TurnEnemy = false;
     private Transform enemyHolder;
     private Transform itemHolder;
 
@@ -30,16 +29,7 @@ public sealed class GameManager : MonoBehaviour {
     }
     private void Start()
     {
-        //ListにenemyPrefabを追加、生成
-        for (int j = 0; j < 20; j += 1)
-        {
-            enemiesZombieList.Add(Instantiate(enemyPrefab[0], enemyHolder) as GameObject);
-        }
-        //ListにitemPrefabを追加、生成
-        for (int k = 0; k < 20; k += 1)
-        {
-            itemsPortionList.Add(Instantiate(itemPrefab[0], itemHolder) as GameObject);
-        }
+        ListAdd();
         RandomDeploy();
         CameraOnCenter();
         //プレイヤーのターン
@@ -57,6 +47,7 @@ public sealed class GameManager : MonoBehaviour {
             //    EnemyZombieScript.MoveEnemy((int)enemiesZombieList[i].transform.position.x,
             //                                (int)enemiesZombieList[i].transform.position.y);
             //}
+            //
             foreach(var Zombie in enemiesZombieList)
             {
                 EnemyZombie enemyZombie = Zombie.GetComponent<EnemyZombie>();
@@ -136,5 +127,21 @@ public sealed class GameManager : MonoBehaviour {
         camPos.transform.position = new Vector3(playerObject.transform.position.x,
                                                 playerObject.transform.position.y,
                                                 playerObject.transform.position.z - 1);
+    }
+    /// <summary>
+    /// Listに追加する
+    /// </summary>
+    private void ListAdd()
+    {
+        //ListにenemyPrefabを追加、生成
+        for (int j = 0; j < 20; j += 1)
+        {
+            enemiesZombieList.Add(Instantiate(enemyPrefab[0], enemyHolder) as GameObject);
+        }
+        //ListにitemPrefabを追加、生成
+        for (int k = 0; k < 20; k += 1)
+        {
+            itemsPortionList.Add(Instantiate(itemPrefab[0], itemHolder) as GameObject);
+        }
     }
 }

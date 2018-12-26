@@ -4,10 +4,12 @@ using UnityEngine;
 
 public sealed class Player : MoveObject {
     //private int[] LevelUP_Exp = { 100,150 };
+    public int MaxHP { get; set; }
     public List<GameObject> inventoryList;
     public int Satiety { get; set; }//満腹度
     private DIRECTION direction;
     private STATE state;
+
     protected override void Start ()
     {
         Level = 1;
@@ -19,7 +21,7 @@ public sealed class Player : MoveObject {
         base.Start();
 	}
 
-    void Update()
+    private void Update()
     {
 #if DEBUG_KEYDOWN
         if (Input.GetKeyDown(KeyCode.A)) { HP = 0; }
@@ -39,6 +41,9 @@ public sealed class Player : MoveObject {
             {
                 case STATE.POISON:
                     HP -= 1;
+                    break;
+                case STATE.PARALYSIS:
+                    gameManager.TurnPlayer = false;
                     break;
                 default:
                     break;

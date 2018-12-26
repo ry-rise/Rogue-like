@@ -11,6 +11,7 @@ public abstract class MoveObject : MonoBehaviour {
     public int Exp { get; set; }
     public int Direction { get; set; }
     public int ATK { get; set; }
+    public int DEF { get; set; }
     protected enum DIRECTION { UP, DOWN, LEFT, RIGHT }
     protected enum STATE { NONE, POISON, PARALYSIS }
     
@@ -18,5 +19,10 @@ public abstract class MoveObject : MonoBehaviour {
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         mapGenerator = GameObject.Find("GameManager").GetComponent<MapGenerator>();
-    }    
+    }
+    
+    protected void CheckMoveObject()
+    {
+
+    }
 }
