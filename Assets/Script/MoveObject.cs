@@ -21,7 +21,7 @@ public abstract class MoveObject : MonoBehaviour {
         mapGenerator = GameObject.Find("GameManager").GetComponent<MapGenerator>();
     }
     
-    protected void CheckMoveObject()
+    protected void CheckMove()
     {
 
     }
