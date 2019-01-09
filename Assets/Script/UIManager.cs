@@ -18,33 +18,28 @@ public class UIManager : MonoBehaviour {
 	}
 	void Update ()
     {
+        LevelText.text = $"LV:{player.Level.ToString()}";
+        FloorText.text = $"{gameManager.FloorNumber.ToString()}F";
+        HPText.text = $"HP:{player.HP.ToString()}";
+        SatietyText.text = $"空腹度:{player.Satiety.ToString()}";
         //Iキーを押すとインベントリが表示/非表示
         if (Input.GetKeyDown(KeyCode.I))
         {
-            switch (InventoryScreen.activeSelf)
+            if(InventoryScreen.activeSelf==true)
             {
-                case true:
-                    InventoryScreen.SetActive(false);
-                    break;
-                case false:
-                    InventoryScreen.SetActive(true);
-                    break;
+                InventoryScreen.SetActive(false);
+            }
+            else
+            {
+                InventoryScreen.SetActive(true);
             }
         }
-        if (InventoryScreen.activeSelf==false)
-        {
-            LevelText.text = $"LV:{player.Level.ToString()}";
-            FloorText.text = $"{gameManager.FloorNumber.ToString()}F";
-            HPText.text = $"HP:{player.HP.ToString()}";
-            SatietyText.text = $"空腹度:{player.Satiety.ToString()}";
-        }
-        
     }
 
     //インベントリ
     void Inventory()
     {
-        
+        //player.inventoryList=
     }
    
 }

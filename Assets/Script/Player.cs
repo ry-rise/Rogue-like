@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public sealed class Player : MoveObject {
-    //private int[] LevelUP_Exp = { 100,150 };
+    //private int[] LevelUpExp = { 100,150 };
     public int MaxHP { get; set; }
     public List<GameObject> inventoryList;
     public int Satiety { get; set; }//満腹度
     private DIRECTION direction;
     private STATE state;
-
+   
     protected override void Start ()
     {
         Level = 1;

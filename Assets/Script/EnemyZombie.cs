@@ -53,6 +53,7 @@ public sealed class EnemyZombie : MoveObject {
     }
     public void MoveEnemy(int x,int y)
     {
+        
         int movX = (int)(playerPos.position.x - gameObject.transform.position.x);
         int movY = (int)(playerPos.position.y - gameObject.transform.position.y);
         Vector2 mov = playerPos.position - gameObject.transform.position;
@@ -62,7 +63,7 @@ public sealed class EnemyZombie : MoveObject {
             if (movX < 0)
             {
                 direction = DIRECTION.LEFT;
-                if (CheckMoveEnemy(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y))
+                if (CheckMoveEnemy(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y)==true)
                 {
                     mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
                     mapGenerator.MapStatusType[x - 1, y] = (int)MapGenerator.STATE.ENEMY;

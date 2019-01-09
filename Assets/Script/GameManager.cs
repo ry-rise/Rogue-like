@@ -8,7 +8,7 @@ public sealed class GameManager : MonoBehaviour {
     private GameObject camPos;
     public List<GameObject> enemiesZombieList;
     public List<GameObject> itemsPortionList;
-    [SerializeField] private MapGenerator mapGenerator;
+    /*[SerializeField]*/ private MapGenerator mapGenerator;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject[] enemyPrefab;
     [SerializeField] private GameObject[] itemPrefab;
@@ -26,6 +26,7 @@ public sealed class GameManager : MonoBehaviour {
         itemsPortionList = new List<GameObject>();
         camPos = GameObject.Find("Main Camera");
         playerObject = Instantiate(playerPrefab);
+        mapGenerator = gameObject.GetComponent<MapGenerator>();
     }
     private void Start()
     {
