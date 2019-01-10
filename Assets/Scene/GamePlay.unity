@@ -755,7 +755,6 @@ MonoBehaviour:
   playerObject: {fileID: 0}
   enemiesZombieList: []
   itemsPortionList: []
-  mapGenerator: {fileID: 1437518964}
   playerPrefab: {fileID: 1819099947091336, guid: d95c7e3f9015af646a76fa93fa77ee25,
     type: 2}
   enemyPrefab:

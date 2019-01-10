@@ -25,13 +25,15 @@ public class UIManager : MonoBehaviour {
         //Iキーを押すとインベントリが表示/非表示
         if (Input.GetKeyDown(KeyCode.I))
         {
-            if(InventoryScreen.activeSelf==true)
+            if (InventoryScreen.activeSelf == true)
             {
                 InventoryScreen.SetActive(false);
+                gameManager.GamePause = false;
             }
-            else
+            else if (InventoryScreen.activeSelf == false)
             {
                 InventoryScreen.SetActive(true);
+                gameManager.GamePause = true;
             }
         }
     }

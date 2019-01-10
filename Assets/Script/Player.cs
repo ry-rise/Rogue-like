@@ -29,15 +29,18 @@ public sealed class Player : MoveObject {
         //プレイヤーのターン
         if (gameManager.TurnPlayer == true)
         {
-            //行動する
-            MovePlayer((int)gameObject.transform.position.x,
-                       (int)gameObject.transform.position.y);
+            //行動する(ポーズ時以外)
+            if (gameManager.GamePause == false)
+            {
+                MovePlayer((int)gameObject.transform.position.x,
+                           (int)gameObject.transform.position.y);
+            }
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 AttackPlayer((int)gameObject.transform.position.x,
                              (int)gameObject.transform.position.y);
             }
-            switch(state)
+            switch (state)
             {
                 case STATE.POISON:
                     HP -= 1;
@@ -89,6 +92,12 @@ public sealed class Player : MoveObject {
     #endregion
 
     #region プレイヤーの移動
+    /// <summary>
+    /// プレイヤーの移動判定
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
     private bool CheckMovePlayer(DIRECTION direction, int x, int y)
     {
         switch (direction)
@@ -125,6 +134,11 @@ public sealed class Player : MoveObject {
                 return false;
         }
     }
+    /// <summary>
+    /// プレイヤーの移動
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
     private void MovePlayer(int x,int y)
     {
         //上方向

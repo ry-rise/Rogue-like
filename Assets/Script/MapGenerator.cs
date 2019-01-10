@@ -5,13 +5,13 @@ public class MapGenerator : MonoBehaviour
     #region 変数
     public int MapWidth { get; private set; } = 80;
     public int MapHeight { get; private set; } = 80;
-    private readonly int minRoomWidth = 6;
-    private readonly int minRoomHeight = 6;
-    private readonly int maxRoomWidth = 10;
-    private readonly int maxRoomHeight = 10;
-    private readonly int minRoomAmount = 20;
-    private readonly int maxRoomAmount = 25;
-    private readonly int roadPoint = 1;
+    public int MinRoomWidth { get; private set; } = 6;
+    public int MinRoomHeight { get; private set; } = 6;
+    public int MaxRoomWidth { get; private set; } = 10;
+    public int MaxRoomHeight { get; private set; } = 10;
+    public int MinRoomAmount { get; private set; } = 20;
+    public int MaxRoomAmount { get; private set; } = 25;
+    public int RoadPoint { get; private set; } = 1;
     private int RandomX;
     private int RandomY;
     public enum STATE
@@ -65,9 +65,9 @@ public class MapGenerator : MonoBehaviour
     public void RoomCreate()
     {
         //通路を作る
-        int roomAmount = Random.Range(minRoomAmount, maxRoomAmount);
-        int[] roadAggPointX = new int[roadPoint];
-        int[] roadAggPointY = new int[roadPoint];
+        int roomAmount = Random.Range(MinRoomAmount, MaxRoomAmount);
+        int[] roadAggPointX = new int[RoadPoint];
+        int[] roadAggPointY = new int[RoadPoint];
         for (int i = 0; i < roadAggPointX.Length; i += 1)
         {
             roadAggPointX[i] = Random.Range(1, MapWidth);
@@ -77,10 +77,10 @@ public class MapGenerator : MonoBehaviour
         //部屋を作る
         for (int i = 0; i < roomAmount; i += 1)
         {
-            int roomHeight = Random.Range(minRoomHeight, maxRoomHeight);
-            int roomWidth = Random.Range(minRoomWidth, maxRoomWidth);
-            int roomPointX = Random.Range(2, MapWidth - maxRoomWidth - 2);
-            int roomPointY = Random.Range(2, MapHeight - maxRoomHeight - 2);
+            int roomHeight = Random.Range(MinRoomHeight, MaxRoomHeight);
+            int roomWidth = Random.Range(MinRoomWidth, MaxRoomWidth);
+            int roomPointX = Random.Range(2, MapWidth - MaxRoomWidth - 2);
+            int roomPointY = Random.Range(2, MapHeight - MaxRoomHeight - 2);
             int roadStartPointX = Random.Range(roomPointX, roomPointX + roomWidth);
             int roadStartPointY = Random.Range(roomPointY, roomPointY + roomHeight);
             bool roomCheck = CheckRoomCreate(roomWidth, roomHeight, roomPointX, roomPointY);

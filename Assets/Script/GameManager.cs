@@ -14,6 +14,7 @@ public sealed class GameManager : MonoBehaviour {
     [SerializeField] private GameObject[] itemPrefab;
     public int FloorNumber { get; set; }
     public bool TurnPlayer { get; set; } = false;
+    public bool GamePause { get; set; } = false;
     private Transform enemyHolder;
     private Transform itemHolder;
 
@@ -121,7 +122,7 @@ public sealed class GameManager : MonoBehaviour {
         }
     }
     /// <summary>
-    /// カメラの中心にプレイヤーがいる
+    /// カメラの中心にプレイヤーを配置
     /// </summary>
     public void CameraOnCenter()
     {
