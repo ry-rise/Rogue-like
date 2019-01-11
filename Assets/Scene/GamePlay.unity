@@ -428,10 +428,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bad266e804ab394db677ce2a37cf1bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelText: {fileID: 298446908}
-  FloorText: {fileID: 822287096}
-  HPText: {fileID: 2092826212}
-  SatietyText: {fileID: 1567987218}
+  LevelObject: {fileID: 298446906}
+  FloorObject: {fileID: 822287094}
+  HPObject: {fileID: 2092826210}
+  SatietyObject: {fileID: 1567987217}
   InventoryScreen: {fileID: 1896745051}
   Log: {fileID: 0}
 --- !u!114 &949815685
