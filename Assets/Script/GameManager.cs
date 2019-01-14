@@ -8,7 +8,7 @@ public sealed class GameManager : MonoBehaviour {
     private GameObject camPos;
     public List<GameObject> enemiesZombieList;
     public List<GameObject> itemsPortionList;
-    /*[SerializeField]*/ private MapGenerator mapGenerator;
+    private MapGenerator mapGenerator;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject[] enemyPrefab;
     [SerializeField] private GameObject[] itemPrefab;

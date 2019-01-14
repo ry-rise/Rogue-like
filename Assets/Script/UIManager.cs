@@ -15,16 +15,16 @@ public class UIManager : MonoBehaviour {
     private Player player;
     private GameManager gameManager;
 
-	void Start ()
+	private void Start ()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         LevelText = LevelObject.GetComponent<Text>();
         FloorText = FloorObject.GetComponent<Text>();
         HPText = HPObject.GetComponent<Text>();
         SatietyText = SatietyObject.GetComponent<Text>();
     }
-	void Update ()
+	private void Update ()
     {
         LevelText.text = $"LV:{player.Level.ToString()}";
         FloorText.text = $"{gameManager.FloorNumber.ToString()}F";
@@ -55,7 +55,7 @@ public class UIManager : MonoBehaviour {
     }
 
     //インベントリ
-    void Inventory()
+    private void Inventory()
     {
         //player.inventoryList=
     }
