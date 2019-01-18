@@ -12,7 +12,7 @@ public class Item2 : ItemBase {
         
     }
 
-    protected override void Use()
+    public override void Use()
     {
 
     }

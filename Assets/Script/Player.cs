@@ -16,6 +16,7 @@ public sealed class Player : MoveObject {
         HP = 100;
         Satiety = 100;
         ATK = 10;
+        MaxHP = HP;
         direction = DIRECTION.DOWN;
         state = STATE.NONE;
         base.Start();
@@ -34,11 +35,11 @@ public sealed class Player : MoveObject {
             {
                 MovePlayer((int)gameObject.transform.position.x,
                            (int)gameObject.transform.position.y);
-            }
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                AttackPlayer((int)gameObject.transform.position.x,
-                             (int)gameObject.transform.position.y);
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    AttackPlayer((int)gameObject.transform.position.x,
+                                 (int)gameObject.transform.position.y);
+                }
             }
             switch (state)
             {
@@ -75,7 +76,7 @@ public sealed class Player : MoveObject {
         }
     }
 
-#region 判定       
+    #region 判定       
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Exit")
@@ -212,11 +213,11 @@ public sealed class Player : MoveObject {
                     JudgeAttack();
                     if (JudgeAttack() == true)
                     {
-                        for (int i = 0; i < gameManager.enemiesZombieList.Count; i += 1)
+                        for (int i = 0; i < gameManager.enemiesList.Count; i += 1)
                         {
-                            if (gameManager.enemiesZombieList[i].transform.position ==new Vector3(x, y + 1))
+                            if (gameManager.enemiesList[i].transform.position ==new Vector3(x, y + 1))
                             {
-                                gameManager.enemiesZombieList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
+                                gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
                             }
                         }
                     }
@@ -229,11 +230,11 @@ public sealed class Player : MoveObject {
                     JudgeAttack();
                     if (JudgeAttack() == true)
                     {
-                        for (int i = 0; i < gameManager.enemiesZombieList.Count; i += 1)
+                        for (int i = 0; i < gameManager.enemiesList.Count; i += 1)
                         {
-                            if (gameManager.enemiesZombieList[i].transform.position == new Vector3(x, y - 1))
+                            if (gameManager.enemiesList[i].transform.position == new Vector3(x, y - 1))
                             {
-                                gameManager.enemiesZombieList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
+                                gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
                             }
                         }
                     }
@@ -246,11 +247,11 @@ public sealed class Player : MoveObject {
                     JudgeAttack();
                     if (JudgeAttack() == true)
                     {
-                        for (int i = 0; i < gameManager.enemiesZombieList.Count; i += 1)
+                        for (int i = 0; i < gameManager.enemiesList.Count; i += 1)
                         {
-                            if (gameManager.enemiesZombieList[i].transform.position == new Vector3(x - 1, y))
+                            if (gameManager.enemiesList[i].transform.position == new Vector3(x - 1, y))
                             {
-                                gameManager.enemiesZombieList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
+                                gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
                             }
                         }
                     }
@@ -263,11 +264,11 @@ public sealed class Player : MoveObject {
                     JudgeAttack();
                     if (JudgeAttack() == true)
                     {
-                        for (int i = 0; i < gameManager.enemiesZombieList.Count; i += 1)
+                        for (int i = 0; i < gameManager.enemiesList.Count; i += 1)
                         {
-                            if (gameManager.enemiesZombieList[i].transform.position == new Vector3(x + 1, y))
+                            if (gameManager.enemiesList[i].transform.position == new Vector3(x + 1, y))
                             {
-                                gameManager.enemiesZombieList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
+                                gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
                             }
                         }
                     }

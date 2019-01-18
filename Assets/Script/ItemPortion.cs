@@ -21,14 +21,12 @@ public sealed class ItemPortion : ItemBase {
     protected override void PickUP()
     {
         player.inventoryList.Add(gameObject);
-        gameManager.itemsPortionList.Remove(gameObject);
-        //gameObject.SetActive(false);
+        gameManager.itemsList.Remove(gameObject);
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
-        //Destroy(gameObject);
     }
 
-    protected override void Use()
+    public override void Use()
     {
         int i = Random.Range(0, recoveryAmount.Length - 1);
         player.HP += recoveryAmount[i];
