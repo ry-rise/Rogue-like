@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class TrapPoison : ItemBase {
+public sealed class TrapPoison : ItemBase
+{
 
 	protected override void Start ()
     {

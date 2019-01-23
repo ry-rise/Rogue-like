@@ -2,7 +2,7 @@
 using UnityEngine.SceneManagement;
 
 //シーン切り替え
-public class SceneChanger : MonoBehaviour
+public sealed class SceneChanger : MonoBehaviour
 {
     /// <summary>
     /// タイトル画面からゲーム画面に

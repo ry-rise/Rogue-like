@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour {
+public sealed class UIManager : MonoBehaviour
+{
     [SerializeField] private GameObject LevelObject;
     [SerializeField] private GameObject FloorObject;
     [SerializeField] private GameObject HPObject;

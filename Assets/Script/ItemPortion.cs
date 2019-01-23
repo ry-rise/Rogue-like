@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public sealed class ItemPortion : ItemBase {
+public sealed class ItemPortion : ItemBase
+{
     private int[] recoveryAmount = { 10, 20, 30, 40, 50 };
     
     protected override void Start()

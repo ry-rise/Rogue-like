@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class EnemyKnight : MoveObject {
+public sealed class EnemyKnight : MoveObject
+{
     private Transform playerPos;
     private DIRECTION direction;
 

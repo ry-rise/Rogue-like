@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class ButtonInventory : MonoBehaviour {
+public sealed class ButtonInventory : MonoBehaviour
+{
     private Player player;
     [SerializeField] private int ListNumber;
 

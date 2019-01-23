@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class AudioManager : MonoBehaviour {
+public sealed class AudioManager : MonoBehaviour
+{
     [SerializeField] private int a;
 	void Start () {
 		

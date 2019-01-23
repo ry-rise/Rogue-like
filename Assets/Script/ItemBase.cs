@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public abstract class ItemBase : MonoBehaviour {
+public abstract class ItemBase : MonoBehaviour
+{
     protected GameManager gameManager;
     protected Player player;
     public string Name { get; protected set; }
@@ -13,6 +14,6 @@ public abstract class ItemBase : MonoBehaviour {
     protected virtual void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
     }
 }

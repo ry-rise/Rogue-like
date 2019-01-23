@@ -1,7 +1,8 @@
 ﻿using System;
 using UnityEngine;
 
-public sealed class EnemyZombie : MoveObject {
+public sealed class EnemyZombie : MoveObject
+{
     private Transform playerPos;
     private DIRECTION direction;
     protected override void Start()

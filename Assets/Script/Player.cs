@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class Player : MoveObject {
+public sealed class Player : MoveObject
+{
     //private int[] LevelUpExp = { 100,150 };
     public int MaxHP { get; set; }
     public List<GameObject> inventoryList;

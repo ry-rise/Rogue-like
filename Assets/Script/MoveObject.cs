@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public abstract class MoveObject : MonoBehaviour {
+public abstract class MoveObject : MonoBehaviour
+{
     protected GameManager gameManager;
     protected MapGenerator mapGenerator;
     protected SceneChanger sceneChanger;
