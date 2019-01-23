@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public sealed class GameManager : MonoBehaviour {
+public sealed class GameManager : MonoBehaviour
+{
     [HideInInspector] public GameObject playerObject;
     private Player player;
     private GameObject camPos;
@@ -138,5 +140,24 @@ public sealed class GameManager : MonoBehaviour {
         {
             itemsList.Add(Instantiate(itemPrefab[0], itemHolder) as GameObject);
         }
+    }
+    /// <summary>
+    /// セーブ
+    /// </summary>
+    private void DataSave()
+    {
+        GameData gameData = new GameData();
+        string json = JsonUtility.ToJson(gameData);
+        string path="\\gameData.json";
+        File.WriteAllText(path, json);
+    }
+    ///<summary>
+    ///ロード
+    ///</summary>
+    private void DataLoad()
+    {
+        string path = $"{Application.persistentDataPath}\\data.json";
+        string json = File.ReadAllText(path);
+        GameData restoreData = JsonUtility.FromJson<GameData>(json);
     }
 }

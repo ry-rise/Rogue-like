@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 //マップ生成
-public class MapGenerator : MonoBehaviour
+public sealed class MapGenerator : MonoBehaviour
 {
     #region 変数
     public int MapWidth { get; private set; } = 80;
@@ -21,12 +21,13 @@ public class MapGenerator : MonoBehaviour
         PLAYER,
         ITEM,
         ENEMY,
-        TRAP,
+        TRAP_POISON,
         EXIT,
         WALL = -1
     }
     [SerializeField] private GameObject[] floorPrefab;
     [SerializeField] private GameObject[] wallPrefab;
+    [SerializeField] private GameObject poisonPrefab;
     [SerializeField] private GameObject exitPrefab;
     private Transform mapHolder;
     #endregion
@@ -94,10 +95,24 @@ public class MapGenerator : MonoBehaviour
             RandomX = Random.Range(0, MapWidth);
             RandomY = Random.Range(0, MapHeight);
             //FLOORのところにExitをランダムで配置
-            if (MapStatusType[RandomX, RandomY]
-                == (int)STATE.FLOOR)
+            if (MapStatusType[RandomX, RandomY] == (int)STATE.FLOOR)
             {
                 MapStatusType[RandomX, RandomY] = (int)STATE.EXIT;
+                break;
+            }
+            else
+            {
+                continue;
+            }
+        }
+        while (true)
+        {
+            RandomX = Random.Range(0, MapWidth);
+            RandomY = Random.Range(0, MapHeight);
+            //FLOORのところにTrapをランダムで配置
+            if (MapStatusType[RandomX, RandomY] == (int)STATE.FLOOR)
+            {
+                MapStatusType[RandomX, RandomY] = (int)STATE.TRAP_POISON;
                 break;
             }
             else
@@ -233,6 +248,13 @@ public class MapGenerator : MonoBehaviour
                                                       Quaternion.identity,
                                                       mapHolder) as GameObject;
                     instance.transform.localScale = new Vector2(3, 3);
+                }
+                else if(MapStatusType[x,y]==(int)STATE.TRAP_POISON)
+                {
+                    GameObject instance = Instantiate(poisonPrefab,
+                                                    new Vector2(x, y),
+                                                    Quaternion.identity,
+                                                    mapHolder) as GameObject;
                 }
                 else
                 {
