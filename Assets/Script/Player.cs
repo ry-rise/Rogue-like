@@ -9,7 +9,8 @@ public sealed class Player : MoveObject
     public List<GameObject> inventoryList;
     public int Satiety { get; set; }//満腹度
     private DIRECTION direction;
-    private STATE state;
+    [SerializeField] private STATE _state;
+    public STATE state { get { return _state; } set { value = _state; } }
    
     protected override void Start ()
     {
@@ -42,6 +43,7 @@ public sealed class Player : MoveObject
                                  (int)gameObject.transform.position.y);
                 }
             }
+            //状態異常の遷移
             switch (state)
             {
                 case STATE.POISON:
@@ -52,6 +54,13 @@ public sealed class Player : MoveObject
                     break;
                 default:
                     break;
+            }
+            if (state != STATE.NONE)
+            {
+                if (ReleaseDetermination() == true)
+                {
+                    state = STATE.NONE;
+                }
             }
             //行動終了
             if (TurnEnd == true)
@@ -110,12 +119,22 @@ public sealed class Player : MoveObject
                 {
                     return false;
                 }
+                else if(mapGenerator.MapStatusType[x,y+1]==(int)MapGenerator.STATE.TRAP_POISON)
+                {
+                    state = STATE.POISON;
+                    return true;
+                }
                 return true;
             case DIRECTION.DOWN:
                 if (mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.WALL ||
                     mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.ENEMY)
                 {
                     return false;
+                }
+                else if (mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.TRAP_POISON)
+                {
+                    state = STATE.POISON;
+                    return true;
                 }
                 return true;
             case DIRECTION.LEFT:
@@ -124,12 +143,22 @@ public sealed class Player : MoveObject
                 {
                     return false;
                 }
+                else if (mapGenerator.MapStatusType[x-1, y] == (int)MapGenerator.STATE.TRAP_POISON)
+                {
+                    state = STATE.POISON;
+                    return true;
+                }
                 return true;
             case DIRECTION.RIGHT:
                 if (mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.WALL ||
                     mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.ENEMY)
                 {
                     return false;
+                }
+                else if (mapGenerator.MapStatusType[x+1, y] == (int)MapGenerator.STATE.TRAP_POISON)
+                {
+                    state = STATE.POISON;
+                    return true;
                 }
                 return true;
             default:

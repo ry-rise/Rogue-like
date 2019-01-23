@@ -8,7 +8,7 @@ public sealed class EnemyZombie : MoveObject
     protected override void Start()
     {
         HP = 10;
-        playerPos = GameObject.FindGameObjectWithTag("Player").transform;
+        playerPos = GameObject.FindWithTag("Player").transform;
         direction = DIRECTION.DOWN;
         base.Start();
     }
@@ -119,6 +119,17 @@ public sealed class EnemyZombie : MoveObject
         //    func_end = true;
         //}
         #endregion
+    }
+    public void AttackEnemy(int x,int y)
+    {
+        if (mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.PLAYER)
+        {
+
+        }
+    }
+    private bool CheckAttackEnemy()
+    {
+        return false;
     }
 
 }

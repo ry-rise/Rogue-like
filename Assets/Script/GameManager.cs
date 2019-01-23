@@ -151,9 +151,9 @@ public sealed class GameManager : MonoBehaviour
         string path="\\gameData.json";
         File.WriteAllText(path, json);
     }
-    ///<summary>
-    ///ロード
-    ///</summary>
+    /// <summary>
+    /// ロード
+    /// </summary>
     private void DataLoad()
     {
         string path = $"{Application.persistentDataPath}\\data.json";
