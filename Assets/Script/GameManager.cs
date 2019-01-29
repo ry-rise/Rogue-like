@@ -31,8 +31,9 @@ public sealed class GameManager : MonoBehaviour
         playerObject = Instantiate(playerPrefab);
         mapGenerator = gameObject.GetComponent<MapGenerator>();
     }
-    private void Start()
+    public void Start()
     {
+
         ListAdd();
         RandomDeploy();
         CameraOnCenter();

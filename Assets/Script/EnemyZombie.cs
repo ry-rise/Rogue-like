@@ -120,16 +120,45 @@ public sealed class EnemyZombie : MoveObject
         //}
         #endregion
     }
-    public void AttackEnemy(int x,int y)
+    public void AttackEnemy(int x, int y)
     {
-        if (mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.PLAYER)
+
+        if (CheckAttackEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
         {
 
         }
     }
-    private bool CheckAttackEnemy()
+    private bool CheckAttackEnemy(DIRECTION direction,int x,int y)
     {
-        return false;
+        switch (direction)
+        {
+            case DIRECTION.UP:
+                if (mapGenerator.MapStatusType[x,y+1]==(int)MapGenerator.STATE.PLAYER)
+                {
+                    return true;
+                }
+                return false;
+            case DIRECTION.DOWN:
+                if (mapGenerator.MapStatusType[x,y-1]==(int)MapGenerator.STATE.PLAYER)
+                {
+                    return true;
+                }
+                return false;
+            case DIRECTION.LEFT:
+                if(mapGenerator.MapStatusType[x-1,y]==(int)MapGenerator.STATE.PLAYER)
+                {
+                    return true;
+                }
+                return false;
+            case DIRECTION.RIGHT:
+                if (mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.PLAYER)
+                {
+                    return true;
+                }
+                return false;
+            default:
+                return false;
+        }
     }
 
 }

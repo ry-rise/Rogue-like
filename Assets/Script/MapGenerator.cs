@@ -37,7 +37,7 @@ public sealed class MapGenerator : MonoBehaviour
     public int[,] MapStatusMoveObject;
     private Player playerPos;
     private GameManager gameManager;
-    void Awake()
+    public void Awake()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         mapHolder = new GameObject("Map").transform;

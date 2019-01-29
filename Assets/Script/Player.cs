@@ -93,11 +93,14 @@ public sealed class Player : MoveObject
         {
             Debug.Log("exit");
             gameManager.FloorNumber += 1;
-            mapGenerator.InitializeMap();
-            mapGenerator.RoomCreate();
-            mapGenerator.CreateDungeon();
-            gameManager.RandomDeploy();
-            gameManager.CameraOnCenter();
+            Destroy(GameObject.Find("Map"));
+            mapGenerator.Awake();
+            //mapGenerator.InitializeMap();
+            //mapGenerator.RoomCreate();
+            //mapGenerator.CreateDungeon();
+            gameManager.Start();
+            //gameManager.RandomDeploy();
+            //gameManager.CameraOnCenter();
         }
     }
     #endregion

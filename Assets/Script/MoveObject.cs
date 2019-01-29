@@ -12,7 +12,7 @@ public abstract class MoveObject : MonoBehaviour
     public int Direction { get; set; }
     public int ATK { get; set; }
     public int DEF { get; set; }
-    protected enum DIRECTION { UP, DOWN, LEFT, RIGHT }
+    public enum DIRECTION { UP, DOWN, LEFT, RIGHT }
     public enum STATE { NONE, POISON, PARALYSIS }
     public enum MOVEPATTERN { }
     protected virtual void Start()
