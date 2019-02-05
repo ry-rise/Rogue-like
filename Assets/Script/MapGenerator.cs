@@ -16,6 +16,7 @@ public sealed class MapGenerator : MonoBehaviour
     private int RandomY;
     public enum STATE
     {
+        NONE,
         FLOOR,
         ROAD,
         PLAYER,
@@ -34,6 +35,7 @@ public sealed class MapGenerator : MonoBehaviour
     #region マップ生成
     public int[,] MapStatusType;
     public int[,] MapStatusItem;
+    public int[,] MapStatusTrap;
     public int[,] MapStatusMoveObject;
     private Player playerPos;
     private GameManager gameManager;
@@ -53,12 +55,14 @@ public sealed class MapGenerator : MonoBehaviour
     public void InitializeMap()
     {
         MapStatusType = new int[MapWidth, MapHeight];
+        MapStatusTrap = new int[MapWidth, MapHeight];
         //一旦、すべて壁で初期化
         for (int y = 0; y < MapHeight; y += 1)
         {
             for (int x = 0; x < MapWidth; x += 1)
             {
                 MapStatusType[x, y] = (int)STATE.WALL;
+                MapStatusTrap[x, y] = (int)STATE.NONE;
             }
         }
     }
@@ -112,6 +116,7 @@ public sealed class MapGenerator : MonoBehaviour
             //FLOORのところにTrapをランダムで配置
             if (MapStatusType[RandomX, RandomY] == (int)STATE.FLOOR)
             {
+                MapStatusTrap[RandomX, RandomY] = (int)STATE.TRAP_POISON;
                 MapStatusType[RandomX, RandomY] = (int)STATE.TRAP_POISON;
                 break;
             }
@@ -230,7 +235,7 @@ public sealed class MapGenerator : MonoBehaviour
                                                       new Vector2(x, y),
                                                       Quaternion.identity,
                                                       mapHolder) as GameObject;
-                    instance.transform.localScale = new Vector2(3, 3);
+                    //instance.transform.localScale = new Vector2(3, 3);
                 }
                 else if (MapStatusType[x, y] == (int)STATE.PLAYER)
                 {
@@ -247,9 +252,9 @@ public sealed class MapGenerator : MonoBehaviour
                                                       new Vector2(x, y),
                                                       Quaternion.identity,
                                                       mapHolder) as GameObject;
-                    instance.transform.localScale = new Vector2(3, 3);
+                    //instance.transform.localScale = new Vector2(3, 3);
                 }
-                else if(MapStatusType[x,y]==(int)STATE.TRAP_POISON)
+                else if(MapStatusTrap[x,y]==(int)STATE.TRAP_POISON)
                 {
                     GameObject instance = Instantiate(poisonPrefab,
                                                     new Vector2(x, y),
