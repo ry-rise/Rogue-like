@@ -4,10 +4,10 @@ public sealed class ItemPortion : ItemBase
 {
     private int[] recoveryAmount = { 10, 20, 30, 40, 50 };
     
-    protected override void Start()
+    protected override void Awake()
     {
         Name = "ポーション";
-        base.Start();
+        base.Awake();
     }
    
     private void OnTriggerEnter2D(Collider2D collision)

@@ -8,9 +8,8 @@ public sealed class Player : MoveObject
     public int MaxHP { get; set; }
     public List<GameObject> inventoryList;
     public int Satiety { get; set; }//満腹度
-    private DIRECTION direction;
     [SerializeField] private STATE _state;
-    public STATE state { get { return _state; } set { value = _state; } }
+    public STATE state { get { return _state; } set { _state = value; } }
    
     protected override void Start ()
     {

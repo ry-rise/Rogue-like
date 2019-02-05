@@ -11,7 +11,7 @@ public abstract class ItemBase : MonoBehaviour
     //アイテムを使うときの処理
     public virtual void Use() { }
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         player = GameObject.FindWithTag("Player").GetComponent<Player>();

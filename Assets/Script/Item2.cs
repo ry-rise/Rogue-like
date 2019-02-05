@@ -3,9 +3,10 @@
 public sealed class Item2 : ItemBase
 {
 
-    protected override void Start ()
+    protected override void Awake ()
     {
-        base.Start();
+        Name = "a";
+        base.Awake();
 	}
 	
     protected override void PickUP()

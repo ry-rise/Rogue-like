@@ -4,5 +4,7 @@ using UnityEngine;
 
 [Serializable] public sealed class GameData
 {
-    private List<GameObject> InventoryList;
+    [SerializeField] private List<GameObject> _InventoryList;
+    public List<GameObject> InventoryList { get { return _InventoryList; } set { _InventoryList = value; } }
+
 }
