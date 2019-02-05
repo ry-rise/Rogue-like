@@ -52,6 +52,11 @@ public sealed class GameManager : MonoBehaviour
                 enemyZombie.MoveEnemy((int)Zombie.transform.position.x,
                                       (int)Zombie.transform.position.y);
             }
+            foreach (GameObject Knight in enemiesList)
+            {
+                EnemyKnight enemyKnight = Knight.GetComponent<EnemyKnight>();
+
+            }
             TurnPlayer = true;
         }
     }
@@ -132,7 +137,7 @@ public sealed class GameManager : MonoBehaviour
     private void ListAdd()
     {
         //ListにenemyPrefabを追加、生成
-        for (int j = 0; j < 20; j += 1)
+        for (int j = 0; j < 10; j += 1)
         {
             enemiesList.Add(Instantiate(enemyPrefab[0], enemyHolder) as GameObject);
         }

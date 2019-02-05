@@ -1,17 +1,16 @@
 ﻿using UnityEngine;
 
-public sealed class EnemyKnight : MoveObject
+public sealed class EnemyKnight : EnemyBase
 {
-    private Transform playerPos;
-    private DIRECTION direction;
-
     protected override void Start ()
     {
+        HP = 2;
+        direction = DIRECTION.DOWN;
         base.Start();
 	}
 	
-	private void Update ()
+	protected override void Update ()
     {
-		
+        base.Update();
 	}
 }

@@ -15,16 +15,14 @@ public abstract class MoveObject : MonoBehaviour
     public enum DIRECTION { UP, DOWN, LEFT, RIGHT }
     public enum STATE { NONE, POISON, PARALYSIS }
     public enum MOVEPATTERN { }
+    protected DIRECTION direction;
+
     protected virtual void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         mapGenerator = GameObject.Find("GameManager").GetComponent<MapGenerator>();
     }
     
-    protected bool CheckMove(DIRECTION direction,int x,int y,GameObject gameObject)
-    {
-        return false;
-    }
     /// <summary>
     /// 状態異常の解除判定
     /// </summary>
