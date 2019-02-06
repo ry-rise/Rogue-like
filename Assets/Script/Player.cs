@@ -1,4 +1,5 @@
 ﻿//#define DEBUG_KEYDOWN
+using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,17 +8,21 @@ public sealed class Player : MoveObject
     //private int[] LevelUpExp = { 100,150 };
     public int MaxHP { get; set; }
     public List<GameObject> inventoryList;
-    public int Satiety { get; set; }//満腹度
+    public int Satiety { get; set; } //満腹度
     [SerializeField] private STATE _state;
     public STATE state { get { return _state; } set { _state = value; } }
    
     protected override void Start ()
     {
-        Level = 1;
-        HP = 100;
-        Satiety = 100;
-        ATK = 10;
-        MaxHP = HP;
+        if (!File.Exists($"{Application.persistentDataPath}{gameManager.FileName}"))
+        {
+            Level = 1;
+            HP = 100;
+            Satiety = 100;
+            ATK = 10;
+            MaxHP = HP;
+        }
+        
         direction = DIRECTION.DOWN;
         state = STATE.NONE;
         base.Start();

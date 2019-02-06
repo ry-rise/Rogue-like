@@ -19,6 +19,7 @@ public sealed class GameManager : MonoBehaviour
     public bool GamePause { get; set; } = false;
     private Transform enemyHolder;
     private Transform itemHolder;
+    public readonly string FileName = "//SaveData.json";
 
     private void Awake()
     {
@@ -33,10 +34,15 @@ public sealed class GameManager : MonoBehaviour
     }
     public void Start()
     {
-
         ListAdd();
         RandomDeploy();
         CameraOnCenter();
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        if (File.Exists($"{Application.persistentDataPath}{FileName}") == true)
+        {
+            Debug.Log("LOAD");
+            DataLoad();
+        }
         //プレイヤーのターン
         TurnPlayer = true;
     }
@@ -59,6 +65,14 @@ public sealed class GameManager : MonoBehaviour
             }
             TurnPlayer = true;
         }
+    }
+    /// <summary>
+    /// アプリ終了時に呼び出し
+    /// </summary>
+    private void OnApplicationQuit()
+    {
+        Debug.Log("SAVE");
+        DataSave();
     }
     /// <summary>
     /// Player,Enemy,Itemを配置
@@ -137,9 +151,9 @@ public sealed class GameManager : MonoBehaviour
     private void ListAdd()
     {
         //ListにenemyPrefabを追加、生成
-        for (int j = 0; j < 10; j += 1)
+        for (int j = 0; j < 15; j += 1)
         {
-            enemiesList.Add(Instantiate(enemyPrefab[0], enemyHolder) as GameObject);
+            enemiesList.Add(Instantiate(enemyPrefab[Random.Range(0,enemyPrefab.Length)], enemyHolder) as GameObject);
         }
         //ListにitemPrefabを追加、生成
         for (int k = 0; k < 20; k += 1)
@@ -152,9 +166,15 @@ public sealed class GameManager : MonoBehaviour
     /// </summary>
     private void DataSave()
     {
-        GameData gameData = new GameData();
+
+        GameData gameData = new GameData()
+        {
+            InventoryList = player.inventoryList,
+            FloorNumberData = FloorNumber,
+        };
         string json = JsonUtility.ToJson(gameData);
-        string path="\\gameData.json";
+        string path = $"{Application.persistentDataPath}{FileName}";
+        Debug.Log(json);
         File.WriteAllText(path, json);
     }
     /// <summary>
@@ -162,8 +182,10 @@ public sealed class GameManager : MonoBehaviour
     /// </summary>
     private void DataLoad()
     {
-        string path = $"{Application.persistentDataPath}\\data.json";
+        string path = $"{Application.persistentDataPath}{FileName}";
         string json = File.ReadAllText(path);
         GameData restoreData = JsonUtility.FromJson<GameData>(json);
+        player.inventoryList = restoreData.InventoryList;
+        FloorNumber = restoreData.FloorNumberData;
     }
 }
