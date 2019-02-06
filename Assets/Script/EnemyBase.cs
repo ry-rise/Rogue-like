@@ -23,6 +23,7 @@ public class EnemyBase : MoveObject {
     protected void DieEnemy()
     {
         gameManager.enemiesList.Remove(gameObject);
+        mapGenerator.MapStatusType[(int)transform.position.x, (int)transform.position.y] = (int)MapGenerator.STATE.FLOOR;
         Destroy(gameObject);
     }
     private bool CheckMoveEnemy(int x, int y)

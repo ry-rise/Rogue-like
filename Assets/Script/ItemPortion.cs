@@ -25,6 +25,7 @@ public sealed class ItemPortion : ItemBase
         gameManager.itemsList.Remove(gameObject);
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        mapGenerator.MapStatusType[(int)transform.position.x, (int)transform.position.y] = (int)MapGenerator.STATE.FLOOR;
     }
 
     public override void Use()
