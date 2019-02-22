@@ -31,6 +31,11 @@ public sealed class GameManager : MonoBehaviour
         camPos = GameObject.Find("Main Camera");
         playerObject = Instantiate(playerPrefab);
         mapGenerator = gameObject.GetComponent<MapGenerator>();
+        if (File.Exists($"{Application.persistentDataPath}{FileName}") == true)
+        {
+            Debug.Log("LOAD");
+            DataLoad();
+        }
     }
     public void Start()
     {
@@ -38,11 +43,11 @@ public sealed class GameManager : MonoBehaviour
         RandomDeploy();
         CameraOnCenter();
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        if (File.Exists($"{Application.persistentDataPath}{FileName}") == true)
-        {
-            Debug.Log("LOAD");
-            DataLoad();
-        }
+        //if (File.Exists($"{Application.persistentDataPath}{FileName}") == true)
+        //{
+        //    Debug.Log("LOAD");
+        //    DataLoad();
+        //}
         //プレイヤーのターン
         TurnPlayer = true;
     }
@@ -166,11 +171,16 @@ public sealed class GameManager : MonoBehaviour
     /// </summary>
     private void DataSave()
     {
-
         GameData gameData = new GameData()
         {
             InventoryList = player.inventoryList,
             FloorNumberData = FloorNumber,
+            HP=player.HP,
+            ATK=player.ATK,
+            Level=player.Level,
+            Exp=player.Exp,
+            Direction=player.Direction,
+            DEF=player.DEF
         };
         string json = JsonUtility.ToJson(gameData);
         string path = $"{Application.persistentDataPath}{FileName}";
@@ -187,5 +197,11 @@ public sealed class GameManager : MonoBehaviour
         GameData restoreData = JsonUtility.FromJson<GameData>(json);
         player.inventoryList = restoreData.InventoryList;
         FloorNumber = restoreData.FloorNumberData;
+        player.HP=restoreData.HP;
+        player.ATK=restoreData.ATK;
+        player.Level=restoreData.Level;
+        player.Exp=restoreData.Exp;
+        player.Direction=restoreData.Direction;
+        player.DEF=restoreData.DEF;
     }
 }
