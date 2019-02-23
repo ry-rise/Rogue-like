@@ -34,7 +34,7 @@ public sealed class GameManager : MonoBehaviour
         if (File.Exists($"{Application.persistentDataPath}{FileName}") == true)
         {
             Debug.Log("LOAD");
-            DataLoad();
+            //DataLoad();
         }
     }
     public void Start()
@@ -57,16 +57,20 @@ public sealed class GameManager : MonoBehaviour
         if (TurnPlayer == false)
         {
             //敵の処理をする
-            foreach(GameObject Zombie in enemiesList)
+            for (int i = 0; i < enemiesList.Count; i += 1)
             {
-                EnemyZombie enemyZombie = Zombie.GetComponent<EnemyZombie>();
-                enemyZombie.MoveEnemy((int)Zombie.transform.position.x,
-                                      (int)Zombie.transform.position.y);
-            }
-            foreach (GameObject Knight in enemiesList)
-            {
-                EnemyKnight enemyKnight = Knight.GetComponent<EnemyKnight>();
-
+                if(enemiesList[i].GetComponent<EnemyZombie>()!=null)
+                {
+                    EnemyZombie enemyZombie = enemiesList[i].GetComponent<EnemyZombie>();
+                    enemyZombie.MoveEnemy((int)enemiesList[i].transform.position.x,
+                                          (int)enemiesList[i].transform.position.y);
+                }
+                else if(enemiesList[i].GetComponent<EnemyKnight>()!=null)
+                {
+                    EnemyKnight enemyKnight = enemiesList[i].GetComponent<EnemyKnight>();
+                    enemyKnight.MoveEnemy((int)enemiesList[i].transform.position.x,
+                                          (int)enemiesList[i].transform.position.y);
+                }
             }
             TurnPlayer = true;
         }
@@ -77,7 +81,7 @@ public sealed class GameManager : MonoBehaviour
     private void OnApplicationQuit()
     {
         Debug.Log("SAVE");
-        DataSave();
+        //DataSave();
     }
     /// <summary>
     /// Player,Enemy,Itemを配置
