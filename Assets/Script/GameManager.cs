@@ -23,8 +23,8 @@ public sealed class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        enemyHolder = new GameObject("enemy").transform;
-        itemHolder = new GameObject("item").transform;
+        enemyHolder = new GameObject("Enemy").transform;
+        itemHolder = new GameObject("Item").transform;
         FloorNumber = 1;
         enemiesList = new List<GameObject>();
         itemsList = new List<GameObject>();

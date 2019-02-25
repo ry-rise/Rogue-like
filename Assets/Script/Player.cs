@@ -14,7 +14,7 @@ public sealed class Player : MoveObject
    
     protected override void Start ()
     {
-        if (!File.Exists($"{Application.persistentDataPath}{gameManager.FileName}"))
+        //if (!File.Exists($"{Application.persistentDataPath}{gameManager.FileName}"))
         {
             Level = 1;
             HP = 100;
@@ -98,6 +98,8 @@ public sealed class Player : MoveObject
             Debug.Log("exit");
             gameManager.FloorNumber += 1;
             Destroy(GameObject.Find("Map"));
+            Destroy(GameObject.Find("Enemy"));
+            Destroy(GameObject.Find("Item"));
             mapGenerator.Awake();
             //mapGenerator.InitializeMap();
             //mapGenerator.RoomCreate();

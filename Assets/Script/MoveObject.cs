@@ -21,6 +21,7 @@ public abstract class MoveObject : MonoBehaviour
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         mapGenerator = GameObject.Find("GameManager").GetComponent<MapGenerator>();
+        sceneChanger = GameObject.Find("GameManager").GetComponent<SceneChanger>();
     }
     
     /// <summary>

@@ -11,7 +11,7 @@ public sealed class Item2 : ItemBase
 	
     protected override void PickUP()
     {
-        
+        base.PickUP();
     }
 
     public override void Use()

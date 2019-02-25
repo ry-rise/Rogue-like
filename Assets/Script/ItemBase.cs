@@ -8,7 +8,14 @@ public abstract class ItemBase : MonoBehaviour
     public string Name { get; protected set; }
 
     //アイテムを取った時、トラップに引っ掛かったときの処理
-    protected abstract void PickUP();
+    protected virtual void PickUP()
+    {
+        player.inventoryList.Add(gameObject);
+        gameManager.itemsList.Remove(gameObject);
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        mapGenerator.MapStatusType[(int)transform.position.x, (int)transform.position.y] = (int)MapGenerator.STATE.FLOOR;
+    }
     //アイテムを使うときの処理
     public virtual void Use() { }
 
