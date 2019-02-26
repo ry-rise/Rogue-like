@@ -19,7 +19,7 @@ public sealed class GameManager : MonoBehaviour
     public bool GamePause { get; set; } = false;
     private Transform enemyHolder;
     private Transform itemHolder;
-    public readonly string FileName = "//SaveData.json";
+    private readonly string FileName = "//SaveData.json";
 
     private void Awake()
     {
@@ -80,7 +80,7 @@ public sealed class GameManager : MonoBehaviour
     /// </summary>
     private void OnApplicationQuit()
     {
-        Debug.Log("SAVE");
+        Debug.Log("SAVE_OnApplicationQuit");
         //DataSave();
     }
     /// <summary>
@@ -125,7 +125,7 @@ public sealed class GameManager : MonoBehaviour
             }
         }
         //FLOORのところにitemを移動
-        for (int it = 0; it < itemsList.Count - 1; it += 1)
+        for (int it = 0; it < itemsList.Count; it += 1)
         {
             while (true)
             {
