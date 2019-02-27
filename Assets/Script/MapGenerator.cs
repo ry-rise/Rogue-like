@@ -34,9 +34,10 @@ public sealed class MapGenerator : MonoBehaviour
     #endregion
     #region マップ生成
     public int[,] MapStatusType;
-    public int[,] MapStatusItem;
+    public int[,] MapStatusRoom;
+    // public int[,] MapStatusItem;
     public int[,] MapStatusTrap;
-    public int[,] MapStatusMoveObject;
+    // public int[,] MapStatusMoveObject;
     private Player playerPos;
     private GameManager gameManager;
     public void Awake()
@@ -50,12 +51,20 @@ public sealed class MapGenerator : MonoBehaviour
     private void Start()
     {
         playerPos = gameManager.playerObject.GetComponent<Player>();
+        for(int y=0;y<MapHeight;y+=1)
+        { 
+        for(int x=0;x<MapWidth;x+=1)
+        {
+        Debug.Log(MapStatusRoom[x,y]);
+        }
+        }
     }
 
     public void InitializeMap()
     {
         MapStatusType = new int[MapWidth, MapHeight];
         MapStatusTrap = new int[MapWidth, MapHeight];
+        MapStatusRoom = new int[MapWidth, MapHeight];
         //一旦、すべて壁で初期化
         for (int y = 0; y < MapHeight; y += 1)
         {
@@ -63,6 +72,7 @@ public sealed class MapGenerator : MonoBehaviour
             {
                 MapStatusType[x, y] = (int)STATE.WALL;
                 MapStatusTrap[x, y] = (int)STATE.NONE;
+                MapStatusRoom[x, y] = (int)STATE.WALL;
             }
         }
     }
@@ -141,6 +151,7 @@ public sealed class MapGenerator : MonoBehaviour
                 else
                 {
                     MapStatusType[roomPointY + y, roomPointX + x] = (int)STATE.FLOOR;
+                    MapStatusRoom[roomPointY + y, roomPointX + x] = x;
                 }
             }
         }
@@ -243,7 +254,7 @@ public sealed class MapGenerator : MonoBehaviour
                                                       new Vector2(x, y),
                                                       Quaternion.identity,
                                                       mapHolder) as GameObject;
-                    instance.transform.localScale = new Vector2(3, 3);
+                    //instance.transform.localScale = new Vector2(3, 3);
                     playerPos.transform.position = new Vector2(x, y);
                 }
                 else if (MapStatusType[x, y] == (int)STATE.EXIT)
@@ -267,7 +278,7 @@ public sealed class MapGenerator : MonoBehaviour
                                                       new Vector2(x, y),
                                                       Quaternion.identity,
                                                       mapHolder) as GameObject;
-                    instance.transform.localScale = new Vector2(3, 3);
+                    //instance.transform.localScale = new Vector2(3, 3);
                 }
             }
         }
