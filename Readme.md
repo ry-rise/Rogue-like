@@ -1,7 +1,7 @@
 # Rogue-like  
 
 ## 概要  
-ポケモンダンジョンのような2Dローグライクゲーム
+2Dローグライクゲーム
 
 ## 設計  
 https://docs.google.com/drawings/d/1oargyapgy0yBNaIJknQe-QD4UBYKxhQYJVbkVpwHaxE/edit?usp=sharing
@@ -20,3 +20,14 @@ WASDキーまたは矢印キー→移動
 Enterキー→攻撃
 
 Iキー→インベントリ表示/非表示
+
+## 素材提供
+# 画像
+白螺子屋
+
+アドレス：http://hi79.web.fc2.com/
+
+# BGM・SE
+魔王魂
+
+アドレス：https://maoudamashii.jokersounds.com/
