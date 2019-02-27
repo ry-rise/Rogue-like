@@ -49,7 +49,7 @@ public sealed class UIManager : MonoBehaviour
                 StateText.text = "aaa";
                 break;
         }
-        TextDisplay();
+        //TextDisplay();
         
         //Iキーを押すとインベントリが表示/非表示
         if (Input.GetKeyDown(KeyCode.I))
@@ -58,11 +58,15 @@ public sealed class UIManager : MonoBehaviour
             {
                 InventoryScreen.SetActive(false);
                 gameManager.GamePause = false;
+                transform.Find("Header").gameObject.SetActive(true);
+
             }
             else if (InventoryScreen.activeSelf == false)
             {
                 InventoryScreen.SetActive(true);
                 gameManager.GamePause = true;
+                transform.Find("Header").gameObject.SetActive(false);
+
             }
         }
     }
@@ -73,18 +77,19 @@ public sealed class UIManager : MonoBehaviour
     /// <summary>
     /// インベントリの表示/非表示でテキストの表示/非表示を切り替える
     /// </summary>
-    private void TextDisplay()
-    {
-        if (gameManager.GamePause == true)
-        {
-            
-        }
-        else if(gameManager.GamePause==false)
-        {
-            LevelObject.SetActive(true);
-            FloorObject.SetActive(true);
-            HPObject.SetActive(true);
-            SatietyObject.SetActive(true);
-        }
-    }
+    // private void TextDisplay()
+    // {
+    //     if (gameManager.GamePause == true)
+    //     {
+    //         transform.Find("Header").gameObject.SetActive(false);
+    //     }
+    //     else if(gameManager.GamePause==false)
+    //     {
+    //         transform.Find("Header").gameObject.SetActive(true);
+    //         //LevelObject.SetActive(true);
+    //         //FloorObject.SetActive(true);
+    //         //HPObject.SetActive(true);
+    //         //SatietyObject.SetActive(true);
+    //     }
+    // }
 }
