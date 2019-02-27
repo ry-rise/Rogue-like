@@ -5,7 +5,7 @@ AudioMixerController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: NewAudioMixer
+  m_Name: AudioMixer
   m_OutputGroup: {fileID: 0}
   m_MasterGroup: {fileID: 24300002}
   m_Snapshots:
@@ -14,7 +14,13 @@ AudioMixerController:
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
-  m_ExposedParameters: []
+  m_ExposedParameters:
+  - guid: e71761e6c27392849a1573534212e75a
+    name: BGMVol
+  - guid: a43d0c6982580814196d9f98d554c63b
+    name: MasterVol
+  - guid: aed74251d286c6e40904600ce8e1a7a1
+    name: SEVol
   m_AudioMixerGroupViews:
   - guids:
     - 95c8f28ce11a9dc4696eb9b004209672
@@ -64,6 +70,8 @@ AudioMixerSnapshotController:
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: d59aea5b9714d714e80c5313fefee4a2
   m_FloatValues:
+    dd2786c47295a2d4ebdb9fc9d5f5eb58: 1
+    e71761e6c27392849a1573534212e75a: -0.16685188
     a43d0c6982580814196d9f98d554c63b: -0.16685188
   m_TransitionOverrides: {}
 --- !u!243 &243205143625583080
