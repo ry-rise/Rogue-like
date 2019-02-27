@@ -22,12 +22,12 @@ Enterキー→攻撃
 Iキー→インベントリ表示/非表示
 
 ## 素材提供
-# 画像
+### 画像
 白螺子屋
 
 アドレス：http://hi79.web.fc2.com/
 
-# BGM・SE
+### BGM・SE
 魔王魂
 
 アドレス：https://maoudamashii.jokersounds.com/
