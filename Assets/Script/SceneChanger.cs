@@ -19,6 +19,13 @@ public sealed class SceneChanger : MonoBehaviour
         SceneManager.LoadScene("GameSettings");
     }
     /// <summary>
+    /// 設定画面とからタイトル画面に
+    /// </summary>
+    public void FromSettingsToTitle()
+    {
+        SceneManager.LoadScene("GameTitle");
+    }
+    /// <summary>
     /// タイトル画面から終了する
     /// </summary>
     public void FromTitleToExit()
