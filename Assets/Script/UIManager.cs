@@ -15,6 +15,7 @@ public sealed class UIManager : MonoBehaviour
     private Text HPText;
     private Text SatietyText;
     private Text StateText;
+    public Text[] LogText { get; private set; }
     private Player player;
     private GameManager gameManager;
 
@@ -22,11 +23,13 @@ public sealed class UIManager : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        LogText = new Text[5];
         LevelText = LevelObject.GetComponent<Text>();
         FloorText = FloorObject.GetComponent<Text>();
         HPText = HPObject.GetComponent<Text>();
         SatietyText = SatietyObject.GetComponent<Text>();
         StateText = StateObject.GetComponent<Text>();
+        LogText = Log.GetComponentsInChildren<Text>();
     }
 	private void Update ()
     {
@@ -45,9 +48,6 @@ public sealed class UIManager : MonoBehaviour
             case MoveObject.STATE.POISON:
                 StateText.text = "毒";
                 break;
-            default:
-                StateText.text = "aaa";
-                break;
         }
         //TextDisplay();
         
@@ -59,14 +59,12 @@ public sealed class UIManager : MonoBehaviour
                 InventoryScreen.SetActive(false);
                 gameManager.GamePause = false;
                 transform.Find("Header").gameObject.SetActive(true);
-
             }
             else if (InventoryScreen.activeSelf == false)
             {
                 InventoryScreen.SetActive(true);
                 gameManager.GamePause = true;
                 transform.Find("Header").gameObject.SetActive(false);
-
             }
         }
     }

@@ -5,9 +5,9 @@ public sealed class EnemyZombie : EnemyBase
 {
     protected override void Start()
     {
-        HP = 1;
-        direction = DIRECTION.DOWN;
         base.Start();
+        HP = 1;
+        direction = DIRECTION.RIGHT;
     }
     protected override void Update()
     {
