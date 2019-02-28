@@ -19,35 +19,28 @@ public sealed class GameManager : MonoBehaviour
     public bool GamePause { get; set; } = false;
     private Transform enemyHolder;
     private Transform itemHolder;
-    private readonly string FileName = "//SaveData.json";
+    public readonly string FileName = "//SaveData.json";
 
     private void Awake()
     {
-        enemyHolder = new GameObject("Enemy").transform;
-        itemHolder = new GameObject("Item").transform;
+        Refrash();
         FloorNumber = 1;
-        enemiesList = new List<GameObject>();
-        itemsList = new List<GameObject>();
         camPos = GameObject.Find("Main Camera");
         playerObject = Instantiate(playerPrefab);
         mapGenerator = gameObject.GetComponent<MapGenerator>();
-        if (File.Exists($"{Application.persistentDataPath}{FileName}") == true)
-        {
-            Debug.Log("LOAD");
-            //DataLoad();
-        }
     }
     public void Start()
     {
+        //DontDestroyOnLoad(gameObject);
         ListAdd();
         RandomDeploy();
         CameraOnCenter();
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        //if (File.Exists($"{Application.persistentDataPath}{FileName}") == true)
-        //{
-        //    Debug.Log("LOAD");
-        //    DataLoad();
-        //}
+        if (File.Exists($"{Application.persistentDataPath}{FileName}") == true)
+        {
+            Debug.Log("LOAD");
+            DataLoad();
+        }
         //プレイヤーのターン
         TurnPlayer = true;
     }
@@ -59,17 +52,22 @@ public sealed class GameManager : MonoBehaviour
             //敵の処理をする
             for (int i = 0; i < enemiesList.Count; i += 1)
             {
-                if(enemiesList[i].GetComponent<EnemyZombie>()!=null)
+                if(enemiesList[i].gameObject.GetComponent<EnemyZombie>()!=null)
                 {
                     EnemyZombie enemyZombie = enemiesList[i].GetComponent<EnemyZombie>();
                     enemyZombie.MoveEnemy((int)enemiesList[i].transform.position.x,
                                           (int)enemiesList[i].transform.position.y);
+                    enemyZombie.AttackEnemy((int)enemiesList[i].transform.position.x,
+                                            (int)enemiesList[i].transform.position.y);
+
                 }
-                else if(enemiesList[i].GetComponent<EnemyKnight>()!=null)
+                else if(enemiesList[i].gameObject.GetComponent<EnemyKnight>()!=null)
                 {
                     EnemyKnight enemyKnight = enemiesList[i].GetComponent<EnemyKnight>();
                     enemyKnight.MoveEnemy((int)enemiesList[i].transform.position.x,
                                           (int)enemiesList[i].transform.position.y);
+                    enemyKnight.AttackEnemy((int)enemiesList[i].transform.position.x,
+                                            (int)enemiesList[i].transform.position.y);
                 }
             }
             TurnPlayer = true;
@@ -81,7 +79,7 @@ public sealed class GameManager : MonoBehaviour
     private void OnApplicationQuit()
     {
         Debug.Log("SAVE_OnApplicationQuit");
-        //DataSave();
+        DataSave();
     }
     /// <summary>
     /// Player,Enemy,Itemを配置
@@ -105,7 +103,7 @@ public sealed class GameManager : MonoBehaviour
             }
         }
         //FLOORのところにenemyを移動
-        for (int i = 0; i < enemiesList.Count - 1; i += 1)
+        for (int i = 0; i < enemiesList.Count; i += 1)
         {
             while (true)
             {
@@ -165,10 +163,20 @@ public sealed class GameManager : MonoBehaviour
             enemiesList.Add(Instantiate(enemyPrefab[Random.Range(0,enemyPrefab.Length)], enemyHolder) as GameObject);
         }
         //ListにitemPrefabを追加、生成
-        for (int k = 0; k < 20; k += 1)
+        for (int k = 0; k < 15; k += 1)
         {
-            itemsList.Add(Instantiate(itemPrefab[0], itemHolder) as GameObject);
+            itemsList.Add(Instantiate(itemPrefab[Random.Range(0,itemPrefab.Length)], itemHolder) as GameObject);
         }
+    }
+    /// <summary>
+    /// 次の階層に行く時に呼ぶ
+    /// </summary>
+    public void Refrash()
+    {
+        enemyHolder = new GameObject("Enemy").transform;
+        itemHolder = new GameObject("Item").transform;
+        enemiesList = new List<GameObject>();
+        itemsList = new List<GameObject>();
     }
     /// <summary>
     /// セーブ
@@ -177,9 +185,10 @@ public sealed class GameManager : MonoBehaviour
     {
         GameData gameData = new GameData()
         {
-            InventoryList = player.inventoryList,
+            //InventoryList = player.inventoryList,
             FloorNumberData = FloorNumber,
             HP=player.HP,
+            MaxHP=player.MaxHP,
             ATK=player.ATK,
             Level=player.Level,
             Exp=player.Exp,
@@ -199,13 +208,20 @@ public sealed class GameManager : MonoBehaviour
         string path = $"{Application.persistentDataPath}{FileName}";
         string json = File.ReadAllText(path);
         GameData restoreData = JsonUtility.FromJson<GameData>(json);
-        player.inventoryList = restoreData.InventoryList;
+        //player.inventoryList = restoreData.InventoryList;
         FloorNumber = restoreData.FloorNumberData;
-        player.HP=restoreData.HP;
-        player.ATK=restoreData.ATK;
-        player.Level=restoreData.Level;
-        player.Exp=restoreData.Exp;
-        player.Direction=restoreData.Direction;
-        player.DEF=restoreData.DEF;
+        player.HP = restoreData.HP;
+        player.MaxHP = restoreData.MaxHP;
+        player.ATK = restoreData.ATK;
+        player.Level = restoreData.Level;
+        player.Exp = restoreData.Exp;
+        player.Direction = restoreData.Direction;
+        player.DEF = restoreData.DEF;
+    }
+    /// <summary>
+    /// データの削除
+    /// </summary>
+    public void DataDelete()
+    {
     }
 }

@@ -13,11 +13,11 @@ public sealed class ButtonInventory : MonoBehaviour
 
     private void Update()
     {
-        if (player.inventoryList[ListNumber] != null)
-        {
-            transform.Find("Text").GetComponent<Text>().text
-            = player.inventoryList[ListNumber].gameObject.GetComponent<ItemPortion>().Name;
-        }
+        //if (player.inventoryList[ListNumber] != null)
+        //{
+        //    transform.Find("Text").GetComponent<Text>().text
+        //    = player.inventoryList[ListNumber].gameObject.GetComponent<ItemPortion>().Name;
+        //}
     }
 
     public void OnClick()

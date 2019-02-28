@@ -1,5 +1,4 @@
-﻿//#define DEBUG_KEYDOWN
-using System.IO;
+﻿using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,30 +8,27 @@ public sealed class Player : MoveObject
     public int MaxHP { get; set; }
     public List<GameObject> inventoryList;
     public int Satiety { get; set; } //満腹度
+    public int MaxSatiety { get; private set; } = 100;
     [SerializeField] private STATE _state;
     public STATE state { get { return _state; } set { _state = value; } }
    
     protected override void Start ()
     {
-        //if (!File.Exists($"{Application.persistentDataPath}{gameManager.FileName}"))
+        base.Start();
+        if (File.Exists($"{Application.persistentDataPath}{gameManager.FileName}")==false)
         {
             Level = 1;
-            HP = 100;
-            Satiety = 100;
+            HP = 50;
             ATK = 10;
             MaxHP = HP;
         }
-        
+        Satiety = 100;
         direction = DIRECTION.DOWN;
         state = STATE.NONE;
-        base.Start();
 	}
 
     private void Update()
     {
-#if DEBUG_KEYDOWN
-        if (Input.GetKeyDown(KeyCode.A)) { HP = 0; }
-#endif
         //プレイヤーのターン
         if (gameManager.TurnPlayer == true)
         {
@@ -101,6 +97,7 @@ public sealed class Player : MoveObject
             Destroy(GameObject.Find("Enemy"));
             Destroy(GameObject.Find("Item"));
             mapGenerator.Awake();
+            gameManager.Refrash();
             //mapGenerator.InitializeMap();
             //mapGenerator.RoomCreate();
             //mapGenerator.CreateDungeon();
@@ -256,7 +253,14 @@ public sealed class Player : MoveObject
                         {
                             if (gameManager.enemiesList[i].transform.position ==new Vector3(x, y + 1))
                             {
-                                gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
+                                if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>() != null)
+                                {
+                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
+                                }
+                                else if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>() != null)
+                                {
+                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>().HP -= ATK;
+                                }
                             }
                         }
                     }
@@ -273,7 +277,14 @@ public sealed class Player : MoveObject
                         {
                             if (gameManager.enemiesList[i].transform.position == new Vector3(x, y - 1))
                             {
-                                gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
+                                if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>() != null)
+                                {
+                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
+                                }
+                                else if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>() != null)
+                                {
+                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>().HP -= ATK;
+                                }
                             }
                         }
                     }
@@ -290,7 +301,14 @@ public sealed class Player : MoveObject
                         {
                             if (gameManager.enemiesList[i].transform.position == new Vector3(x - 1, y))
                             {
-                                gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
+                                if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>() != null)
+                                {
+                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
+                                }
+                                else if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>() != null)
+                                {
+                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>().HP -= ATK;
+                                }
                             }
                         }
                     }
@@ -307,7 +325,14 @@ public sealed class Player : MoveObject
                         {
                             if (gameManager.enemiesList[i].transform.position == new Vector3(x + 1, y))
                             {
-                                gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
+                                if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>() != null)
+                                {
+                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
+                                }
+                                else if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>() != null)
+                                {
+                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>().HP -= ATK;
+                                }
                             }
                         }
                     }
