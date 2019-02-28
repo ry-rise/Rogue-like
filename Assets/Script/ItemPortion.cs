@@ -2,7 +2,7 @@
 
 public sealed class ItemPortion : ItemBase
 {
-    private int[] recoveryAmount = { 10, 20, 30, 40, 50 };
+    //private int[] recoveryAmount = { 10, 20, 30, 40, 50 };
     
     protected override void Awake()
     {
@@ -22,11 +22,25 @@ public sealed class ItemPortion : ItemBase
     protected override void PickUP()
     {
         base.PickUP();
+        for (int i = 0; i < iManager.LogText.Length; i += 1)
+        {
+            if (iManager.LogText[i].text == "")
+            {
+                iManager.LogText[i].text = "ポーションを手に入れた";
+                break;
+            }
+            else { continue; }
+        }
+        if(iManager.LogText[iManager.LogText.Length-1].text!="")
+        {
+            iManager.LogText[iManager.LogText.Length - 1].text = "ポーションを手に入れた";
+
+        }
     }
 
     public override void Use()
     {
-        int i = Random.Range(0, recoveryAmount.Length - 1);
+        int i = Random.Range(0, recoveryAmount.Length);
         player.HP += recoveryAmount[i];
         player.inventoryList.Remove(gameObject);
         Destroy(gameObject);

@@ -4,7 +4,10 @@ public abstract class ItemBase : MonoBehaviour
 {
     protected GameManager gameManager;
     protected MapGenerator mapGenerator;
+    protected UIManager iManager;
     protected Player player;
+    protected int[] recoveryAmount = { 10, 20, 30, 40, 50 };
+
     public string Name { get; protected set; }
 
     //アイテムを取った時、トラップに引っ掛かったときの処理
@@ -23,6 +26,7 @@ public abstract class ItemBase : MonoBehaviour
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         mapGenerator = GameObject.Find("GameManager").GetComponent<MapGenerator>();
+        iManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
     }
 }
