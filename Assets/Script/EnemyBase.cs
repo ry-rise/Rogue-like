@@ -1,13 +1,17 @@
 ﻿using System;
 using UnityEngine;
 
-public class EnemyBase : MoveObject {
+public class EnemyBase : MoveObject 
+{
     protected Transform playerPos;
-
+    protected string Name;
+    private UIManager iManager;
+    byte flag=0000;
     protected override void Start ()
     {
-        playerPos = GameObject.FindWithTag("Player").transform;
         base.Start();
+        iManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        playerPos = GameObject.FindWithTag("Player").transform;
 	}
     protected virtual void Update()
     {
@@ -16,10 +20,7 @@ public class EnemyBase : MoveObject {
             DieEnemy();
         }
     }
-    protected bool CheckMove(DIRECTION direction, int x, int y, GameObject gameObject)
-    {
-        return false;
-    }
+    
     protected void DieEnemy()
     {
         gameManager.enemiesList.Remove(gameObject);
@@ -68,77 +69,98 @@ public class EnemyBase : MoveObject {
     }
     public void MoveEnemy(int x, int y)
     {
-        int movX = (int)(playerPos.position.x - gameObject.transform.position.x);
-        int movY = (int)(playerPos.position.y - gameObject.transform.position.y);
-        Vector2 mov = playerPos.position - gameObject.transform.position;
-        mov.Normalize();
-        if (Math.Abs(movX) > Math.Abs(movY))
+        //int movX = (int)(playerPos.position.x - gameObject.transform.position.x);
+        //int movY = (int)(playerPos.position.y - gameObject.transform.position.y);
+        //Vector2 mov = playerPos.position - gameObject.transform.position;
+        //mov.Normalize();
+        //First:
+        var a = Enum.GetValues(typeof(DIRECTION));
+        var b = a.GetValue(new System.Random().Next(a.Length));
+        /* (Math.Abs(movX) > Math.Abs(movY))*/
+        //if (movX < 0)
+        switch ((DIRECTION)b)
         {
-            if (movX < 0)
-            {
-                direction = DIRECTION.LEFT;
-                if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
+            case DIRECTION.LEFT:
                 {
-                    mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
-                    mapGenerator.MapStatusType[x - 1, y] = (int)MapGenerator.STATE.ENEMY;
-                    gameObject.transform.position = new Vector2(gameObject.transform.position.x - 1,
-                                                                gameObject.transform.position.y);
+                    if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
+                    {
+                        direction = DIRECTION.LEFT;
+                        mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
+                        mapGenerator.MapStatusType[x - 1, y] = (int)MapGenerator.STATE.ENEMY;
+                        gameObject.transform.position = new Vector2(gameObject.transform.position.x - 1,
+                                                                    gameObject.transform.position.y);
+                    }
+                    else if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == false)
+                    {
+                        flag += 0010;
+                        //goto First;
+                    }
+                    break;
                 }
-            }
-            else
-            {
-                direction = DIRECTION.RIGHT;
-                mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
-                mapGenerator.MapStatusType[x + 1, y] = (int)MapGenerator.STATE.ENEMY;
-                gameObject.transform.position = new Vector2(gameObject.transform.position.x + 1,
-                                                            gameObject.transform.position.y);
-            }
-        }
-        else
-        {
-            if (movY < 0)
-            {
-                direction = DIRECTION.DOWN;
-                mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
-                mapGenerator.MapStatusType[x, y - 1] = (int)MapGenerator.STATE.ENEMY;
-                gameObject.transform.position = new Vector2(gameObject.transform.position.x,
-                                                  gameObject.transform.position.y - 1);
-            }
-            else
-            {
-                direction = DIRECTION.UP;
-                mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
-                mapGenerator.MapStatusType[x, y + 1] = (int)MapGenerator.STATE.ENEMY;
-                gameObject.transform.position = new Vector2(gameObject.transform.position.x,
-                                                         gameObject.transform.position.y + 1);
-            }
+            case DIRECTION.RIGHT:
+                {
+                    if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
+                    {
+                        direction = DIRECTION.RIGHT;
+                        mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
+                        mapGenerator.MapStatusType[x + 1, y] = (int)MapGenerator.STATE.ENEMY;
+                        gameObject.transform.position = new Vector2(gameObject.transform.position.x + 1,
+                                                                    gameObject.transform.position.y);
+                    }
+                    else if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == false)
+                    {
+                        flag += 0010;
+                        //goto First;
+                    }
+                    break;
+                }
+            //}
+            //else
+            //{
+            //if (movY < 0)
+            case DIRECTION.DOWN:
+                {
+                    if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
+                    {
+                        direction = DIRECTION.DOWN;
+                        mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
+                        mapGenerator.MapStatusType[x, y - 1] = (int)MapGenerator.STATE.ENEMY;
+                        gameObject.transform.position = new Vector2(gameObject.transform.position.x,
+                                                          gameObject.transform.position.y - 1);
+                    }
+                    else if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == false)
+                    {
+                        flag += 0010;
+                        //goto First;
+                    }
+                    break;
+                }
+            //else
+            case DIRECTION.UP:
+                {
+                    if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
+                    {
+                        direction = DIRECTION.UP;
+                        mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
+                        mapGenerator.MapStatusType[x, y + 1] = (int)MapGenerator.STATE.ENEMY;
+                        gameObject.transform.position = new Vector2(gameObject.transform.position.x,
+                                                                    gameObject.transform.position.y + 1);
+                    }
+                    else if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == false)
+                    {
+                        //goto First;
+                    }
+                    break;
+                }
         }
         TurnEnd = true;
-        #region a
-        //int xDir = 0;
-        //int yDir = 0;
-        //if (Mathf.Abs(player_pos.position.x - gameObject.transform.position.x) < float.Epsilon)
-        //{
-        //    //プレイヤーが上にいれば+1、下に入れば-1する
-        //    yDir = player_pos.position.y > gameObject.transform.position.y ? 1 : -1;
-        //    yDir += (int)gameObject.transform.position.y;
-        //    func_end = true;
-        //}
-        //else
-        //{
-        //    //プレイヤーが右にいれば+1、左にいれば-1する
-        //    xDir = player_pos.position.x > gameObject.transform.position.x ? 1 : -1;
-        //    xDir += (int)gameObject.transform.position.x;
-        //    func_end = true;
-        //}
-        #endregion
+
     }
     public void AttackEnemy(int x, int y)
     {
-
         if (CheckAttackEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
         {
-
+           
         }
     }
     private bool CheckAttackEnemy(int x, int y)
@@ -173,5 +195,5 @@ public class EnemyBase : MoveObject {
                 return false;
         }
     }
-
+  
 }

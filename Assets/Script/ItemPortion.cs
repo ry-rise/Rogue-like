@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 
 public sealed class ItemPortion : ItemBase
-{
-    //private int[] recoveryAmount = { 10, 20, 30, 40, 50 };
-    
+{    
     protected override void Awake()
     {
         Name = "ポーション";
@@ -34,7 +32,6 @@ public sealed class ItemPortion : ItemBase
         if(iManager.LogText[iManager.LogText.Length-1].text!="")
         {
             iManager.LogText[iManager.LogText.Length - 1].text = "ポーションを手に入れた";
-
         }
     }
 

@@ -101,9 +101,10 @@ public sealed class Player : MoveObject
             //mapGenerator.InitializeMap();
             //mapGenerator.RoomCreate();
             //mapGenerator.CreateDungeon();
-            gameManager.Start();
-            //gameManager.RandomDeploy();
-            //gameManager.CameraOnCenter();
+            //gameManager.Start();
+            gameManager.ListAdd();
+            gameManager.RandomDeploy();
+            gameManager.CameraOnCenter();
         }
     }
     #endregion

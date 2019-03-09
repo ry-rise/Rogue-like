@@ -155,7 +155,7 @@ public sealed class GameManager : MonoBehaviour
     /// <summary>
     /// Listに追加する
     /// </summary>
-    private void ListAdd()
+    public void ListAdd()
     {
         //ListにenemyPrefabを追加、生成
         for (int j = 0; j < 15; j += 1)
