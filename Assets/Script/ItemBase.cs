@@ -18,6 +18,19 @@ public abstract class ItemBase : MonoBehaviour
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         mapGenerator.MapStatusType[(int)transform.position.x, (int)transform.position.y] = (int)MapGenerator.STATE.FLOOR;
+        for (int i = 0; i < iManager.LogText.Length; i += 1)
+        {
+            if (iManager.LogText[i].text == "")
+            {
+                iManager.LogText[i].text = $"{Name}を手に入れた";
+                break;
+            }
+            else { continue; }
+        }
+        if (iManager.LogText[iManager.LogText.Length - 1].text != "")
+        {
+            iManager.LogText[iManager.LogText.Length - 1].text = $"{Name}を手に入れた";
+        }
     }
     //アイテムを使うときの処理
     public virtual void Use() { }
