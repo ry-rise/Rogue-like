@@ -37,8 +37,8 @@ public abstract class ItemBase : MonoBehaviour
 
     protected virtual void Awake()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        mapGenerator = GameObject.Find("GameManager").GetComponent<MapGenerator>();
+        gameManager = GameObject.Find("Manager").GetComponent<GameManager>();
+        mapGenerator = GameObject.Find("Manager").GetComponent<MapGenerator>();
         iManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
     }

@@ -42,7 +42,7 @@ public sealed class MapGenerator : MonoBehaviour
     private GameManager gameManager;
     public void Awake()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        gameManager = GameObject.Find("Manager").GetComponent<GameManager>();
         mapHolder = new GameObject("Map").transform;
         InitializeMap();
         RoomCreate();
@@ -51,12 +51,12 @@ public sealed class MapGenerator : MonoBehaviour
     private void Start()
     {
         playerPos = gameManager.playerObject.GetComponent<Player>();
-        for(int y=0;y<MapHeight;y+=1)
-        { 
-        for(int x=0;x<MapWidth;x+=1)
+        for (int y = 0; y < MapHeight; y += 1)
         {
-        Debug.Log(MapStatusRoom[x,y]);
-        }
+            for (int x = 0; x < MapWidth; x += 1)
+            {
+                Debug.Log(MapStatusRoom[x, y]);
+            }
         }
     }
 

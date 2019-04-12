@@ -22,7 +22,7 @@ public sealed class UIManager : MonoBehaviour
 	private void Start ()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        gameManager = GameObject.Find("Manager").GetComponent<GameManager>();
         LogText = new Text[5];
         LevelText = LevelObject.GetComponent<Text>();
         FloorText = FloorObject.GetComponent<Text>();

@@ -9,6 +9,7 @@ public sealed class Player : MoveObject
     public List<GameObject> inventoryList;
     public int Satiety { get; set; } //満腹度
     public int MaxSatiety { get; private set; } = 100;
+    private bool AbnormalCondition;
     [SerializeField] private STATE _state;
     public STATE state { get { return _state; } set { _state = value; } }
    

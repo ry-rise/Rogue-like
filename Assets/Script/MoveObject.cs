@@ -19,9 +19,9 @@ public abstract class MoveObject : MonoBehaviour
 
     protected virtual void Start()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        mapGenerator = GameObject.Find("GameManager").GetComponent<MapGenerator>();
-        sceneChanger = GameObject.Find("GameManager").GetComponent<SceneChanger>();
+        gameManager = GameObject.Find("Manager").GetComponent<GameManager>();
+        mapGenerator = GameObject.Find("Manager").GetComponent<MapGenerator>();
+        sceneChanger = GameObject.Find("Manager").GetComponent<SceneChanger>();
     }
     
     /// <summary>

@@ -49,6 +49,7 @@ public sealed class GameManager : MonoBehaviour
         //プレイヤーの行動が終わったら
         if (TurnPlayer == false)
         {
+            TurnPlayer = true;
             //敵の処理をする
             for (int i = 0; i < enemiesList.Count; i += 1)
             {
@@ -70,7 +71,6 @@ public sealed class GameManager : MonoBehaviour
                                             (int)enemiesList[i].transform.position.y);
                 }
             }
-            TurnPlayer = true;
         }
     }
     /// <summary>
@@ -144,7 +144,7 @@ public sealed class GameManager : MonoBehaviour
         }
     }
     /// <summary>
-    /// カメラの中心にプレイヤーを配置
+    /// プレイヤーをカメラの中心に配置
     /// </summary>
     public void CameraOnCenter()
     {

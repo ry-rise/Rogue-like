@@ -20,13 +20,21 @@ public class EnemyBase : MoveObject
             DieEnemy();
         }
     }
-    
+    /// <summary>
+    /// 敵が死んだときの処理
+    /// </summary>
     protected void DieEnemy()
     {
         gameManager.enemiesList.Remove(gameObject);
         mapGenerator.MapStatusType[(int)transform.position.x, (int)transform.position.y] = (int)MapGenerator.STATE.FLOOR;
         Destroy(gameObject);
     }
+    /// <summary>
+    /// 敵の移動判定
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
     private bool CheckMoveEnemy(int x, int y)
     {
         switch (direction)
@@ -67,6 +75,11 @@ public class EnemyBase : MoveObject
                 return false;
         }
     }
+    /// <summary>
+    /// 敵の移動処理
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
     public void MoveEnemy(int x, int y)
     {
         //int movX = (int)(playerPos.position.x - gameObject.transform.position.x);
@@ -156,6 +169,11 @@ public class EnemyBase : MoveObject
         TurnEnd = true;
 
     }
+    /// <summary>
+    /// 敵の攻撃処理
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
     public void AttackEnemy(int x, int y)
     {
         if (CheckAttackEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
@@ -163,6 +181,12 @@ public class EnemyBase : MoveObject
            
         }
     }
+    /// <summary>
+    /// 敵の攻撃判定
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
     private bool CheckAttackEnemy(int x, int y)
     {
         switch (direction)
