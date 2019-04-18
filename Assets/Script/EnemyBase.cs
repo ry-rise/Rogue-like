@@ -6,7 +6,7 @@ public class EnemyBase : MoveObject
     protected Transform playerPos;
     protected string Name;
     private UIManager iManager;
-    byte flag=0000;
+    int flag=0000;
     protected override void Start ()
     {
         base.Start();
@@ -105,7 +105,7 @@ public class EnemyBase : MoveObject
                     }
                     else if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == false)
                     {
-                        flag += 0010;
+                        flag += 1000;
                         //goto First;
                     }
                     break;
@@ -122,7 +122,7 @@ public class EnemyBase : MoveObject
                     }
                     else if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == false)
                     {
-                        flag += 0010;
+                        flag += 0100;
                         //goto First;
                     }
                     break;
@@ -143,7 +143,7 @@ public class EnemyBase : MoveObject
                     }
                     else if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == false)
                     {
-                        flag += 0010;
+                        flag += 0001;
                         //goto First;
                     }
                     break;
@@ -161,6 +161,7 @@ public class EnemyBase : MoveObject
                     }
                     else if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == false)
                     {
+                        flag += 0001;
                         //goto First;
                     }
                     break;
@@ -184,7 +185,7 @@ public class EnemyBase : MoveObject
     /// <summary>
     /// 敵の攻撃判定
     /// </summary>
-    /// <param name="x"></param>
+    /// <param name="x">敵のX座標</param>
     /// <param name="y"></param>
     /// <returns></returns>
     private bool CheckAttackEnemy(int x, int y)
