@@ -6,19 +6,19 @@ using Random = UnityEngine.Random;
 public sealed class GameManager : MonoBehaviour
 {
     [HideInInspector] public GameObject playerObject;
-    private Player player;
-    private GameObject camPos;
-    public List<GameObject> enemiesList;
-    public List<GameObject> itemsList;
-    private MapGenerator mapGenerator;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject[] enemyPrefab;
     [SerializeField] private GameObject[] itemPrefab;
+    private Player player;
+    private MapGenerator mapGenerator;
+    private GameObject camPos;
+    private Transform enemyHolder;
+    private Transform itemHolder;
+    public List<GameObject> enemiesList;
+    public List<GameObject> itemsList;
     public int FloorNumber { get; set; }
     public bool TurnPlayer { get; set; } = false;
     public bool GamePause { get; set; } = false;
-    private Transform enemyHolder;
-    private Transform itemHolder;
     public readonly string FileName = "//SaveData.json";
 
     private void Awake()
@@ -41,6 +41,7 @@ public sealed class GameManager : MonoBehaviour
             Debug.Log("LOAD");
             DataLoad();
         }
+
         //プレイヤーのターン
         TurnPlayer = true;
     }
@@ -53,7 +54,7 @@ public sealed class GameManager : MonoBehaviour
             //敵の処理をする
             for (int i = 0; i < enemiesList.Count; i += 1)
             {
-                if(enemiesList[i].gameObject.GetComponent<EnemyZombie>()!=null)
+                if (enemiesList[i].gameObject.GetComponent<EnemyZombie>() != null)
                 {
                     EnemyZombie enemyZombie = enemiesList[i].GetComponent<EnemyZombie>();
                     enemyZombie.MoveEnemy((int)enemiesList[i].transform.position.x,
@@ -62,7 +63,7 @@ public sealed class GameManager : MonoBehaviour
                                             (int)enemiesList[i].transform.position.y);
 
                 }
-                else if(enemiesList[i].gameObject.GetComponent<EnemyKnight>()!=null)
+                else if (enemiesList[i].gameObject.GetComponent<EnemyKnight>() != null)
                 {
                     EnemyKnight enemyKnight = enemiesList[i].GetComponent<EnemyKnight>();
                     enemyKnight.MoveEnemy((int)enemiesList[i].transform.position.x,
@@ -160,12 +161,12 @@ public sealed class GameManager : MonoBehaviour
         //ListにenemyPrefabを追加、生成
         for (int j = 0; j < 15; j += 1)
         {
-            enemiesList.Add(Instantiate(enemyPrefab[Random.Range(0,enemyPrefab.Length)], enemyHolder) as GameObject);
+            enemiesList.Add(Instantiate(enemyPrefab[Random.Range(0, enemyPrefab.Length)], enemyHolder) as GameObject);
         }
         //ListにitemPrefabを追加、生成
         for (int k = 0; k < 15; k += 1)
         {
-            itemsList.Add(Instantiate(itemPrefab[Random.Range(0,itemPrefab.Length)], itemHolder) as GameObject);
+            itemsList.Add(Instantiate(itemPrefab[Random.Range(0, itemPrefab.Length)], itemHolder) as GameObject);
         }
     }
     /// <summary>
@@ -187,13 +188,13 @@ public sealed class GameManager : MonoBehaviour
         {
             //InventoryList = player.inventoryList,
             FloorNumberData = FloorNumber,
-            HP=player.HP,
-            MaxHP=player.MaxHP,
-            ATK=player.ATK,
-            Level=player.Level,
-            Exp=player.Exp,
-            Direction=player.Direction,
-            DEF=player.DEF
+            HP = player.HP,
+            MaxHP = player.MaxHP,
+            ATK = player.ATK,
+            Level = player.Level,
+            Exp = player.Exp,
+            Direction = player.Direction,
+            DEF = player.DEF
         };
         string json = JsonUtility.ToJson(gameData);
         string path = $"{Application.persistentDataPath}{FileName}";
@@ -224,4 +225,11 @@ public sealed class GameManager : MonoBehaviour
     public void DataDelete()
     {
     }
+    //デバッグ時のみ
+    /*[System.Diagnostics.Conditional("a")]
+    private static void A()
+    {
+        Debug.Log("a");
+    }
+    */
 }

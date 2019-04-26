@@ -6,6 +6,7 @@ public abstract class MoveObject : MonoBehaviour
     protected MapGenerator mapGenerator;
     protected SceneChanger sceneChanger;
     protected bool TurnEnd { get; set; } = false;
+    protected DIRECTION direction;
     public int HP { get; set; }
     public int Level { get; set; }
     public int Exp { get; set; }
@@ -15,7 +16,6 @@ public abstract class MoveObject : MonoBehaviour
     public enum DIRECTION { UP, DOWN, LEFT, RIGHT }
     public enum STATE { NONE, POISON, PARALYSIS }
     public enum MOVEPATTERN { }
-    protected DIRECTION direction;
 
     protected virtual void Start()
     {
