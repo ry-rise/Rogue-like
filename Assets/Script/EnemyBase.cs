@@ -6,7 +6,8 @@ public class EnemyBase : MoveObject
     protected Transform playerPos;
     protected string Name;
     private UIManager iManager;
-    int flag=0000;
+    private bool check;
+    private int flag=0000;
     protected override void Start ()
     {
         base.Start();

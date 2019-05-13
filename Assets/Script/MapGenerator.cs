@@ -246,7 +246,6 @@ public sealed class MapGenerator : MonoBehaviour
                                                       new Vector2(x, y),
                                                       Quaternion.identity,
                                                       mapHolder) as GameObject;
-                    //instance.transform.localScale = new Vector2(3, 3);
                 }
                 else if (MapStatusType[x, y] == (int)STATE.PLAYER)
                 {
@@ -254,7 +253,6 @@ public sealed class MapGenerator : MonoBehaviour
                                                       new Vector2(x, y),
                                                       Quaternion.identity,
                                                       mapHolder) as GameObject;
-                    //instance.transform.localScale = new Vector2(3, 3);
                     playerPos.transform.position = new Vector2(x, y);
                 }
                 else if (MapStatusType[x, y] == (int)STATE.EXIT)
@@ -263,7 +261,6 @@ public sealed class MapGenerator : MonoBehaviour
                                                       new Vector2(x, y),
                                                       Quaternion.identity,
                                                       mapHolder) as GameObject;
-                    //instance.transform.localScale = new Vector2(3, 3);
                 }
                 else if(MapStatusTrap[x,y]==(int)STATE.TRAP_POISON)
                 {
@@ -278,7 +275,6 @@ public sealed class MapGenerator : MonoBehaviour
                                                       new Vector2(x, y),
                                                       Quaternion.identity,
                                                       mapHolder) as GameObject;
-                    //instance.transform.localScale = new Vector2(3, 3);
                 }
             }
         }
