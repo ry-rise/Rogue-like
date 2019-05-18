@@ -20,7 +20,6 @@ public sealed class ItemPortion : ItemBase
     protected override void PickUP()
     {
         base.PickUP();
-        
     }
 
     public override void Use()

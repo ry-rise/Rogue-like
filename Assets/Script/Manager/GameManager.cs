@@ -31,7 +31,6 @@ public sealed class GameManager : MonoBehaviour
     }
     public void Start()
     {
-        //DontDestroyOnLoad(gameObject);
         ListAdd();
         RandomDeploy();
         CameraOnCenter();

@@ -6,13 +6,22 @@ public class EnemyBase : MoveObject
     protected Transform playerPos;
     protected string Name;
     private UIManager iManager;
+    private GameObject player;
+    private Player playerScript;
     private bool check;
-    private int flag=0000;
+    private int flag = 0;
+    private int flag_LEFT = 0x0001;
+    private int flag_RIGHT = 0x0002;
+    private int flag_UP = 0x0004;
+    private int flag_DOWN = 0x0008;
+
     protected override void Start ()
     {
         base.Start();
         iManager = GameObject.Find("Canvas").GetComponent<UIManager>();
-        playerPos = GameObject.FindWithTag("Player").transform;
+        player = GameObject.FindWithTag("Player");
+        playerScript = player.GetComponent<Player>();
+        playerPos = player.transform;
 	}
     protected virtual void Update()
     {
@@ -26,6 +35,7 @@ public class EnemyBase : MoveObject
     /// </summary>
     protected void DieEnemy()
     {
+        playerScript.Exp += Exp;
         gameManager.enemiesList.Remove(gameObject);
         mapGenerator.MapStatusType[(int)transform.position.x, (int)transform.position.y] = (int)MapGenerator.STATE.FLOOR;
         Destroy(gameObject);
