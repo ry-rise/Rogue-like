@@ -355,6 +355,7 @@ public sealed class Player : MoveObject
     private void LevelUP()
     {
         Level += 1;
+        Mathf.RoundToInt(ATK * 1.2f);
     }
 #endregion
 
