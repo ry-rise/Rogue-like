@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -42,7 +43,6 @@ public sealed class GameManager : MonoBehaviour
             Debug.Log("LOAD");
             DataLoad();
         }
-
         //プレイヤーのターン
         TurnPlayer = true;
     }
@@ -233,4 +233,11 @@ public sealed class GameManager : MonoBehaviour
         Debug.Log("a");
     }
     */
+    IEnumerator Key()
+    {
+        while (!Input.GetKeyDown(KeyCode.Return))
+        {
+            yield return null;
+        }
+    }
 }

@@ -51,13 +51,19 @@ public sealed class MapGenerator : MonoBehaviour
     private void Start()
     {
         playerPos = gameManager.playerObject.GetComponent<Player>();
-        for (int y = 0; y < MapHeight; y += 1)
-        {
-            for (int x = 0; x < MapWidth; x += 1)
-            {
-                Debug.Log(MapStatusRoom[x, y]);
-            }
-        }
+        Debug.Log(MapStatusType[30, 35]);
+        Debug.Log(MapStatusType[31, 35]);
+        Debug.Log(MapStatusType[32, 35]);
+        Debug.Log(MapStatusType[33, 35]);
+        Debug.Log(MapStatusType[34, 35]);
+
+        //for (int y = 0; y < MapHeight; y += 1)
+        //{
+        //    for (int x = 0; x < MapWidth; x += 1)
+        //    {
+        //        Debug.Log(MapStatusRoom[x, y]);
+        //    }
+        //}
     }
 
     public void InitializeMap()
@@ -160,49 +166,25 @@ public sealed class MapGenerator : MonoBehaviour
     private void CreateRoad(int roadStartPointX, int roadStartPointY, int meetPointX, int meetPointY)
     {
         bool isRight;
-        if (roadStartPointX > meetPointX)
-        {
-            isRight = true;
-        }
-        else
-        {
-            isRight = false;
-        }
+        if (roadStartPointX > meetPointX) { isRight = true; }
+        else { isRight = false; }
         bool isUnder;
-        if (roadStartPointY > meetPointY)
-        {
-            isUnder = false;
-        }
-        else
-        {
-            isUnder = true;
-        }
+        if (roadStartPointY > meetPointY) { isUnder = false; }
+        else { isUnder = true; }
 
         if (Random.Range(0, 2) == 0)
         {
             while (roadStartPointX != meetPointX)
             {
                 MapStatusType[roadStartPointY, roadStartPointX] = (int)STATE.ROAD;
-                if (isRight == true)
-                {
-                    roadStartPointX -= 1;
-                }
-                else
-                {
-                    roadStartPointX += 1;
-                }
+                if (isRight == true) { roadStartPointX -= 1; }
+                else { roadStartPointX += 1; }
             }
             while (roadStartPointY != meetPointY)
             {
                 MapStatusType[roadStartPointY, roadStartPointX] = (int)STATE.ROAD;
-                if (isUnder == true)
-                {
-                    roadStartPointY += 1;
-                }
-                else
-                {
-                    roadStartPointY -= 1;
-                }
+                if (isUnder == true) { roadStartPointY += 1; }
+                else { roadStartPointY -= 1; }
             }
         }
 
@@ -211,26 +193,14 @@ public sealed class MapGenerator : MonoBehaviour
             while (roadStartPointY != meetPointY)
             {
                 MapStatusType[roadStartPointY, roadStartPointX] = (int)STATE.ROAD;
-                if (isUnder == true)
-                {
-                    roadStartPointY += 1;
-                }
-                else
-                {
-                    roadStartPointY -= 1;
-                }
+                if (isUnder == true) { roadStartPointY += 1; }
+                else { roadStartPointY -= 1; }
             }
             while (roadStartPointX != meetPointX)
             {
                 MapStatusType[roadStartPointY, roadStartPointX] = (int)STATE.ROAD;
-                if (isRight == true)
-                {
-                    roadStartPointX -= 1;
-                }
-                else
-                {
-                    roadStartPointX += 1;
-                }
+                if (isRight == true) { roadStartPointX -= 1; }
+                else { roadStartPointX += 1; }
             }
         }
     }

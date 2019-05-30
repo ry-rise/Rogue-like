@@ -101,7 +101,6 @@ public class EnemyBase : MoveObject
         //int movY = (int)(playerPos.position.y - gameObject.transform.position.y);
         //Vector2 mov = playerPos.position - gameObject.transform.position;
         //mov.Normalize();
-        //First:
         var a = Enum.GetValues(typeof(DIRECTION));
         var b = a.GetValue(new System.Random().Next(a.Length));
         /* (Math.Abs(movX) > Math.Abs(movY))*/
@@ -121,7 +120,6 @@ public class EnemyBase : MoveObject
                     else if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == false)
                     {
                         flag += 1000;
-                        //goto First;
                     }
                     break;
                 }
@@ -138,7 +136,6 @@ public class EnemyBase : MoveObject
                     else if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == false)
                     {
                         flag += 0100;
-                        //goto First;
                     }
                     break;
                 }
@@ -159,11 +156,9 @@ public class EnemyBase : MoveObject
                     else if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == false)
                     {
                         flag += 0001;
-                        //goto First;
                     }
                     break;
                 }
-            //else
             case DIRECTION.UP:
                 {
                     if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
@@ -177,7 +172,6 @@ public class EnemyBase : MoveObject
                     else if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == false)
                     {
                         flag += 0001;
-                        //goto First;
                     }
                     break;
                 }
