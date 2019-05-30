@@ -18,7 +18,7 @@ public sealed class UIManager : MonoBehaviour
     public Text[] LogText { get; private set; }
     private Player player;
     private GameManager gameManager;
-
+    private bool checkTurn;
 	private void Start ()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
@@ -37,19 +37,22 @@ public sealed class UIManager : MonoBehaviour
         FloorText.text = $"{gameManager.FloorNumber.ToString()}F";
         HPText.text = $"HP:{player.HP.ToString()}/{player.MaxHP.ToString()}";
         SatietyText.text = $"空腹度:{player.Satiety.ToString()}";
-        switch(player.state)
+        if (player!=null)
         {
-            case MoveObject.STATE.NONE:
-                StateText.text = "状態異常なし";
-                break;
-            case MoveObject.STATE.PARALYSIS:
-                StateText.text = "麻痺";
-                break;
-            case MoveObject.STATE.POISON:
-                StateText.text = "毒";
-                break;
+            switch (player.state)
+            {
+                case MoveObject.STATE.NONE:
+                    StateText.text = "状態異常なし";
+                    
+                    break;
+                case MoveObject.STATE.PARALYSIS:
+                    StateText.text = "麻痺";
+                    break;
+                case MoveObject.STATE.POISON:
+                    StateText.text = "毒";
+                    break;
+            }
         }
-        //TextDisplay();
         
         //Iキーを押すとインベントリが表示/非表示
         if (Input.GetKeyDown(KeyCode.I))
@@ -68,26 +71,4 @@ public sealed class UIManager : MonoBehaviour
             }
         }
     }
-
-    //インベントリ
-    private void Inventory() { }
-
-    /// <summary>
-    /// インベントリの表示/非表示でテキストの表示/非表示を切り替える
-    /// </summary>
-    // private void TextDisplay()
-    // {
-    //     if (gameManager.GamePause == true)
-    //     {
-    //         transform.Find("Header").gameObject.SetActive(false);
-    //     }
-    //     else if(gameManager.GamePause==false)
-    //     {
-    //         transform.Find("Header").gameObject.SetActive(true);
-    //         //LevelObject.SetActive(true);
-    //         //FloorObject.SetActive(true);
-    //         //HPObject.SetActive(true);
-    //         //SatietyObject.SetActive(true);
-    //     }
-    // }
 }

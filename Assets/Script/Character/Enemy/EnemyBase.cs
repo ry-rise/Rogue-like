@@ -55,6 +55,7 @@ public class EnemyBase : MoveObject
                     mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.ENEMY ||
                     mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.PLAYER)
                 {
+                    flag += flag_UP;
                     return false;
                 }
                 return true;
@@ -63,6 +64,7 @@ public class EnemyBase : MoveObject
                     mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.ENEMY ||
                     mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.PLAYER)
                 {
+                    flag+=flag_DOWN;
                     return false;
                 }
                 return true;
@@ -71,6 +73,7 @@ public class EnemyBase : MoveObject
                     mapGenerator.MapStatusType[x - 1, y] == (int)MapGenerator.STATE.ENEMY ||
                     mapGenerator.MapStatusType[x - 1, y] == (int)MapGenerator.STATE.PLAYER)
                 {
+                    flag += flag_LEFT;
                     return false;
                 }
                 return true;
@@ -79,6 +82,7 @@ public class EnemyBase : MoveObject
                     mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.ENEMY ||
                     mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.PLAYER)
                 {
+                    flag += flag_RIGHT;
                     return false;
                 }
                 return true;

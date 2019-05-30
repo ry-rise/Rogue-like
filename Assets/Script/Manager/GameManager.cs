@@ -14,6 +14,8 @@ public sealed class GameManager : MonoBehaviour
     private GameObject camPos;
     private Transform enemyHolder;
     private Transform itemHolder;
+    private enum TurnManager { PLAYER_START,PLAYER_TURN,PLAYER_END,ENEMIES_START,ENEMIES_TURN,ENIMIES,END}
+    private TurnManager turnManager;
     public List<GameObject> enemiesList;
     public List<GameObject> itemsList;
     public int FloorNumber { get; set; }
@@ -49,7 +51,7 @@ public sealed class GameManager : MonoBehaviour
         //プレイヤーの行動が終わったら
         if (TurnPlayer == false)
         {
-            TurnPlayer = true;
+            TurnPlayer = true;  
             //敵の処理をする
             for (int i = 0; i < enemiesList.Count; i += 1)
             {
