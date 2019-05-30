@@ -7,13 +7,20 @@ public abstract class MoveObject : MonoBehaviour
     protected SceneChanger sceneChanger;
     protected bool TurnEnd { get; set; } = false;
     protected DIRECTION direction;
+    //体力
     public int HP { get; set; }
+    //レベル
     public int Level { get; set; }
+    //経験値
     public int Exp { get; set; }
+    //方向
     public int Direction { get; set; }
+    //攻撃力
     public int ATK { get; set; }
+    //防御力
     public int DEF { get; set; }
     public enum DIRECTION { UP, DOWN, LEFT, RIGHT }
+    //状態異常
     public enum STATE { NONE, POISON, PARALYSIS }
     public enum MOVEPATTERN { }
 

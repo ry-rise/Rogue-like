@@ -355,7 +355,8 @@ public sealed class Player : MoveObject
     private void LevelUP()
     {
         Level += 1;
-        Mathf.RoundToInt(ATK * 1.2f);
+        ATK = Mathf.RoundToInt(ATK * 1.2f);
+        DEF = Mathf.RoundToInt(DEF * 1.2f);
     }
 #endregion
 

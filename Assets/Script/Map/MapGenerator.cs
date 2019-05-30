@@ -35,9 +35,7 @@ public sealed class MapGenerator : MonoBehaviour
     #region マップ生成
     public int[,] MapStatusType;
     public int[,] MapStatusRoom;
-    // public int[,] MapStatusItem;
     public int[,] MapStatusTrap;
-    // public int[,] MapStatusMoveObject;
     private Player playerPos;
     private GameManager gameManager;
     public void Awake()
@@ -51,19 +49,6 @@ public sealed class MapGenerator : MonoBehaviour
     private void Start()
     {
         playerPos = gameManager.playerObject.GetComponent<Player>();
-        Debug.Log(MapStatusType[30, 35]);
-        Debug.Log(MapStatusType[31, 35]);
-        Debug.Log(MapStatusType[32, 35]);
-        Debug.Log(MapStatusType[33, 35]);
-        Debug.Log(MapStatusType[34, 35]);
-
-        //for (int y = 0; y < MapHeight; y += 1)
-        //{
-        //    for (int x = 0; x < MapWidth; x += 1)
-        //    {
-        //        Debug.Log(MapStatusRoom[x, y]);
-        //    }
-        //}
     }
 
     public void InitializeMap()
@@ -142,7 +127,7 @@ public sealed class MapGenerator : MonoBehaviour
             }
         }
     }
-
+    #region XYを反対に
     private bool CheckRoomCreate(int roomWidth, int roomHeight, int roomPointX, int roomPointY)
     {
         bool createFloor = false;
@@ -150,14 +135,14 @@ public sealed class MapGenerator : MonoBehaviour
         {
             for (int x = 0; x < roomWidth; x += 1)
             {
-                if (MapStatusType[roomPointY + y, roomPointX + x] == (int)STATE.FLOOR)
+                if (MapStatusType[ roomPointX + x,roomPointY + y] == (int)STATE.FLOOR)
                 {
                     createFloor = true;
                 }
                 else
                 {
-                    MapStatusType[roomPointY + y, roomPointX + x] = (int)STATE.FLOOR;
-                    MapStatusRoom[roomPointY + y, roomPointX + x] = x;
+                    MapStatusType[ roomPointX + x,roomPointY + y] = (int)STATE.FLOOR;
+                    MapStatusRoom[ roomPointX + x,roomPointY + y] = x;
                 }
             }
         }
@@ -176,13 +161,13 @@ public sealed class MapGenerator : MonoBehaviour
         {
             while (roadStartPointX != meetPointX)
             {
-                MapStatusType[roadStartPointY, roadStartPointX] = (int)STATE.ROAD;
+                MapStatusType[roadStartPointX, roadStartPointY] = (int)STATE.ROAD;
                 if (isRight == true) { roadStartPointX -= 1; }
                 else { roadStartPointX += 1; }
             }
             while (roadStartPointY != meetPointY)
             {
-                MapStatusType[roadStartPointY, roadStartPointX] = (int)STATE.ROAD;
+                MapStatusType[roadStartPointX, roadStartPointY] = (int)STATE.ROAD;
                 if (isUnder == true) { roadStartPointY += 1; }
                 else { roadStartPointY -= 1; }
             }
@@ -192,18 +177,19 @@ public sealed class MapGenerator : MonoBehaviour
         {
             while (roadStartPointY != meetPointY)
             {
-                MapStatusType[roadStartPointY, roadStartPointX] = (int)STATE.ROAD;
+                MapStatusType[roadStartPointX, roadStartPointY] = (int)STATE.ROAD;
                 if (isUnder == true) { roadStartPointY += 1; }
                 else { roadStartPointY -= 1; }
             }
             while (roadStartPointX != meetPointX)
             {
-                MapStatusType[roadStartPointY, roadStartPointX] = (int)STATE.ROAD;
+                MapStatusType[roadStartPointX, roadStartPointY] = (int)STATE.ROAD;
                 if (isRight == true) { roadStartPointX -= 1; }
                 else { roadStartPointX += 1; }
             }
         }
     }
+    #endregion
     public void CreateDungeon()
     {
         for (int y = 0; y < MapHeight; y += 1)
