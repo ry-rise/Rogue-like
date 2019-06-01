@@ -46,10 +46,11 @@ public class EnemyBase : MoveObject
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <returns></returns>
-    private bool CheckMoveEnemy(int x, int y)
+    private bool CheckMoveEnemy(DIRECTION direction, int x, int y)
     {
         switch (direction)
         {
+
             case DIRECTION.UP:
                 if (mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.WALL ||
                     mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.ENEMY ||
@@ -97,84 +98,82 @@ public class EnemyBase : MoveObject
     /// <param name="y"></param>
     public void MoveEnemy(int x, int y)
     {
-        //int movX = (int)(playerPos.position.x - gameObject.transform.position.x);
-        //int movY = (int)(playerPos.position.y - gameObject.transform.position.y);
-        //Vector2 mov = playerPos.position - gameObject.transform.position;
-        //mov.Normalize();
         var a = Enum.GetValues(typeof(DIRECTION));
         var b = a.GetValue(new System.Random().Next(a.Length));
-        /* (Math.Abs(movX) > Math.Abs(movY))*/
-        //if (movX < 0)
         switch ((DIRECTION)b)
         {
-            case DIRECTION.LEFT:
-                {
-                    if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
-                    {
-                        direction = DIRECTION.LEFT;
-                        mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
-                        mapGenerator.MapStatusType[x - 1, y] = (int)MapGenerator.STATE.ENEMY;
-                        gameObject.transform.position = new Vector2(gameObject.transform.position.x - 1,
-                                                                    gameObject.transform.position.y);
-                    }
-                    else if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == false)
-                    {
-                        flag += 1000;
-                    }
-                    break;
-                }
-            case DIRECTION.RIGHT:
-                {
-                    if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
-                    {
-                        direction = DIRECTION.RIGHT;
-                        mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
-                        mapGenerator.MapStatusType[x + 1, y] = (int)MapGenerator.STATE.ENEMY;
-                        gameObject.transform.position = new Vector2(gameObject.transform.position.x + 1,
-                                                                    gameObject.transform.position.y);
-                    }
-                    else if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == false)
-                    {
-                        flag += 0100;
-                    }
-                    break;
-                }
-            //}
-            //else
-            //{
-            //if (movY < 0)
-            case DIRECTION.DOWN:
-                {
-                    if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
-                    {
-                        direction = DIRECTION.DOWN;
-                        mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
-                        mapGenerator.MapStatusType[x, y - 1] = (int)MapGenerator.STATE.ENEMY;
-                        gameObject.transform.position = new Vector2(gameObject.transform.position.x,
-                                                          gameObject.transform.position.y - 1);
-                    }
-                    else if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == false)
-                    {
-                        flag += 0001;
-                    }
-                    break;
-                }
             case DIRECTION.UP:
                 {
-                    if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
+                    if (CheckMoveEnemy((DIRECTION)b,(int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
                     {
                         direction = DIRECTION.UP;
                         mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
                         mapGenerator.MapStatusType[x, y + 1] = (int)MapGenerator.STATE.ENEMY;
                         gameObject.transform.position = new Vector2(gameObject.transform.position.x,
                                                                     gameObject.transform.position.y + 1);
+                        check = true;
                     }
-                    else if (CheckMoveEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == false)
+                    else if (CheckMoveEnemy((DIRECTION)b,(int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == false)
                     {
-                        flag += 0001;
+                        flag += flag_UP;
                     }
                     break;
                 }
+            case DIRECTION.DOWN:
+                {
+                    if (CheckMoveEnemy((DIRECTION)b,(int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
+                    {
+                        direction = DIRECTION.DOWN;
+                        mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
+                        mapGenerator.MapStatusType[x, y - 1] = (int)MapGenerator.STATE.ENEMY;
+                        gameObject.transform.position = new Vector2(gameObject.transform.position.x,
+                                                          gameObject.transform.position.y - 1);
+                        check = true;
+                    }
+                    else if (CheckMoveEnemy((DIRECTION)b,(int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == false)
+                    {
+                        flag += flag_DOWN;
+                    }
+                    break;
+                }
+
+            case DIRECTION.LEFT:
+                {
+                    if (CheckMoveEnemy((DIRECTION)b,(int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
+                    {
+                        direction = DIRECTION.LEFT;
+                        mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
+                        mapGenerator.MapStatusType[x - 1, y] = (int)MapGenerator.STATE.ENEMY;
+                        gameObject.transform.position = new Vector2(gameObject.transform.position.x - 1,
+                                                                    gameObject.transform.position.y);
+                        check = true;
+
+                    }
+                    else if (CheckMoveEnemy((DIRECTION)b,(int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == false)
+                    {
+                        flag += flag_LEFT;
+                    }
+                    break;
+                }
+            case DIRECTION.RIGHT:
+                {
+                    if (CheckMoveEnemy((DIRECTION)b,(int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
+                    {
+                        direction = DIRECTION.RIGHT;
+                        mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
+                        mapGenerator.MapStatusType[x + 1, y] = (int)MapGenerator.STATE.ENEMY;
+                        gameObject.transform.position = new Vector2(gameObject.transform.position.x + 1,
+                                                                    gameObject.transform.position.y);
+                        check = true;
+                    }
+                    else if (CheckMoveEnemy((DIRECTION)b,(int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == false)
+                    {
+                        flag += flag_RIGHT;
+                    }
+                    break;
+                }
+            default:
+                break;
         }
         TurnEnd = true;
 
@@ -188,8 +187,9 @@ public class EnemyBase : MoveObject
     {
         if (CheckAttackEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
         {
-           
+            playerScript.HP -= (playerScript.DEF - ATK);
         }
+        else { return; }
     }
     /// <summary>
     /// 敵の攻撃判定
