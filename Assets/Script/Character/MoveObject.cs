@@ -2,6 +2,7 @@
 
 public abstract class MoveObject : MonoBehaviour
 {
+    [SerializeField] private Sprite[] sprites;
     protected GameManager gameManager;
     protected MapGenerator mapGenerator;
     protected SceneChanger sceneChanger;

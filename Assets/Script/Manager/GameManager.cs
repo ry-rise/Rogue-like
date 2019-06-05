@@ -78,6 +78,19 @@ public sealed class GameManager : MonoBehaviour
             }
         }
     }
+    private void EnemiesTurn<T>()
+        where T : EnemyBase
+    {
+        for (int i = 0; i < enemiesList.Count; i += 1)
+        {
+            if (enemiesList[i].gameObject.GetComponent<T>() != null)
+            {
+                T t = enemiesList[i].GetComponent<T>();
+                t.MoveEnemy((int)enemiesList[i].transform.position.x, (int)enemiesList[i].transform.position.y);
+                t.AttackEnemy((int)enemiesList[i].transform.position.x, (int)enemiesList[i].transform.position.y);
+            }
+        }
+    }
     /// <summary>
     /// アプリ終了時に呼び出し
     /// </summary>
@@ -236,7 +249,7 @@ public sealed class GameManager : MonoBehaviour
         Debug.Log("a");
     }
     */
-    IEnumerator Key()
+    IEnumerator KeyWait()
     {
         while (!Input.GetKeyDown(KeyCode.Return))
         {
