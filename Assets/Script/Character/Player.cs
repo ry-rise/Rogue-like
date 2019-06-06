@@ -192,11 +192,14 @@ public sealed class Player : MoveObject
                                                   gameObject.transform.position.y + 1, 
                                                   gameObject.transform.position.z);
                 Vector3 vector3 = Vector3.zero;
-                gameObject.transform.position = Vector3.SmoothDamp(gameObject.transform.position,
+               
+                {
+                    gameObject.transform.position = /*Vector3.SmoothDamp(gameObject.transform.position,
                                                                    Destination,
                                                                    ref vector3,
-                                                                   1.0f);
-                    /*Vector3.Lerp(gameObject.transform.position, Destination, 1);*/
+                                                                   1.0f);*/
+                        Vector3.Lerp(gameObject.transform.position, Destination, 1);
+                 }
                 //gameObject.transform.position = new Vector2(gameObject.transform.position.x,
                 //                                            gameObject.transform.position.y + 1);
                 gameManager.CameraOnCenter();

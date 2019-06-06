@@ -54,28 +54,30 @@ public sealed class GameManager : MonoBehaviour
         if (TurnPlayer == false)
         {
             turnManager = TurnManager.ENEMIES_START;
-            TurnPlayer = true;  
+            TurnPlayer = true;
             //敵の処理をする
-            for (int i = 0; i < enemiesList.Count; i += 1)
-            {
-                if (enemiesList[i].gameObject.GetComponent<EnemyZombie>() != null)
-                {
-                    EnemyZombie enemyZombie = enemiesList[i].GetComponent<EnemyZombie>();
-                    enemyZombie.MoveEnemy((int)enemiesList[i].transform.position.x,
-                                          (int)enemiesList[i].transform.position.y);
-                    enemyZombie.AttackEnemy((int)enemiesList[i].transform.position.x,
-                                            (int)enemiesList[i].transform.position.y);
+            EnemiesTurn<EnemyKnight>();
+            EnemiesTurn<EnemyZombie>();
+            //for (int i = 0; i < enemiesList.Count; i += 1)
+            //{
+            //    if (enemiesList[i].gameObject.GetComponent<EnemyZombie>() != null)
+            //    {
+            //        EnemyZombie enemyZombie = enemiesList[i].GetComponent<EnemyZombie>();
+            //        enemyZombie.MoveEnemy((int)enemiesList[i].transform.position.x,
+            //                              (int)enemiesList[i].transform.position.y);
+            //        enemyZombie.AttackEnemy((int)enemiesList[i].transform.position.x,
+            //                                (int)enemiesList[i].transform.position.y);
 
-                }
-                else if (enemiesList[i].gameObject.GetComponent<EnemyKnight>() != null)
-                {
-                    EnemyKnight enemyKnight = enemiesList[i].GetComponent<EnemyKnight>();
-                    enemyKnight.MoveEnemy((int)enemiesList[i].transform.position.x,
-                                          (int)enemiesList[i].transform.position.y);
-                    enemyKnight.AttackEnemy((int)enemiesList[i].transform.position.x,
-                                            (int)enemiesList[i].transform.position.y);
-                }
-            }
+            //    }
+            //    else if (enemiesList[i].gameObject.GetComponent<EnemyKnight>() != null)
+            //    {
+            //        EnemyKnight enemyKnight = enemiesList[i].GetComponent<EnemyKnight>();
+            //        enemyKnight.MoveEnemy((int)enemiesList[i].transform.position.x,
+            //                              (int)enemiesList[i].transform.position.y);
+            //        enemyKnight.AttackEnemy((int)enemiesList[i].transform.position.x,
+            //                                (int)enemiesList[i].transform.position.y);
+            //    }
+            //}
         }
     }
     private void EnemiesTurn<T>()

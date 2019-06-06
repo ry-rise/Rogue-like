@@ -2,7 +2,8 @@
 
 public abstract class MoveObject : MonoBehaviour
 {
-    [SerializeField] private Sprite[] sprites;
+    [NamedArray(new string[] { "UP", "DOWN", "LEFT", "RIGHT" })] [SerializeField]
+    protected Sprite[] sprites = new Sprite[4];
     protected GameManager gameManager;
     protected MapGenerator mapGenerator;
     protected SceneChanger sceneChanger;
