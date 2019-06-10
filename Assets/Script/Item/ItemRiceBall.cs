@@ -49,6 +49,6 @@ public sealed class ItemRiceBall : ItemBase
         }
         player.inventoryList.Remove(gameObject);
         Destroy(gameObject);
-        gameManager.TurnPlayer = false;
+        gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
     }
 }

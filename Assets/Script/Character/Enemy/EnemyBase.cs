@@ -8,7 +8,7 @@ public class EnemyBase : MoveObject
     private UIManager iManager;
     private GameObject player;
     private Player playerScript;
-    private bool check;
+    protected bool check;
     private int flag = 0;
     private int flag_LEFT = 0x0001;
     private int flag_RIGHT = 0x0002;

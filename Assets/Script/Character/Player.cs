@@ -30,8 +30,13 @@ public sealed class Player : MoveObject
 
     private void Update()
     {
+        //敵の行動が終わったら
+        if(gameManager.turnManager==GameManager.TurnManager.ENIMIES_END)
+        {
+            gameManager.turnManager = GameManager.TurnManager.PLAYER_TURN;
+        }
         //プレイヤーのターン
-        if (gameManager.TurnPlayer == true)
+        if (gameManager.turnManager==GameManager.TurnManager.PLAYER_TURN)
         {
             //行動する(ポーズ時以外)
             if (gameManager.GamePause == false)
@@ -51,7 +56,7 @@ public sealed class Player : MoveObject
                     HP -= 1;
                     break;
                 case STATE.PARALYSIS:
-                    gameManager.TurnPlayer = false;
+                    gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
                     break;
                 default:
                     break;
@@ -76,7 +81,7 @@ public sealed class Player : MoveObject
                 {
                     Satiety -= 1;
                 }
-                gameManager.TurnPlayer = false;
+                gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
                 TurnEnd = false;
             }
         }

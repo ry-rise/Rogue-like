@@ -15,12 +15,12 @@ public sealed class GameManager : MonoBehaviour
     private GameObject camPos;
     private Transform enemyHolder;
     private Transform itemHolder;
-    public enum TurnManager { PLAYER_START,PLAYER_TURN,PLAYER_END,ENEMIES_START,ENEMIES_TURN,ENIMIES_END}
-    public TurnManager turnManager;
+    public enum TurnManager { PLAYER_TURN, PLAYER_END, ENEMIES_TURN, ENIMIES_END }
+    public TurnManager turnManager { get; set; }
     public List<GameObject> enemiesList;
     public List<GameObject> itemsList;
     public int FloorNumber { get; set; }
-    public bool TurnPlayer { get; set; } = false;
+    //public bool TurnPlayer { get; set; } = false;
     public bool GamePause { get; set; } = false;
     public readonly string FileName = "//SaveData.json";
 
@@ -44,20 +44,28 @@ public sealed class GameManager : MonoBehaviour
             DataLoad();
         }
         //プレイヤーのターン
-        TurnPlayer = true;
-        turnManager = TurnManager.PLAYER_START;
+        //TurnPlayer = true;
+        turnManager = TurnManager.PLAYER_TURN;
 
     }
     private void Update()
     {
         //プレイヤーの行動が終わったら
-        if (TurnPlayer == false)
+        if (turnManager == TurnManager.PLAYER_END)
         {
-            turnManager = TurnManager.ENEMIES_START;
-            TurnPlayer = true;
+            turnManager = TurnManager.ENEMIES_TURN;
+            //TurnPlayer = true;
             //敵の処理をする
             EnemiesTurn<EnemyKnight>();
             EnemiesTurn<EnemyZombie>();
+            //for (int i = 0; i < enemiesList.Count; i += 1)
+            //{
+            //    if (enemiesList[i].gameObject.check==true)
+            //    {
+            //        turnManager = TurnManager.ENIMIES_END;
+            //    }
+            //}
+            #region
             //for (int i = 0; i < enemiesList.Count; i += 1)
             //{
             //    if (enemiesList[i].gameObject.GetComponent<EnemyZombie>() != null)
@@ -78,6 +86,7 @@ public sealed class GameManager : MonoBehaviour
             //                                (int)enemiesList[i].transform.position.y);
             //    }
             //}
+            #endregion
         }
     }
     private void EnemiesTurn<T>()
@@ -90,6 +99,7 @@ public sealed class GameManager : MonoBehaviour
                 T t = enemiesList[i].GetComponent<T>();
                 t.MoveEnemy((int)enemiesList[i].transform.position.x, (int)enemiesList[i].transform.position.y);
                 t.AttackEnemy((int)enemiesList[i].transform.position.x, (int)enemiesList[i].transform.position.y);
+                //t.
             }
         }
     }
