@@ -7,6 +7,7 @@ public abstract class MoveObject : MonoBehaviour
     protected GameManager gameManager;
     protected MapGenerator mapGenerator;
     protected SceneChanger sceneChanger;
+    protected SpriteRenderer spriteRenderer;
     protected bool TurnEnd { get; set; } = false;
     protected DIRECTION direction;
     //体力
@@ -15,6 +16,8 @@ public abstract class MoveObject : MonoBehaviour
     public int Level { get; set; }
     //経験値
     public int Exp { get; set; }
+    //次のレベルまでの経験値
+    public int NextExp { get; set; }
     //方向
     public int Direction { get; set; }
     //攻撃力
@@ -31,6 +34,7 @@ public abstract class MoveObject : MonoBehaviour
         gameManager = GameObject.Find("Manager").GetComponent<GameManager>();
         mapGenerator = GameObject.Find("Manager").GetComponent<MapGenerator>();
         sceneChanger = GameObject.Find("Manager").GetComponent<SceneChanger>();
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
     
     /// <summary>
@@ -43,5 +47,24 @@ public abstract class MoveObject : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    protected void SpriteDirection()
+    {
+        switch(direction)
+        {
+            case DIRECTION.UP:
+                spriteRenderer.sprite = sprites[(int)DIRECTION.UP];
+                break;
+            case DIRECTION.DOWN:
+                spriteRenderer.sprite = sprites[(int)DIRECTION.DOWN];
+                break;
+            case DIRECTION.LEFT:
+                spriteRenderer.sprite = sprites[(int)DIRECTION.LEFT];
+                break;
+            case DIRECTION.RIGHT:
+                spriteRenderer.sprite = sprites[(int)DIRECTION.RIGHT];
+                break;
+        }
     }
 }

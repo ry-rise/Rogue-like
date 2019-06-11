@@ -58,6 +58,7 @@ public sealed class GameManager : MonoBehaviour
             //敵の処理をする
             EnemiesTurn<EnemyKnight>();
             EnemiesTurn<EnemyZombie>();
+            turnManager = TurnManager.ENIMIES_END;
             //for (int i = 0; i < enemiesList.Count; i += 1)
             //{
             //    if (enemiesList[i].gameObject.check==true)
