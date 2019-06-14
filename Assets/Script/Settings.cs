@@ -32,7 +32,7 @@ public class Settings : MonoBehaviour
         bool SEVol = audioMixer.GetFloat("SEVol", out SEVolume);
         SettingsData settingsData = new SettingsData()
         {
-            masterVolume = MasterVolume,
+            MasterVolume = MasterVolume,
             bgmVolume = BGMVolume,
             seVolume = SEVolume
         };
@@ -45,7 +45,7 @@ public class Settings : MonoBehaviour
         string path = $"{Application.persistentDataPath}{SettingsFileName}";
         string json = File.ReadAllText(path);
         SettingsData restoreSettingsData = JsonUtility.FromJson<SettingsData>(json);
-        audioMixer.SetFloat("MasterVol", restoreSettingsData.masterVolume);
+        audioMixer.SetFloat("MasterVol", restoreSettingsData.MasterVolume);
         audioMixer.SetFloat("BGMVol", restoreSettingsData.bgmVolume);
         audioMixer.SetFloat("SEVol", restoreSettingsData.seVolume);
     }
