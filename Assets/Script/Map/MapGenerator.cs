@@ -3,6 +3,10 @@
 public sealed class MapGenerator : MonoBehaviour
 {
     #region 変数
+    [SerializeField] private GameObject[] floorPrefab;
+    [SerializeField] private GameObject[] wallPrefab;
+    [SerializeField] private GameObject poisonPrefab;
+    [SerializeField] private GameObject exitPrefab;
     public int MapWidth { get; private set; } = 80;
     public int MapHeight { get; private set; } = 80;
     public int MinRoomWidth { get; private set; } = 6;
@@ -26,18 +30,15 @@ public sealed class MapGenerator : MonoBehaviour
         EXIT,
         WALL = -1
     }
-    [SerializeField] private GameObject[] floorPrefab;
-    [SerializeField] private GameObject[] wallPrefab;
-    [SerializeField] private GameObject poisonPrefab;
-    [SerializeField] private GameObject exitPrefab;
+    
     private Transform mapHolder;
-    #endregion
-    #region マップ生成
     public int[,] MapStatusType;
     public int[,] MapStatusRoom;
     public int[,] MapStatusTrap;
     private Player playerPos;
-    private GameManager gameManager;
+    private GameManager gameManager; 
+    #endregion
+    #region マップ生成
     public void Awake()
     {
         gameManager = GameObject.Find("Manager").GetComponent<GameManager>();
@@ -78,7 +79,8 @@ public sealed class MapGenerator : MonoBehaviour
         {
             roadAggPointX[i] = Random.Range(1, MapWidth);
             roadAggPointY[i] = Random.Range(1, MapHeight);
-            MapStatusType[roadAggPointY[i], roadAggPointX[i]] = (int)STATE.ROAD;
+            //XYを反対に
+            MapStatusType[roadAggPointX[i], roadAggPointY[i]] = (int)STATE.ROAD;
         }
         //部屋を作る
         for (int i = 0; i < roomAmount; i += 1)
