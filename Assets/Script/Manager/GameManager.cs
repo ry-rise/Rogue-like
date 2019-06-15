@@ -12,15 +12,15 @@ public sealed class GameManager : MonoBehaviour
     [SerializeField] private GameObject[] itemPrefab;
     private Player player;
     private MapGenerator mapGenerator;
-    private GameObject camPos;
+    private GameObject mainCamPos;
+    private GameObject subCamPos;
     private Transform enemyHolder;
     private Transform itemHolder;
-    public enum TurnManager { PLAYER_TURN, PLAYER_END, ENEMIES_TURN, ENIMIES_END }
+    public enum TurnManager { PLAYER_TURN, PLAYER_END, STATE_JUDGE, SATIETY_CHECK, ENEMIES_TURN, ENIMIES_END }
     public TurnManager turnManager { get; set; }
     public List<GameObject> enemiesList;
     public List<GameObject> itemsList;
     public int FloorNumber { get; set; }
-    //public bool TurnPlayer { get; set; } = false;
     public bool GamePause { get; set; } = false;
     public readonly string FileName = "//SaveData.json";
 
@@ -28,7 +28,8 @@ public sealed class GameManager : MonoBehaviour
     {
         Refrash();
         FloorNumber = 1;
-        camPos = GameObject.Find("Main Camera");
+        mainCamPos = GameObject.Find("Main Camera");
+        subCamPos = GameObject.Find("Sub Camera");
         playerObject = Instantiate(playerPrefab);
         mapGenerator = gameObject.GetComponent<MapGenerator>();
     }
@@ -44,7 +45,6 @@ public sealed class GameManager : MonoBehaviour
             DataLoad();
         }
         //プレイヤーのターン
-        //TurnPlayer = true;
         turnManager = TurnManager.PLAYER_TURN;
 
     }
@@ -54,7 +54,7 @@ public sealed class GameManager : MonoBehaviour
         if (turnManager == TurnManager.PLAYER_END)
         {
             turnManager = TurnManager.ENEMIES_TURN;
-            //TurnPlayer = true;
+
             //敵の処理をする
             EnemiesTurn<EnemyKnight>();
             EnemiesTurn<EnemyZombie>();
@@ -179,9 +179,12 @@ public sealed class GameManager : MonoBehaviour
     /// </summary>
     public void CameraOnCenter()
     {
-        camPos.transform.position = new Vector3(playerObject.transform.position.x,
-                                                playerObject.transform.position.y,
-                                                playerObject.transform.position.z - 1);
+        mainCamPos.transform.position = new Vector3(playerObject.transform.position.x,
+                                                    playerObject.transform.position.y,
+                                                    playerObject.transform.position.z - 1);
+        subCamPos.transform.position = new Vector3(playerObject.transform.position.x,
+                                                   playerObject.transform.position.y,
+                                                   playerObject.transform.position.z - 15);
     }
     /// <summary>
     /// Listに追加する
