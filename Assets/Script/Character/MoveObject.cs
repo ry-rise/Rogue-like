@@ -8,7 +8,6 @@ public abstract class MoveObject : MonoBehaviour
     protected MapGenerator mapGenerator;
     protected SceneChanger sceneChanger;
     protected SpriteRenderer spriteRenderer;
-    //protected bool TurnEnd { get; set; } = false;
     protected DIRECTION direction;
     //体力
     public int HP { get; set; }
@@ -65,5 +64,12 @@ public abstract class MoveObject : MonoBehaviour
                 spriteRenderer.sprite = sprites[(int)DIRECTION.RIGHT];
                 break;
         }
+    }
+    /// <summary>
+    /// スムーズに移動する
+    /// </summary>
+    protected virtual void SquaresMove()
+    {
+
     }
 }

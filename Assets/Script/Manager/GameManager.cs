@@ -100,7 +100,6 @@ public sealed class GameManager : MonoBehaviour
                 T t = enemiesList[i].GetComponent<T>();
                 t.MoveEnemy((int)enemiesList[i].transform.position.x, (int)enemiesList[i].transform.position.y);
                 t.AttackEnemy((int)enemiesList[i].transform.position.x, (int)enemiesList[i].transform.position.y);
-                //t.
             }
         }
     }
