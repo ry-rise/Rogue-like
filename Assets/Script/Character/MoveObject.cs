@@ -8,7 +8,7 @@ public abstract class MoveObject : MonoBehaviour
     protected MapGenerator mapGenerator;
     protected SceneChanger sceneChanger;
     protected SpriteRenderer spriteRenderer;
-    protected bool TurnEnd { get; set; } = false;
+    //protected bool TurnEnd { get; set; } = false;
     protected DIRECTION direction;
     //体力
     public int HP { get; set; }
@@ -27,7 +27,6 @@ public abstract class MoveObject : MonoBehaviour
     public enum DIRECTION { UP, DOWN, LEFT, RIGHT }
     //状態異常
     public enum STATE { NONE, POISON, PARALYSIS }
-    public enum MOVEPATTERN { }
 
     protected virtual void Start()
     {
@@ -49,7 +48,7 @@ public abstract class MoveObject : MonoBehaviour
         return false;
     }
 
-    protected void SpriteDirection()
+    protected virtual void SpriteDirection()
     {
         switch(direction)
         {

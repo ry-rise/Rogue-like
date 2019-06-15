@@ -30,6 +30,10 @@ public class EnemyBase : MoveObject
             DieEnemy();
         }
     }
+    protected override void SpriteDirection()
+    {
+        base.SpriteDirection();
+    }
     /// <summary>
     /// 敵が死んだときの処理
     /// </summary>
@@ -109,6 +113,7 @@ public class EnemyBase : MoveObject
                         direction = DIRECTION.UP;
                         mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
                         mapGenerator.MapStatusType[x, y + 1] = (int)MapGenerator.STATE.ENEMY;
+                        SpriteDirection();
                         gameObject.transform.position = new Vector2(gameObject.transform.position.x,
                                                                     gameObject.transform.position.y + 1);
                         check = true;
@@ -126,6 +131,7 @@ public class EnemyBase : MoveObject
                         direction = DIRECTION.DOWN;
                         mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
                         mapGenerator.MapStatusType[x, y - 1] = (int)MapGenerator.STATE.ENEMY;
+                        SpriteDirection();
                         gameObject.transform.position = new Vector2(gameObject.transform.position.x,
                                                           gameObject.transform.position.y - 1);
                         check = true;
@@ -144,6 +150,7 @@ public class EnemyBase : MoveObject
                         direction = DIRECTION.LEFT;
                         mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
                         mapGenerator.MapStatusType[x - 1, y] = (int)MapGenerator.STATE.ENEMY;
+                        SpriteDirection();
                         gameObject.transform.position = new Vector2(gameObject.transform.position.x - 1,
                                                                     gameObject.transform.position.y);
                         check = true;
@@ -162,6 +169,7 @@ public class EnemyBase : MoveObject
                         direction = DIRECTION.RIGHT;
                         mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
                         mapGenerator.MapStatusType[x + 1, y] = (int)MapGenerator.STATE.ENEMY;
+                        SpriteDirection();
                         gameObject.transform.position = new Vector2(gameObject.transform.position.x + 1,
                                                                     gameObject.transform.position.y);
                         check = true;
@@ -175,7 +183,6 @@ public class EnemyBase : MoveObject
             default:
                 break;
         }
-        TurnEnd = true;
 
     }
     /// <summary>

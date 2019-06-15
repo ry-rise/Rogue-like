@@ -1,14 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿public class Item : ItemBase
+{
 
-public class Item : MonoBehaviour {
+	protected override void Awake ()
+    {
+        Name = "";
+        base.Awake();
+	}
 
-	void Start () {
-		
-	}
-	
-	void Update () {
-		
-	}
+    protected override void PickUP()
+    {
+        base.PickUP();
+    }
 }

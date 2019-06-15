@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public sealed class Player : MoveObject
@@ -16,6 +16,7 @@ public sealed class Player : MoveObject
     protected override void Start ()
     {
         base.Start();
+        //データがあればロード
         if (File.Exists($"{Application.persistentDataPath}{gameManager.FileName}")==false)
         {
             Level = 1;
@@ -24,8 +25,9 @@ public sealed class Player : MoveObject
             MaxHP = HP;
         }
         Satiety = 100;
-        direction = DIRECTION.DOWN;
+        direction = DIRECTION.UP;
         state = STATE.NONE;
+        SpriteDirection();
 	}
 
     private void Update()
@@ -49,27 +51,28 @@ public sealed class Player : MoveObject
                                  (int)gameObject.transform.position.y);
                 }
             }
-            //状態異常の遷移
-            switch (state)
+            //状態異常の判定に移動
+            if (gameManager.turnManager == GameManager.TurnManager.STATE_JUDGE)
             {
-                case STATE.POISON:
-                    HP -= 1;
-                    break;
-                case STATE.PARALYSIS:
-                    gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
-                    break;
-                default:
-                    break;
-            }
-            if (state != STATE.NONE)
-            {
-                if (ReleaseDetermination() == true)
+                //状態異常の遷移
+                switch (state)
                 {
-                    state = STATE.NONE;
+                    case STATE.POISON:
+                        HP -= 1;
+                        if (ReleaseDetermination() == true) { state = STATE.NONE; }
+                        break;
+                    case STATE.PARALYSIS:
+                        if (ReleaseDetermination() == true) { state = STATE.NONE; }
+                        else { gameManager.turnManager = GameManager.TurnManager.PLAYER_END; }
+                        break;
+                    default:
+                        break;
                 }
+                gameManager.turnManager = GameManager.TurnManager.SATIETY_CHECK;
             }
-            //行動終了
-            if (TurnEnd == true)
+
+            //空腹度チェック
+            if (gameManager.turnManager==GameManager.TurnManager.SATIETY_CHECK)
             {
                 //空腹度が０
                 if (Satiety == 0)
@@ -81,8 +84,8 @@ public sealed class Player : MoveObject
                 {
                     Satiety -= 1;
                 }
+                //行動終了
                 gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
-                TurnEnd = false;
             }
         }
         //死ぬとシーンチェンジ
@@ -193,25 +196,26 @@ public sealed class Player : MoveObject
             {
                 mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
                 mapGenerator.MapStatusType[x, y + 1] = (int)MapGenerator.STATE.PLAYER;
+                SpriteDirection();
                 Vector3 Destination = new Vector3(gameObject.transform.position.x, 
                                                   gameObject.transform.position.y + 1, 
                                                   gameObject.transform.position.z);
                 //Vector3 vector3 = Vector3.zero;
 
                 //{
-                //    gameObject.transform.position = /*Vector3.SmoothDamp(gameObject.transform.position,
+                // gameObject.transform.position = /*Vector3.SmoothDamp(gameObject.transform.position,
                 //                                                   Destination,
                 //                                                   ref vector3,
                 //                                                   1.0f);*/
-                //                                                   Vector3.MoveTowards(gameObject.transform.position,
-                //                                                   Destination, 1f);
+                //                                                Vector3.MoveTowards(gameObject.transform.position,
+                //                                                 Destination, 3f);
                 //        //Vector3.Lerp(gameObject.transform.position, Destination, 1);
                 // }
                 gameObject.transform.position = new Vector2(gameObject.transform.position.x,
                                                             gameObject.transform.position.y + 1);
                 gameManager.CameraOnCenter();
             }
-            TurnEnd = true;
+            gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
         //下方向
         if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
@@ -221,12 +225,13 @@ public sealed class Player : MoveObject
             {
                 mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
                 mapGenerator.MapStatusType[x, y - 1] = (int)MapGenerator.STATE.PLAYER;
+                SpriteDirection();
                 gameObject.transform.position = new Vector2(gameObject.transform.position.x,
                                                             gameObject.transform.position.y - 1);
                 gameManager.CameraOnCenter();
             }
 
-            TurnEnd = true;
+            gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
         //左方向
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
@@ -236,11 +241,12 @@ public sealed class Player : MoveObject
             {
                 mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
                 mapGenerator.MapStatusType[x-1, y] = (int)MapGenerator.STATE.PLAYER;
+                SpriteDirection();
                 gameObject.transform.position = new Vector2(gameObject.transform.position.x - 1,
                                                             gameObject.transform.position.y);
                 gameManager.CameraOnCenter();
             }
-            TurnEnd = true;
+            gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
         //右方向
         if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
@@ -250,11 +256,12 @@ public sealed class Player : MoveObject
             {
                 mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
                 mapGenerator.MapStatusType[x + 1, y] = (int)MapGenerator.STATE.PLAYER;
+                SpriteDirection();
                 gameObject.transform.position = new Vector2(gameObject.transform.position.x + 1,
                                                         gameObject.transform.position.y);
                 gameManager.CameraOnCenter();
             }
-            TurnEnd = true;
+            gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
     }
     #endregion
@@ -286,7 +293,7 @@ public sealed class Player : MoveObject
                         }
                     }
                 }
-                TurnEnd = true;
+                gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
                 break;
             case DIRECTION.DOWN:
                 if (mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.ENEMY)
@@ -310,7 +317,7 @@ public sealed class Player : MoveObject
                         }
                     }
                 }
-                TurnEnd = true;
+                gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
                 break;
             case DIRECTION.LEFT:
                 if (mapGenerator.MapStatusType[x - 1, y] == (int)MapGenerator.STATE.ENEMY)
@@ -334,7 +341,7 @@ public sealed class Player : MoveObject
                         }
                     }
                 }
-                TurnEnd = true;
+                gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
                 break;
             case DIRECTION.RIGHT:
                 if (mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.ENEMY)
@@ -358,7 +365,7 @@ public sealed class Player : MoveObject
                         }
                     }
                 }
-                TurnEnd = true;
+                gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
                 break;
         }
     }
@@ -374,6 +381,7 @@ public sealed class Player : MoveObject
     private void LevelUP()
     {
         Level += 1;
+        NextExp -= 1;
         ATK = Mathf.RoundToInt(ATK * 1.2f);
         DEF = Mathf.RoundToInt(DEF * 1.2f);
     }
