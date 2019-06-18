@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public abstract class MoveObject : MonoBehaviour
 {
@@ -68,8 +69,51 @@ public abstract class MoveObject : MonoBehaviour
     /// <summary>
     /// スムーズに移動する
     /// </summary>
-    protected virtual void SquaresMove()
+    protected virtual void SquaresMove(GameObject moveObject,float posX,float posY,float moveX,float moveY,int num,float tx,float ty)
     {
-
+        if(num!=10)
+        {
+            posX += moveX;
+            posY += moveY;
+            moveObject.transform.position += new Vector3(moveX, moveY,0);
+            num += 1;
+            StartCoroutine(enumerator(0.0001f, moveX, moveY, tx, ty));
+        }
+        else
+        {
+            Vector3 vector3 = moveObject.transform.position;
+            vector3.x = tx;
+            vector3.y = ty;
+            moveObject.transform.position = vector3;
+        }
     }
+    protected IEnumerator enumerator(float waittime,float moveX,float moveY,float tx,float ty)
+    {
+        yield return new WaitForSeconds(waittime);
+        SquaresMove(gameObject,
+                    gameObject.transform.position.x,
+                    gameObject.transform.position.y,
+                    gameObject.transform.position.x + 1,
+                    gameObject.transform.position.y,
+                    1,
+                    1.0f,
+                    1.0f);
+    }
+    //void moving(float movex, float movey, int num, float tx, float ty)
+    //{
+    //    if (num != 10)
+    //    {
+    //        playerstates.px += movex;
+    //        playerstates.py += movey;
+    //        player.transform.position += new Vector3(movex, movey, 0);
+    //        num++;
+    //        StartCoroutin(DelayMove(0.0001f, movex, movey, tx, ty))
+    //    }
+    //    else
+    //    {
+    //        playerstates.px = tx;
+    //        playerstates.py = ty;
+    //        player.transform.position = new Vector3(tx, ty, 0)
+    //   }
+    //}
 }
