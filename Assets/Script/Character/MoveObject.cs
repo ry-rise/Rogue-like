@@ -69,7 +69,7 @@ public abstract class MoveObject : MonoBehaviour
     /// <summary>
     /// スムーズに移動する
     /// </summary>
-    protected virtual void SquaresMove(GameObject moveObject,float posX,float posY,float moveX,float moveY,int num,float tx,float ty)
+    protected virtual void SquaresMove(GameObject moveObject,float posX,float posY,float moveX,float moveY,int num)
     {
         if(num!=10)
         {
@@ -77,17 +77,15 @@ public abstract class MoveObject : MonoBehaviour
             posY += moveY;
             moveObject.transform.position += new Vector3(moveX, moveY,0);
             num += 1;
-            StartCoroutine(enumerator(0.0001f, moveX, moveY, tx, ty));
+            StartCoroutine(FrameWait(0.0001f, moveX, moveY));
         }
         else
         {
-            Vector3 vector3 = moveObject.transform.position;
-            vector3.x = tx;
-            vector3.y = ty;
-            moveObject.transform.position = vector3;
+            moveObject.transform.position = new Vector2(moveObject.transform.position.x,
+                                                        moveObject.transform.position.y);
         }
     }
-    protected IEnumerator enumerator(float waittime,float moveX,float moveY,float tx,float ty)
+    protected IEnumerator FrameWait(float waittime,float moveX,float moveY)
     {
         yield return new WaitForSeconds(waittime);
         SquaresMove(gameObject,
@@ -95,9 +93,7 @@ public abstract class MoveObject : MonoBehaviour
                     gameObject.transform.position.y,
                     gameObject.transform.position.x + 1,
                     gameObject.transform.position.y,
-                    1,
-                    1.0f,
-                    1.0f);
+                    1);
     }
     //void moving(float movex, float movey, int num, float tx, float ty)
     //{
