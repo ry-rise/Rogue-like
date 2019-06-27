@@ -16,4 +16,11 @@ public sealed class ButtonInventory : MonoBehaviour
         ItemPortion a = player.inventoryList[ListNumber].GetComponent<ItemPortion>();
         a.Use();
     }
+
+    public void ItemUse<T>()
+        where T : ItemBase
+    {
+        T t = player.inventoryList[ListNumber].GetComponent<T>();
+        t.Use();
+    }
 }
