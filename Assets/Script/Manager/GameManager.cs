@@ -12,6 +12,7 @@ public sealed class GameManager : MonoBehaviour
     [SerializeField] private GameObject[] itemPrefab;
     private Player player;
     private MapGenerator mapGenerator;
+    private FadeManager fadeManager;
     private GameObject mainCamPos;
     private GameObject subCamPos;
     private Transform enemyHolder;
@@ -32,6 +33,7 @@ public sealed class GameManager : MonoBehaviour
         subCamPos = GameObject.Find("Sub Camera");
         playerObject = Instantiate(playerPrefab);
         mapGenerator = gameObject.GetComponent<MapGenerator>();
+        fadeManager = GameObject.Find("Canvas/FadeInOut").GetComponent<FadeManager>();
     }
     public void Start()
     {
@@ -210,6 +212,20 @@ public sealed class GameManager : MonoBehaviour
         itemHolder = new GameObject("Item").transform;
         enemiesList = new List<GameObject>();
         itemsList = new List<GameObject>();
+    }
+    public void Exit()
+    {
+        //fadeManager.isFadeOut = true;
+        FloorNumber += 1;
+        Destroy(GameObject.Find("Map"));
+        Destroy(GameObject.Find("Enemy"));
+        Destroy(GameObject.Find("Item"));
+        mapGenerator.Awake();
+        Refrash();
+        ListAdd();
+        RandomDeploy();
+        CameraOnCenter();
+        //fadeManager.isFadeIn = true;
     }
     /// <summary>
     /// セーブ

@@ -30,6 +30,10 @@ public abstract class ItemBase : MonoBehaviour
         }
         if (iManager.LogText[iManager.LogText.Length - 1].text != "")
         {
+            iManager.LogText[0].text = iManager.LogText[1].text;
+            iManager.LogText[1].text = iManager.LogText[2].text;
+            iManager.LogText[2].text = iManager.LogText[3].text;
+            iManager.LogText[3].text = iManager.LogText[4].text;
             iManager.LogText[iManager.LogText.Length - 1].text = $"{Name}を手に入れた";
         }
     }

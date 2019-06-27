@@ -30,10 +30,7 @@ public class EnemyBase : MoveObject
             DieEnemy();
         }
     }
-    protected override void SpriteDirection()
-    {
-        base.SpriteDirection();
-    }
+
     /// <summary>
     /// 敵が死んだときの処理
     /// </summary>
