@@ -24,6 +24,8 @@ public abstract class MoveObject : MonoBehaviour
     public int ATK { get; set; }
     //防御力
     public int DEF { get; set; }
+    //移動変数
+    public int MoveNum { get; private set; }
     public enum DIRECTION { UP, DOWN, LEFT, RIGHT }
     //状態異常
     public enum STATE { NONE, POISON, PARALYSIS }
@@ -47,8 +49,10 @@ public abstract class MoveObject : MonoBehaviour
         }
         return false;
     }
-
-    protected virtual void SpriteDirection()
+    /// <summary>
+    /// 画像の向きを変える
+    /// </summary>
+    protected void SpriteDirection()
     {
         switch(direction)
         {
@@ -69,47 +73,42 @@ public abstract class MoveObject : MonoBehaviour
     /// <summary>
     /// スムーズに移動する
     /// </summary>
-    protected virtual void SquaresMove(GameObject moveObject,float posX,float posY,float moveX,float moveY,int num)
+    protected virtual void SquaresMove(float moveX,float moveY,int num,DIRECTION direction)
     {
-        if(num!=10)
+        if (num < 10)
         {
-            posX += moveX;
-            posY += moveY;
-            moveObject.transform.position += new Vector3(moveX, moveY,0);
+            gameObject.transform.position += new Vector3(moveX, moveY, 0);
             num += 1;
-            StartCoroutine(FrameWait(0.0001f, moveX, moveY));
+            StartCoroutine(FrameWait(0.0001f, moveX, moveY, num, direction));
         }
         else
         {
-            moveObject.transform.position = new Vector2(moveObject.transform.position.x,
-                                                        moveObject.transform.position.y);
+            switch (direction)
+            {
+                case DIRECTION.UP:
+                    gameObject.transform.position = new Vector2(gameObject.transform.position.x,
+                                                                Mathf.Ceil(gameObject.transform.position.y));
+                    break;
+                case DIRECTION.DOWN:
+                    gameObject.transform.position = new Vector2(gameObject.transform.position.x,
+                                                                Mathf.Floor(gameObject.transform.position.y));
+                    break;
+                case DIRECTION.LEFT:
+                    gameObject.transform.position = new Vector2(Mathf.Floor(gameObject.transform.position.x),
+                                                                gameObject.transform.position.y);
+                    break;
+                case DIRECTION.RIGHT:
+                    gameObject.transform.position = new Vector2(Mathf.Ceil(gameObject.transform.position.x),
+                                                                gameObject.transform.position.y);
+                    break;
+            }
+            gameManager.CameraOnCenter();
+            num = 0;
         }
     }
-    protected IEnumerator FrameWait(float waittime,float moveX,float moveY)
+    protected IEnumerator FrameWait(float waittime,float moveX,float moveY,int num, DIRECTION direction)
     {
         yield return new WaitForSeconds(waittime);
-        SquaresMove(gameObject,
-                    gameObject.transform.position.x,
-                    gameObject.transform.position.y,
-                    gameObject.transform.position.x + 1,
-                    gameObject.transform.position.y,
-                    1);
+        SquaresMove(moveX,moveY,num,direction);
     }
-    //void moving(float movex, float movey, int num, float tx, float ty)
-    //{
-    //    if (num != 10)
-    //    {
-    //        playerstates.px += movex;
-    //        playerstates.py += movey;
-    //        player.transform.position += new Vector3(movex, movey, 0);
-    //        num++;
-    //        StartCoroutin(DelayMove(0.0001f, movex, movey, tx, ty))
-    //    }
-    //    else
-    //    {
-    //        playerstates.px = tx;
-    //        playerstates.py = ty;
-    //        player.transform.position = new Vector3(tx, ty, 0)
-    //   }
-    //}
 }
