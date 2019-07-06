@@ -201,10 +201,11 @@ public sealed class Player : MoveObject
                 {
                     isExit = true;
                 }
+                Vector2 prevPosition = gameObject.transform.position;
                 mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
                 mapGenerator.MapStatusType[x, y + 1] = (int)MapGenerator.STATE.PLAYER;
                 SpriteDirection();
-                StartCoroutine(FrameWait(0.0001f, 0, 0.1f, MoveNum,DIRECTION.UP));
+                StartCoroutine(FrameWait(0.0001f, 0, 0.1f, MoveNum,DIRECTION.UP,prevPosition));
                 if(isExit==true)
                 {
                     gameManager.Exit();
@@ -225,11 +226,12 @@ public sealed class Player : MoveObject
                 {
                     isExit = true;
                 }
+                Vector2 prevPosition = gameObject.transform.position;
                 mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
                 mapGenerator.MapStatusType[x, y - 1] = (int)MapGenerator.STATE.PLAYER;
                 SpriteDirection();
                 //int num = 0;
-                StartCoroutine(FrameWait(0.0001f, 0, -0.1f, MoveNum, DIRECTION.DOWN));
+                StartCoroutine(FrameWait(0.0001f, 0, -0.1f, MoveNum, DIRECTION.DOWN,prevPosition));
                 if (isExit == true)
                 {
                     gameManager.Exit();
@@ -251,11 +253,12 @@ public sealed class Player : MoveObject
                 {
                     isExit = true;
                 }
+                Vector2 prevPosition = gameObject.transform.position;
                 mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
                 mapGenerator.MapStatusType[x-1, y] = (int)MapGenerator.STATE.PLAYER;
                 SpriteDirection();
                 //int num = 0;
-                StartCoroutine(FrameWait(0.0001f, -0.1f, 0, MoveNum, DIRECTION.LEFT));
+                StartCoroutine(FrameWait(0.0001f, -0.1f, 0, MoveNum, DIRECTION.LEFT,prevPosition));
                 if (isExit == true)
                 {
                     gameManager.Exit();
@@ -276,11 +279,12 @@ public sealed class Player : MoveObject
                 {
                     isExit = true;
                 }
+                Vector2 prevPosition = gameObject.transform.position;
                 mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
                 mapGenerator.MapStatusType[x + 1, y] = (int)MapGenerator.STATE.PLAYER;
                 SpriteDirection();
                 //int num = 0;
-                StartCoroutine(FrameWait(0.0001f, 0.1f, 0, MoveNum, DIRECTION.RIGHT));
+                StartCoroutine(FrameWait(0.0001f, 0.1f, 0, MoveNum, DIRECTION.RIGHT,prevPosition));
                 if(isExit==true)
                 {
                     gameManager.Exit();

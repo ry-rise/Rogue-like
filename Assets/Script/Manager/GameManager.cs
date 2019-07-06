@@ -28,7 +28,10 @@ public sealed class GameManager : MonoBehaviour
     private void Awake()
     {
         Refrash();
-        FloorNumber = 1;
+        if (File.Exists($"{Application.persistentDataPath}{FileName}") == false)
+        {
+            FloorNumber = 1;
+        }
         mainCamPos = GameObject.Find("Main Camera");
         subCamPos = GameObject.Find("Sub Camera");
         playerObject = Instantiate(playerPrefab);
@@ -58,9 +61,10 @@ public sealed class GameManager : MonoBehaviour
             turnManager = TurnManager.ENEMIES_TURN;
 
             //敵の処理をする
-            EnemiesTurn<EnemyKnight>();
-            EnemiesTurn<EnemyZombie>();
+            EnemiesAction<EnemyKnight>();
+            EnemiesAction<EnemyZombie>();
             turnManager = TurnManager.ENIMIES_END;
+            #region
             //for (int i = 0; i < enemiesList.Count; i += 1)
             //{
             //    if (enemiesList[i].gameObject.check==true)
@@ -68,7 +72,8 @@ public sealed class GameManager : MonoBehaviour
             //        turnManager = TurnManager.ENIMIES_END;
             //    }
             //}
-            #region
+
+
             //for (int i = 0; i < enemiesList.Count; i += 1)
             //{
             //    if (enemiesList[i].gameObject.GetComponent<EnemyZombie>() != null)
@@ -92,7 +97,7 @@ public sealed class GameManager : MonoBehaviour
             #endregion
         }
     }
-    private void EnemiesTurn<T>()
+    private void EnemiesAction<T>()
         where T : EnemyBase
     {
         for (int i = 0; i < enemiesList.Count; i += 1)

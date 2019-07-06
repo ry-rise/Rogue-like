@@ -73,42 +73,43 @@ public abstract class MoveObject : MonoBehaviour
     /// <summary>
     /// スムーズに移動する
     /// </summary>
-    protected virtual void SquaresMove(float moveX,float moveY,int num,DIRECTION direction)
+    protected virtual void SquaresMove(float moveX,float moveY,int num,DIRECTION direction,Vector2 prevPos)
     {
         if (num < 10)
         {
             gameObject.transform.position += new Vector3(moveX, moveY, 0);
             num += 1;
-            StartCoroutine(FrameWait(0.0001f, moveX, moveY, num, direction));
+            Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            StartCoroutine(FrameWait(0.0001f, moveX, moveY, num, direction,prevPos));
         }
         else
         {
             switch (direction)
             {
                 case DIRECTION.UP:
-                    gameObject.transform.position = new Vector2(gameObject.transform.position.x,
-                                                                Mathf.Ceil(gameObject.transform.position.y));
+                    gameObject.transform.position = new Vector2(gameObject.transform.position.x, prevPos.y + 1);
+                                                                //Mathf.Ceil(gameObject.transform.position.y));
                     break;
                 case DIRECTION.DOWN:
-                    gameObject.transform.position = new Vector2(gameObject.transform.position.x,
-                                                                Mathf.Floor(gameObject.transform.position.y));
+                    gameObject.transform.position = new Vector2(gameObject.transform.position.x, prevPos.y - 1);
+                                                                //Mathf.Floor(gameObject.transform.position.y));
                     break;
                 case DIRECTION.LEFT:
-                    gameObject.transform.position = new Vector2(Mathf.Floor(gameObject.transform.position.x),
-                                                                gameObject.transform.position.y);
+                    gameObject.transform.position = new Vector2(//Mathf.Floor(gameObject.transform.position.x),
+                                                                 prevPos.x-1,gameObject.transform.position.y);
                     break;
                 case DIRECTION.RIGHT:
-                    gameObject.transform.position = new Vector2(Mathf.Ceil(gameObject.transform.position.x),
-                                                                gameObject.transform.position.y);
+                    gameObject.transform.position = new Vector2(//Mathf.Ceil(gameObject.transform.position.x),
+                                                                prevPos.x+1,gameObject.transform.position.y);
                     break;
             }
             gameManager.CameraOnCenter();
             num = 0;
         }
     }
-    protected IEnumerator FrameWait(float waittime,float moveX,float moveY,int num, DIRECTION direction)
+    protected IEnumerator FrameWait(float waittime,float moveX,float moveY,int num, DIRECTION direction, Vector2 prevPos)
     {
         yield return new WaitForSeconds(waittime);
-        SquaresMove(moveX,moveY,num,direction);
+        SquaresMove(moveX,moveY,num,direction,prevPos);
     }
 }
