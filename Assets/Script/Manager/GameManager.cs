@@ -17,7 +17,7 @@ public sealed class GameManager : MonoBehaviour
     private GameObject subCamPos;
     private Transform enemyHolder;
     private Transform itemHolder;
-    public enum TurnManager { PLAYER_TURN, PLAYER_END, STATE_JUDGE, SATIETY_CHECK, ENEMIES_TURN, ENIMIES_END }
+    public enum TurnManager { PLAYER_TURN, PLAYER_MOVE, PLAYER_ATTACK, PLAYER_END, STATE_JUDGE, SATIETY_CHECK, ENEMIES_TURN, ENIMIES_END }
     public TurnManager turnManager { get; set; }
     public List<GameObject> enemiesList;
     public List<GameObject> itemsList;
@@ -64,37 +64,6 @@ public sealed class GameManager : MonoBehaviour
             EnemiesAction<EnemyKnight>();
             EnemiesAction<EnemyZombie>();
             turnManager = TurnManager.ENIMIES_END;
-            #region
-            //for (int i = 0; i < enemiesList.Count; i += 1)
-            //{
-            //    if (enemiesList[i].gameObject.check==true)
-            //    {
-            //        turnManager = TurnManager.ENIMIES_END;
-            //    }
-            //}
-
-
-            //for (int i = 0; i < enemiesList.Count; i += 1)
-            //{
-            //    if (enemiesList[i].gameObject.GetComponent<EnemyZombie>() != null)
-            //    {
-            //        EnemyZombie enemyZombie = enemiesList[i].GetComponent<EnemyZombie>();
-            //        enemyZombie.MoveEnemy((int)enemiesList[i].transform.position.x,
-            //                              (int)enemiesList[i].transform.position.y);
-            //        enemyZombie.AttackEnemy((int)enemiesList[i].transform.position.x,
-            //                                (int)enemiesList[i].transform.position.y);
-
-            //    }
-            //    else if (enemiesList[i].gameObject.GetComponent<EnemyKnight>() != null)
-            //    {
-            //        EnemyKnight enemyKnight = enemiesList[i].GetComponent<EnemyKnight>();
-            //        enemyKnight.MoveEnemy((int)enemiesList[i].transform.position.x,
-            //                              (int)enemiesList[i].transform.position.y);
-            //        enemyKnight.AttackEnemy((int)enemiesList[i].transform.position.x,
-            //                                (int)enemiesList[i].transform.position.y);
-            //    }
-            //}
-            #endregion
         }
     }
     private void EnemiesAction<T>()

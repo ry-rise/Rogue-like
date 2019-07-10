@@ -16,8 +16,8 @@ public sealed class Player : MoveObject
     protected override void Start ()
     {
         base.Start();
-        //データがあればロード
-        if (File.Exists($"{Application.persistentDataPath}{gameManager.FileName}")==false)
+        //データが無ければ初期化
+        if (File.Exists($"{Application.persistentDataPath}{gameManager.FileName}") == false)
         {
             Level = 1;
             HP = 50;
@@ -48,8 +48,10 @@ public sealed class Player : MoveObject
                            (int)gameObject.transform.position.y);
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
+                    gameManager.turnManager = GameManager.TurnManager.PLAYER_ATTACK;
                     AttackPlayer((int)gameObject.transform.position.x,
                                  (int)gameObject.transform.position.y);
+                    gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
                 }
             }
             //状態異常の判定に移動
@@ -197,7 +199,7 @@ public sealed class Player : MoveObject
             if (CheckMovePlayer(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
             {
                 bool isExit = false;
-                if(mapGenerator.MapStatusType[x,y+1]==(int)MapGenerator.STATE.EXIT)
+                if (mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.EXIT)
                 {
                     isExit = true;
                 }
@@ -205,13 +207,11 @@ public sealed class Player : MoveObject
                 mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
                 mapGenerator.MapStatusType[x, y + 1] = (int)MapGenerator.STATE.PLAYER;
                 SpriteDirection();
-                StartCoroutine(FrameWait(0.0001f, 0, 0.1f, MoveNum,DIRECTION.UP,prevPosition));
-                if(isExit==true)
+                StartCoroutine(FrameWait(0.0001f, 0, 0.1f, MoveNum, DIRECTION.UP, prevPosition));
+                if (isExit == true)
                 {
                     gameManager.Exit();
                 }
-                //gameObject.transform.position = new Vector2(gameObject.transform.position.x,
-                //                                            gameObject.transform.position.y + 1);
             }
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
