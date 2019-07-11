@@ -21,6 +21,7 @@ public abstract class ItemBase : MonoBehaviour
         mapGenerator.MapStatusType[(int)transform.position.x, (int)transform.position.y] = (int)MapGenerator.STATE.FLOOR;
         for (int i = 0; i < iManager.LogText.Length; i += 1)
         {
+            //ログが空だった場合
             if (iManager.LogText[i].text == "")
             {
                 iManager.LogText[i].text = $"{Name}を手に入れた";
@@ -28,6 +29,7 @@ public abstract class ItemBase : MonoBehaviour
             }
             else { continue; }
         }
+        //すべてのログに文字が入っていた場合に一個ずつずらす
         if (iManager.LogText[iManager.LogText.Length - 1].text != "")
         {
             iManager.LogText[0].text = iManager.LogText[1].text;

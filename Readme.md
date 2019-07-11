@@ -7,9 +7,9 @@
 https://docs.google.com/drawings/d/1oargyapgy0yBNaIJknQe-QD4UBYKxhQYJVbkVpwHaxE/edit?usp=sharing
 
 ## 開発環境
-Unity 2018.1.1f1
+Unity 2018.2.18f1
 
-Visual Studio Community 2017 15.9.5
+Visual Studio Community 2019
 
 ## 動作環境
 Windows

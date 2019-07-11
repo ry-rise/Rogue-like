@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+//HPを回復するアイテム
 public sealed class ItemPortion : ItemBase
 {    
     protected override void Awake()
