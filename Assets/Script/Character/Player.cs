@@ -22,9 +22,10 @@ public sealed class Player : MoveObject
             Level = 1;
             HP = 50;
             ATK = 10;
+            DEF = 5;
             MaxHP = HP;
+            Satiety = 100;
         }
-        Satiety = 100;
         direction = DIRECTION.UP;
         state = STATE.NONE;
         SpriteDirection();
@@ -34,10 +35,10 @@ public sealed class Player : MoveObject
     {
         gameManager.CameraOnCenter();
         //敵の行動が終わったら
-        if(gameManager.turnManager==GameManager.TurnManager.ENIMIES_END)
-        {
-            gameManager.turnManager = GameManager.TurnManager.PLAYER_TURN;
-        }
+        //if(gameManager.turnManager==GameManager.TurnManager.ENIMIES_END)
+        //{
+        //    gameManager.turnManager = GameManager.TurnManager.PLAYER_TURN;
+        //}
         //プレイヤーのターン
         if (gameManager.turnManager==GameManager.TurnManager.PLAYER_TURN)
         {
@@ -60,6 +61,8 @@ public sealed class Player : MoveObject
                 //状態異常の遷移
                 switch (state)
                 {
+                    case STATE.NONE:
+                        break;
                     case STATE.POISON:
                         HP -= 1;
                         if (ReleaseDetermination() == true) { state = STATE.NONE; }
@@ -71,7 +74,10 @@ public sealed class Player : MoveObject
                     default:
                         break;
                 }
+                Debug.Log(gameManager.turnManager);
+
                 gameManager.turnManager = GameManager.TurnManager.SATIETY_CHECK;
+
             }
 
             //空腹度チェック
@@ -208,12 +214,13 @@ public sealed class Player : MoveObject
                 mapGenerator.MapStatusType[x, y + 1] = (int)MapGenerator.STATE.PLAYER;
                 SpriteDirection();
                 StartCoroutine(FrameWait(0.0001f, 0, 0.1f, MoveNum, DIRECTION.UP, prevPosition));
+
                 if (isExit == true)
                 {
                     gameManager.Exit();
                 }
             }
-            gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
+            //gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
         //下方向
         if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
@@ -240,7 +247,7 @@ public sealed class Player : MoveObject
                 //                                            gameObject.transform.position.y - 1);
             }
 
-            gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
+            //gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
         //左方向
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
@@ -266,7 +273,7 @@ public sealed class Player : MoveObject
                 //gameObject.transform.position = new Vector2(gameObject.transform.position.x - 1,
                 //                                            gameObject.transform.position.y);
             }
-            gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
+            //gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
         //右方向
         if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
@@ -292,7 +299,7 @@ public sealed class Player : MoveObject
                 //gameObject.transform.position = new Vector2(gameObject.transform.position.x + 1,
                 //                                        gameObject.transform.position.y);
             }
-            gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
+            //gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
     }
     #endregion
@@ -413,8 +420,8 @@ public sealed class Player : MoveObject
     {
         Level += 1;
         NextExp -= 1;
-        ATK = Mathf.RoundToInt(ATK * 1.2f);
-        DEF = Mathf.RoundToInt(DEF * 1.2f);
+        ATK *= 2;//Mathf.RoundToInt(ATK * 1.2f);
+        DEF *=2; Mathf.RoundToInt(DEF * 1.2f);
     }
 #endregion
 

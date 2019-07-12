@@ -32,6 +32,9 @@ public sealed class GameData
     //プレイヤーの防御力
     [SerializeField] private int _DEF;
     public int DEF { get { return _DEF; } set { _DEF = value; } }
+    //プレイヤーの空腹度
+    [SerializeField] private int _Satiety;
+    public int Satiety { get { return _Satiety; } set { _Satiety = value; } }
 }
 
 

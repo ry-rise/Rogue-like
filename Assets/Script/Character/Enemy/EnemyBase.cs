@@ -22,6 +22,7 @@ public class EnemyBase : MoveObject
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<Player>();
         playerPos = player.transform;
+        Exp = 3;
 	}
     protected virtual void Update()
     {

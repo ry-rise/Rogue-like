@@ -18,7 +18,8 @@ public sealed class GameManager : MonoBehaviour
     private Transform enemyHolder;
     private Transform itemHolder;
     public enum TurnManager { PLAYER_TURN, PLAYER_MOVE, PLAYER_ATTACK, PLAYER_END, STATE_JUDGE, SATIETY_CHECK, ENEMIES_TURN, ENIMIES_END }
-    public TurnManager turnManager { get; set; }
+    [SerializeField] private TurnManager _turnManager;
+    public TurnManager turnManager { get {return _turnManager; } set {_turnManager=value; } }
     public List<GameObject> enemiesList;
     public List<GameObject> itemsList;
     public int FloorNumber { get; set; }
@@ -216,7 +217,9 @@ public sealed class GameManager : MonoBehaviour
             Level = player.Level,
             Exp = player.Exp,
             Direction = player.Direction,
-            DEF = player.DEF
+            DEF = player.DEF,
+            Satiety = player.Satiety
+
         };
         string json = JsonUtility.ToJson(gameData);
         string path = $"{Application.persistentDataPath}{FileName}";
@@ -240,6 +243,7 @@ public sealed class GameManager : MonoBehaviour
         player.Exp = restoreData.Exp;
         player.Direction = restoreData.Direction;
         player.DEF = restoreData.DEF;
+        player.Satiety = restoreData.Satiety;
     }
     /// <summary>
     /// データの削除

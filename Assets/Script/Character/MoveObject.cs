@@ -99,8 +99,12 @@ public abstract class MoveObject : MonoBehaviour
                     break;
             }
             gameManager.CameraOnCenter();
+            Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
+
             num = 0;
         }
+
     }
     protected IEnumerator FrameWait(float waitTime,float moveX,float moveY,int num, DIRECTION direction, Vector2 prevPos)
     {
