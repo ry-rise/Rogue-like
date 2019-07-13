@@ -25,7 +25,7 @@ public abstract class MoveObject : MonoBehaviour
     //防御力
     public int DEF { get; set; }
     //移動変数
-    public int MoveNum { get; private set; }
+    protected int[] MoveNum = new int[4];
     public enum DIRECTION { UP, DOWN, LEFT, RIGHT }
     //状態異常
     public enum STATE { NONE, POISON, PARALYSIS }
@@ -86,22 +86,19 @@ public abstract class MoveObject : MonoBehaviour
             switch (direction)
             {
                 case DIRECTION.UP:
-                    gameObject.transform.position = new Vector2(gameObject.transform.position.x, prevPos.y + 1);
+                    gameObject.transform.position = new Vector2((int)gameObject.transform.position.x, (int)prevPos.y + 1);
                     break;
                 case DIRECTION.DOWN:
-                    gameObject.transform.position = new Vector2(gameObject.transform.position.x, prevPos.y - 1);
+                    gameObject.transform.position = new Vector2((int)gameObject.transform.position.x, (int)prevPos.y - 1);
                     break;
                 case DIRECTION.LEFT:
-                    gameObject.transform.position = new Vector2(prevPos.x - 1, gameObject.transform.position.y);
+                    gameObject.transform.position = new Vector2((int)prevPos.x - 1, (int)gameObject.transform.position.y);
                     break;
                 case DIRECTION.RIGHT:
-                    gameObject.transform.position = new Vector2(prevPos.x + 1, gameObject.transform.position.y);
+                    gameObject.transform.position = new Vector2((int)prevPos.x + 1, (int)gameObject.transform.position.y);
                     break;
             }
             gameManager.CameraOnCenter();
-            Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-            gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
-
             num = 0;
         }
 
