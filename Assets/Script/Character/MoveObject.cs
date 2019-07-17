@@ -10,6 +10,8 @@ public abstract class MoveObject : MonoBehaviour
     protected SceneChanger sceneChanger;
     protected SpriteRenderer spriteRenderer;
     protected DIRECTION direction;
+    //移動変数
+    protected int[] MoveNum = new int[4];
     //体力
     public int HP { get; set; }
     //レベル
@@ -24,8 +26,6 @@ public abstract class MoveObject : MonoBehaviour
     public int ATK { get; set; }
     //防御力
     public int DEF { get; set; }
-    //移動変数
-    protected int[] MoveNum = new int[4];
     public enum DIRECTION { UP, DOWN, LEFT, RIGHT }
     //状態異常
     public enum STATE { NONE, POISON, PARALYSIS }

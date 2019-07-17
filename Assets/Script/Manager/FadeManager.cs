@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class FadeManager : MonoBehaviour {
@@ -17,29 +18,30 @@ public class FadeManager : MonoBehaviour {
         alfa = fadeImage.color.a;
     }
 
-    private void Update()
-    {
-        if (isFadeOut)
-        {
-            StartFadeOut();
-        }
+    //private void Update()
+    //{
+    //    if (isFadeOut)
+    //    {
+    //        StartCoroutine(StartFadeOut());
+    //    }
 
-        if (isFadeIn)
-        {
-            StartFadeIn();
-        }
-    }
-    private void StartFadeIn()
+    //    if (isFadeIn)
+    //    {
+    //        StartCoroutine(StartFadeIn());
+    //    }
+    //}
+    public IEnumerator StartFadeIn()
     {
         alfa -= fadeSpeed;                
         SetAlpha();                      
         if (alfa <= 0)
         {                    
             isFadeIn = false;
-            fadeImage.enabled = false;   
+            fadeImage.enabled = false;
+            yield break;
         }
     }
-    private void StartFadeOut()
+    public IEnumerator StartFadeOut()
     {
         fadeImage.enabled = true; 
         alfa += fadeSpeed;         
@@ -47,6 +49,7 @@ public class FadeManager : MonoBehaviour {
         if (alfa >= 1)
         {
             isFadeOut = false;
+            yield break;
         }
     }
 

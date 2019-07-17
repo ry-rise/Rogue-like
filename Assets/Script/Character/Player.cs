@@ -208,8 +208,8 @@ public sealed class Player : MoveObject
     /// <summary>
     /// プレイヤーの移動
     /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
+    /// <param name="x">プレイヤーのx座標</param>
+    /// <param name="y">プレイヤーのy座標</param>
     private void MovePlayer(int x,int y)
     {
         //上方向
@@ -223,7 +223,6 @@ public sealed class Player : MoveObject
                 if (mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.EXIT)
                 {
                     gameManager.Exit();
-                    //isExit = true;
                 }
                 Vector2 prevPosition = gameObject.transform.position;
                 mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
@@ -231,7 +230,6 @@ public sealed class Player : MoveObject
                 
                 SpriteDirection();
                 StartCoroutine(FrameWait(0.0001f, 0, 0.1f, MoveNum[(int)DIRECTION.UP], DIRECTION.UP, prevPosition));
-                //gameObject.transform.position = new Vector2((int)gameObject.transform.position.x, (int)prevPosition.y + 1);
                 if (isExit == true)
                 {
                     gameManager.Exit();
@@ -255,9 +253,7 @@ public sealed class Player : MoveObject
                 mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
                 mapGenerator.MapStatusType[x, y - 1] = (int)MapGenerator.STATE.PLAYER;
                 SpriteDirection();
-                //int num = 0;
                 StartCoroutine(FrameWait(0.0001f, 0, -0.1f, MoveNum[(int)DIRECTION.DOWN], DIRECTION.DOWN,prevPosition));
-                //gameObject.transform.position = new Vector2((int)gameObject.transform.position.x, (int)prevPosition.y - 1);
                 if (isExit == true)
                 {
                     gameManager.Exit();
@@ -283,9 +279,7 @@ public sealed class Player : MoveObject
                 mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
                 mapGenerator.MapStatusType[x-1, y] = (int)MapGenerator.STATE.PLAYER;
                 SpriteDirection();
-                //int num = 0;
-                StartCoroutine(FrameWait(0.0001f, -0.1f, 0, MoveNum[(int)DIRECTION.LEFT], DIRECTION.LEFT,prevPosition));
-                //gameObject.transform.position = new Vector2((int)prevPosition.x - 1, (int)gameObject.transform.position.y);
+                StartCoroutine(FrameWait(0.0001f, -0.1f, 0, MoveNum[(int)DIRECTION.LEFT], DIRECTION.LEFT, prevPosition));
                 if (isExit == true)
                 {
                     gameManager.Exit();
@@ -310,9 +304,7 @@ public sealed class Player : MoveObject
                 mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
                 mapGenerator.MapStatusType[x + 1, y] = (int)MapGenerator.STATE.PLAYER;
                 SpriteDirection();
-                //int num = 0;
                 StartCoroutine(FrameWait(0.0001f, 0.1f, 0, MoveNum[(int)DIRECTION.RIGHT], DIRECTION.RIGHT,prevPosition));
-                //gameObject.transform.position = new Vector2((int)prevPosition.x + 1, (int)gameObject.transform.position.y);
                 if (isExit==true)
                 {
                     gameManager.Exit();
@@ -331,7 +323,6 @@ public sealed class Player : MoveObject
             case DIRECTION.UP:
                 if (mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.ENEMY)
                 {
-                    JudgeAttack();
                     if (JudgeAttack() == true)
                     {
                         for (int i = 0; i < gameManager.enemiesList.Count; i += 1)
@@ -355,7 +346,6 @@ public sealed class Player : MoveObject
             case DIRECTION.DOWN:
                 if (mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.ENEMY)
                 {
-                    JudgeAttack();
                     if (JudgeAttack() == true)
                     {
                         for (int i = 0; i < gameManager.enemiesList.Count; i += 1)
@@ -379,7 +369,6 @@ public sealed class Player : MoveObject
             case DIRECTION.LEFT:
                 if (mapGenerator.MapStatusType[x - 1, y] == (int)MapGenerator.STATE.ENEMY)
                 {
-                    JudgeAttack();
                     if (JudgeAttack() == true)
                     {
                         for (int i = 0; i < gameManager.enemiesList.Count; i += 1)
@@ -403,7 +392,6 @@ public sealed class Player : MoveObject
             case DIRECTION.RIGHT:
                 if (mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.ENEMY)
                 {
-                    JudgeAttack();
                     if (JudgeAttack() == true)
                     {
                         for (int i = 0; i < gameManager.enemiesList.Count; i += 1)

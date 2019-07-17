@@ -19,7 +19,7 @@ public sealed class GameManager : MonoBehaviour
     private Transform itemHolder;
     public enum TurnManager { PLAYER_START, PLAYER_MOVE, PLAYER_ATTACK, PLAYER_END, STATE_JUDGE, SATIETY_CHECK, ENEMIES_TURN, ENIMIES_END }
     [SerializeField] private TurnManager _turnManager;
-    public TurnManager turnManager { get {return _turnManager; } set {_turnManager=value; } }
+    public TurnManager turnManager { get { return _turnManager; } set { _turnManager = value; } }
     public List<GameObject> enemiesList;
     public List<GameObject> itemsList;
     public int FloorNumber { get; set; }
@@ -75,9 +75,9 @@ public sealed class GameManager : MonoBehaviour
         {
             if (enemiesList[i].gameObject.GetComponent<T>() != null)
             {
-                T t = enemiesList[i].GetComponent<T>();
-                t.MoveEnemy((int)enemiesList[i].transform.position.x, (int)enemiesList[i].transform.position.y);
-                t.AttackEnemy((int)enemiesList[i].transform.position.x, (int)enemiesList[i].transform.position.y);
+                T EnemyClass = enemiesList[i].GetComponent<T>();
+                EnemyClass.MoveEnemy((int)enemiesList[i].transform.position.x, (int)enemiesList[i].transform.position.y);
+                EnemyClass.AttackEnemy((int)enemiesList[i].transform.position.x, (int)enemiesList[i].transform.position.y);
             }
         }
     }
@@ -191,7 +191,8 @@ public sealed class GameManager : MonoBehaviour
     }
     public void Exit()
     {
-        fadeManager.isFadeOut = true;
+        //fadeManager.isFadeOut = true;
+        StartCoroutine(fadeManager.StartFadeOut());
         FloorNumber += 1;
         Destroy(GameObject.Find("Map"));
         Destroy(GameObject.Find("Enemy"));
@@ -201,11 +202,10 @@ public sealed class GameManager : MonoBehaviour
         ListAdd();
         RandomDeploy();
         CameraOnCenter();
-        while(fadeManager.isFadeOut)
-        {
-
-        }
+        StartCoroutine(fadeManager.StartFadeIn());
         //fadeManager.isFadeIn = true;
+
+     
     }
     /// <summary>
     /// セーブ
