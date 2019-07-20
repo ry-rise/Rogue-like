@@ -1660,6 +1660,7 @@ MonoBehaviour:
   StateObject: {fileID: 1178622244}
   InventoryScreen: {fileID: 1896745051}
   Log: {fileID: 752202774}
+  Header: {fileID: 322512093}
 --- !u!114 &949815685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3216,6 +3217,7 @@ MonoBehaviour:
   itemPrefab:
   - {fileID: 1794712428360748, guid: b613cec111470f449bca010b70542fd7, type: 2}
   - {fileID: 1775305888439170, guid: 54282a93e00f5164ba16dbdfacc84b0c, type: 2}
+  _turnManager: 0
   enemiesList: []
   itemsList: []
 --- !u!4 &1437518963

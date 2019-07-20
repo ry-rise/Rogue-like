@@ -30,7 +30,7 @@ public class FadeManager : MonoBehaviour {
     //        StartCoroutine(StartFadeIn());
     //    }
     //}
-    public IEnumerator StartFadeIn()
+    public void StartFadeIn()
     {
         alfa -= fadeSpeed;                
         SetAlpha();                      
@@ -38,10 +38,9 @@ public class FadeManager : MonoBehaviour {
         {                    
             isFadeIn = false;
             fadeImage.enabled = false;
-            yield break;
         }
     }
-    public IEnumerator StartFadeOut()
+    public void StartFadeOut()
     {
         fadeImage.enabled = true; 
         alfa += fadeSpeed;         
@@ -49,7 +48,6 @@ public class FadeManager : MonoBehaviour {
         if (alfa >= 1)
         {
             isFadeOut = false;
-            yield break;
         }
     }
 

@@ -10,6 +10,7 @@ public sealed class UIManager : MonoBehaviour
     [SerializeField] private GameObject StateObject;
     [SerializeField] private GameObject InventoryScreen;
     [SerializeField] private GameObject Log;
+    [SerializeField] private GameObject Header;
     private Text LevelText;
     private Text FloorText;
     private Text HPText;
@@ -37,20 +38,22 @@ public sealed class UIManager : MonoBehaviour
         FloorText.text = $"{gameManager.FloorNumber.ToString()}F";
         HPText.text = $"HP:{player.HP.ToString()}/{player.MaxHP.ToString()}";
         SatietyText.text = $"空腹度:{player.Satiety.ToString()}";
-        if (player!=null)
+        if (player != null)
         {
-            switch (player.state)
+            //if (gameManager.turnManager == GameManager.TurnManager.STATE_JUDGE)
             {
-                case MoveObject.STATE.NONE:
-                    StateText.text = "状態異常なし";
-                    
-                    break;
-                case MoveObject.STATE.PARALYSIS:
-                    StateText.text = "麻痺";
-                    break;
-                case MoveObject.STATE.POISON:
-                    StateText.text = "毒";
-                    break;
+                switch (player.state)
+                {
+                    case MoveObject.STATE.NONE:
+                        StateText.text = "状態異常なし";
+                        break;
+                    case MoveObject.STATE.PARALYSIS:
+                        StateText.text = "麻痺";
+                        break;
+                    case MoveObject.STATE.POISON:
+                        StateText.text = "毒";
+                        break;
+                }
             }
         }
         
@@ -61,13 +64,13 @@ public sealed class UIManager : MonoBehaviour
             {
                 InventoryScreen.SetActive(false);
                 gameManager.GamePause = false;
-                transform.Find("Header").gameObject.SetActive(true);
+                Header.SetActive(true);
             }
             else if (InventoryScreen.activeSelf == false)
             {
                 InventoryScreen.SetActive(true);
                 gameManager.GamePause = true;
-                transform.Find("Header").gameObject.SetActive(false);
+                Header.SetActive(false);
             }
         }
     }

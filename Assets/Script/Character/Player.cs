@@ -58,7 +58,7 @@ public sealed class Player : MoveObject
             {
                 MovePlayer((int)gameObject.transform.position.x,
                            (int)gameObject.transform.position.y);
-                //gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
+                gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
                     gameManager.turnManager = GameManager.TurnManager.PLAYER_ATTACK;
@@ -115,27 +115,27 @@ public sealed class Player : MoveObject
     }
 
     #region 判定       
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Exit")
-        {
-            //Debug.Log("exit");
-            gameManager.Exit();
-            //gameManager.FloorNumber += 1;
-            //Destroy(GameObject.Find("Map"));
-            //Destroy(GameObject.Find("Enemy"));
-            //Destroy(GameObject.Find("Item"));
-            //mapGenerator.Awake();
-            //gameManager.Refrash();
-            ////mapGenerator.InitializeMap();
-            ////mapGenerator.RoomCreate();
-            ////mapGenerator.CreateDungeon();
-            ////gameManager.Start();
-            //gameManager.ListAdd();
-            //gameManager.RandomDeploy();
-            //gameManager.CameraOnCenter();
-        }
-    }
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.tag == "Exit")
+    //    {
+    //        //Debug.Log("exit");
+    //        gameManager.Exit();
+    //        //gameManager.FloorNumber += 1;
+    //        //Destroy(GameObject.Find("Map"));
+    //        //Destroy(GameObject.Find("Enemy"));
+    //        //Destroy(GameObject.Find("Item"));
+    //        //mapGenerator.Awake();
+    //        //gameManager.Refrash();
+    //        ////mapGenerator.InitializeMap();
+    //        ////mapGenerator.RoomCreate();
+    //        ////mapGenerator.CreateDungeon();
+    //        ////gameManager.Start();
+    //        //gameManager.ListAdd();
+    //        //gameManager.RandomDeploy();
+    //        //gameManager.CameraOnCenter();
+    //    }
+    //}
     #endregion
 
     #region プレイヤーの移動
@@ -219,10 +219,10 @@ public sealed class Player : MoveObject
             SpriteDirection();
             if (CheckMovePlayer(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
             {
-                bool isExit = false;
                 if (mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.EXIT)
                 {
                     gameManager.Exit();
+                    return;
                 }
                 Vector2 prevPosition = gameObject.transform.position;
                 mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
@@ -230,10 +230,6 @@ public sealed class Player : MoveObject
                 
                 SpriteDirection();
                 StartCoroutine(FrameWait(0.0001f, 0, 0.1f, MoveNum[(int)DIRECTION.UP], DIRECTION.UP, prevPosition));
-                if (isExit == true)
-                {
-                    gameManager.Exit();
-                }
             }
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
