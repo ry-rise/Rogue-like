@@ -49,6 +49,7 @@ public class FadeManager : MonoBehaviour {
         if (alfa >= 1)
         {
             isFadeOut = false;
+            isFadeIn = true;
         }
     }
 
