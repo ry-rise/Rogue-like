@@ -73,7 +73,7 @@ public abstract class MoveObject : MonoBehaviour
     /// <summary>
     /// スムーズに移動する
     /// </summary>
-    protected virtual void SquaresMove(float moveX,float moveY,int num,DIRECTION direction,Vector2 prevPos)
+    protected IEnumerator SquaresMove(float moveX,float moveY,int num,DIRECTION direction,Vector2 prevPos)
     {
         if (num < 10)
         {
@@ -100,12 +100,13 @@ public abstract class MoveObject : MonoBehaviour
             }
             gameManager.CameraOnCenter();
             num = 0;
+            yield break;
         }
 
     }
     protected IEnumerator FrameWait(float waitTime,float moveX,float moveY,int num, DIRECTION direction, Vector2 prevPos)
     {
         yield return new WaitForSeconds(waitTime);
-        SquaresMove(moveX,moveY,num,direction,prevPos);
+        StartCoroutine(SquaresMove(moveX,moveY,num,direction,prevPos));
     }
 }
