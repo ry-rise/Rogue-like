@@ -18,18 +18,19 @@ public class FadeManager : MonoBehaviour {
         alfa = fadeImage.color.a;
     }
 
-    //private void Update()
-    //{
-    //    if (isFadeOut)
-    //    {
-    //        StartCoroutine(StartFadeOut());
-    //    }
+    private void Update()
+    {
+        if (isFadeOut)
+        {
+            StartFadeOut();
+        }
 
-    //    if (isFadeIn)
-    //    {
-    //        StartCoroutine(StartFadeIn());
-    //    }
-    //}
+        if (isFadeIn)
+        {
+            StartFadeIn();
+        }
+    }
+
     public void StartFadeIn()
     {
         alfa -= fadeSpeed;                

@@ -103,6 +103,7 @@ public sealed class GameManager : MonoBehaviour
                 == (int)MapGenerator.STATE.FLOOR)
             {
                 playerObject.transform.position = new Vector2(playerRandomX, playerRandomY);
+                mapGenerator.MapStatusType[playerRandomX, playerRandomY] = (int)MapGenerator.STATE.PLAYER;
                 break;
             }
             else
@@ -192,7 +193,6 @@ public sealed class GameManager : MonoBehaviour
     public void Exit()
     {
         fadeManager.isFadeOut = true;
-        //StartCoroutine(fadeManager.StartFadeOut());
         FloorNumber += 1;
         Destroy(GameObject.Find("Map"));
         Destroy(GameObject.Find("Enemy"));
@@ -202,7 +202,6 @@ public sealed class GameManager : MonoBehaviour
         ListAdd();
         RandomDeploy();
         CameraOnCenter();
-        //StartCoroutine(fadeManager.StartFadeIn());
         fadeManager.isFadeIn = true;
 
      
