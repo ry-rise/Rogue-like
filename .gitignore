@@ -40,3 +40,14 @@ sysinfo.txt
 Assets/StreamingAssets/crashlytics-build.properties
 .vscode/
 Specification/
+Assets/VSCode.meta
+Assets/VSCode/HOWTO.pdf
+Assets/VSCode/HOWTO.pdf.meta
+Assets/VSCode/LICENSE
+Assets/VSCode/LICENSE.meta
+Assets/VSCode/Plugins.meta
+Assets/VSCode/README.md
+Assets/VSCode/README.md.meta
+Assets/VSCode/Plugins/Editor.meta
+Assets/VSCode/Plugins/Editor/VSCode.cs
+Assets/VSCode/Plugins/Editor/VSCode.cs.meta
