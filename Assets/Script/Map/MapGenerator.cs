@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 //マップ生成
 public sealed class MapGenerator : MonoBehaviour
 {
@@ -75,7 +76,8 @@ public sealed class MapGenerator : MonoBehaviour
         int roomAmount = Random.Range(MinRoomAmount, MaxRoomAmount);
         int[] roadAggPointX = new int[RoadPoint];
         int[] roadAggPointY = new int[RoadPoint];
-        for (int i = 0; i < roadAggPointX.Length; i += 1)
+        foreach(int i in roadAggPointX)
+        //for (int i = 0; i < roadAggPointX.Length; i += 1)
         {
             roadAggPointX[i] = Random.Range(1, MapWidth);
             roadAggPointY[i] = Random.Range(1, MapHeight);
@@ -83,7 +85,8 @@ public sealed class MapGenerator : MonoBehaviour
             MapStatusType[roadAggPointX[i], roadAggPointY[i]] = (int)STATE.ROAD;
         }
         //部屋を作る
-        for (int i = 0; i < roomAmount; i += 1)
+        foreach(int i in Enumerable.Range(0,roomAmount))
+        //for (int i = 0; i < roomAmount; i += 1)
         {
             int roomHeight = Random.Range(MinRoomHeight, MaxRoomHeight);
             int roomWidth = Random.Range(MinRoomWidth, MaxRoomWidth);

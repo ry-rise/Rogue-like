@@ -71,13 +71,13 @@ public sealed class GameManager : MonoBehaviour
     private void EnemiesAction<T>()
         where T : EnemyBase
     {
-        for (int i = 0; i < enemiesList.Count; i += 1)
+        foreach (var enemy in enemiesList)
         {
-            if (enemiesList[i].gameObject.GetComponent<T>() != null)
+            if (enemy.GetComponent<T>() != null)
             {
-                T EnemyClass = enemiesList[i].GetComponent<T>();
-                EnemyClass.MoveEnemy((int)enemiesList[i].transform.position.x, (int)enemiesList[i].transform.position.y);
-                EnemyClass.AttackEnemy((int)enemiesList[i].transform.position.x, (int)enemiesList[i].transform.position.y);
+                T EnemyClass = enemy.GetComponent<T>();
+                EnemyClass.MoveEnemy((int)enemy.transform.position.x, (int)enemy.transform.position.y);
+                EnemyClass.AttackEnemy((int)enemy.transform.position.x, (int)enemy.transform.position.y);
             }
         }
     }
@@ -112,7 +112,7 @@ public sealed class GameManager : MonoBehaviour
             }
         }
         //FLOORのところにenemyを移動
-        for (int i = 0; i < enemiesList.Count; i += 1)
+        foreach (var enemy in enemiesList)
         {
             while (true)
             {
@@ -121,7 +121,7 @@ public sealed class GameManager : MonoBehaviour
                 if (mapGenerator.MapStatusType[enemyRandomX, enemyRandomY]
                    == (int)MapGenerator.STATE.FLOOR)
                 {
-                    enemiesList[i].transform.position = new Vector2(enemyRandomX, enemyRandomY);
+                    enemy.transform.position = new Vector2(enemyRandomX, enemyRandomY);
                     mapGenerator.MapStatusType[enemyRandomX, enemyRandomY] = (int)MapGenerator.STATE.ENEMY;
                     break;
                 }
@@ -132,7 +132,7 @@ public sealed class GameManager : MonoBehaviour
             }
         }
         //FLOORのところにitemを移動
-        for (int it = 0; it < itemsList.Count; it += 1)
+        foreach (var item in itemsList)
         {
             while (true)
             {
@@ -141,7 +141,7 @@ public sealed class GameManager : MonoBehaviour
                 if (mapGenerator.MapStatusType[itemRandomX, itemRandomY]
                     == (int)MapGenerator.STATE.FLOOR)
                 {
-                    itemsList[it].transform.position = new Vector2(itemRandomX, itemRandomY);
+                    item.transform.position = new Vector2(itemRandomX, itemRandomY);
                     mapGenerator.MapStatusType[itemRandomX, itemRandomY] = (int)MapGenerator.STATE.ITEM;
                     break;
                 }
@@ -203,8 +203,7 @@ public sealed class GameManager : MonoBehaviour
         RandomDeploy();
         CameraOnCenter();
         fadeManager.isFadeIn = true;
-
-     
+        DataSave();
     }
     /// <summary>
     /// セーブ

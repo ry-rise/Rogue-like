@@ -14,8 +14,8 @@ public sealed class Player : MoveObject
     public int Satiety { get; set; } //満腹度
     public int MaxSatiety { get; private set; } = 100;
     public STATE state { get { return _state; } set { _state = value; } }
-   
-    protected override void Start ()
+
+    protected override void Start()
     {
         base.Start();
         //データが無ければ初期化
@@ -36,7 +36,7 @@ public sealed class Player : MoveObject
         direction = DIRECTION.UP;
         state = STATE.NONE;
         SpriteDirection();
-	}
+    }
 
     private void Update()
     {
@@ -46,7 +46,7 @@ public sealed class Player : MoveObject
         {
             gameManager.turnManager = GameManager.TurnManager.PLAYER_START;
         }
-        if(!(gameManager.turnManager==GameManager.TurnManager.PLAYER_START))
+        if (!(gameManager.turnManager == GameManager.TurnManager.PLAYER_START))
         {
             //StartCoroutine()
         }
@@ -94,15 +94,9 @@ public sealed class Player : MoveObject
         if (gameManager.turnManager == GameManager.TurnManager.SATIETY_CHECK)
         {
             //空腹度が０
-            if (Satiety == 0)
-            {
-                HP -= 1;
-            }
+            if (Satiety == 0) { HP -= 1; }
             //０以外
-            else
-            {
-                Satiety -= 1;
-            }
+            else { Satiety -= 1; }
             //行動終了
             gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
         }
@@ -182,7 +176,7 @@ public sealed class Player : MoveObject
                 {
                     return false;
                 }
-                else if (mapGenerator.MapStatusType[x-1, y] == (int)MapGenerator.STATE.TRAP_POISON)
+                else if (mapGenerator.MapStatusType[x - 1, y] == (int)MapGenerator.STATE.TRAP_POISON)
                 {
                     state = STATE.POISON;
                     return true;
@@ -195,7 +189,7 @@ public sealed class Player : MoveObject
                 {
                     return false;
                 }
-                else if (mapGenerator.MapStatusType[x+1, y] == (int)MapGenerator.STATE.TRAP_POISON)
+                else if (mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.TRAP_POISON)
                 {
                     state = STATE.POISON;
                     return true;
@@ -210,7 +204,7 @@ public sealed class Player : MoveObject
     /// </summary>
     /// <param name="x">プレイヤーのx座標</param>
     /// <param name="y">プレイヤーのy座標</param>
-    private void MovePlayer(int x,int y)
+    private void MovePlayer(int x, int y)
     {
         //上方向
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
@@ -248,12 +242,12 @@ public sealed class Player : MoveObject
                     mapGenerator.MapStatusType[x, y - 1] = (int)MapGenerator.STATE.PLAYER;
                 }
                 SpriteDirection();
-                StartCoroutine(FrameWait(0.0001f, 0, -0.1f, MoveNum[(int)DIRECTION.DOWN], DIRECTION.DOWN,prevPosition));
+                StartCoroutine(FrameWait(0.0001f, 0, -0.1f, MoveNum[(int)DIRECTION.DOWN], DIRECTION.DOWN, prevPosition));
                 if (mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.EXIT)
                 {
                     gameManager.Exit();
                 }
-                
+
             }
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
@@ -294,7 +288,7 @@ public sealed class Player : MoveObject
                     mapGenerator.MapStatusType[x + 1, y] = (int)MapGenerator.STATE.PLAYER;
                 }
                 SpriteDirection();
-                StartCoroutine(FrameWait(0.0001f, 0.1f, 0, MoveNum[(int)DIRECTION.RIGHT], DIRECTION.RIGHT,prevPosition));
+                StartCoroutine(FrameWait(0.0001f, 0.1f, 0, MoveNum[(int)DIRECTION.RIGHT], DIRECTION.RIGHT, prevPosition));
                 if (mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.EXIT)
                 {
                     gameManager.Exit();
@@ -306,7 +300,7 @@ public sealed class Player : MoveObject
     #endregion
 
     #region 攻撃
-    private void AttackPlayer(int x,int y)
+    private void AttackPlayer(int x, int y)
     {
         switch (direction)
         {
@@ -317,7 +311,7 @@ public sealed class Player : MoveObject
                     {
                         for (int i = 0; i < gameManager.enemiesList.Count; i += 1)
                         {
-                            if (gameManager.enemiesList[i].transform.position ==new Vector3(x, y + 1))
+                            if (gameManager.enemiesList[i].transform.position == new Vector3(x, y + 1))
                             {
                                 if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>() != null)
                                 {
@@ -410,7 +404,7 @@ public sealed class Player : MoveObject
         if (i == 1) { return true; }
         else { return false; }
     }
-#endregion
+    #endregion
 
     #region レベルアップ時の挙動
     private void LevelUP()
@@ -418,8 +412,8 @@ public sealed class Player : MoveObject
         Level += 1;
         NextExp -= 1;
         ATK *= 2;//Mathf.RoundToInt(ATK * 1.2f);
-        DEF *=2; Mathf.RoundToInt(DEF * 1.2f);
+        DEF *= 2; Mathf.RoundToInt(DEF * 1.2f);
     }
-#endregion
+    #endregion
 
 }
