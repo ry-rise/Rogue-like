@@ -8,14 +8,14 @@ public sealed class ItemPortion : ItemBase
         base.Awake();
     }
    
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            Debug.Log("itemPortion");
-            PickUP();
-        }
-    }
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.tag == "Player")
+    //    {
+    //        Debug.Log("itemPortion");
+    //        PickUP();
+    //    }
+    //}
 
     protected override void PickUP()
     {
