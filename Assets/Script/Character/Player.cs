@@ -28,6 +28,7 @@ public sealed class Player : MoveObject
             MaxHP = HP;
             Satiety = 100;
         }
+        //var a = Enum.GetNames(typeof(DIRECTION)).Length;
         for (int i = 0; i < Enum.GetNames(typeof(DIRECTION)).Length; i += 1)
         {
             MoveNum[i] = 0;
@@ -40,6 +41,15 @@ public sealed class Player : MoveObject
     private void Update()
     {
         gameManager.CameraOnCenter();
+        //敵の行動が終わったら
+        if (gameManager.turnManager == GameManager.TurnManager.ENIMIES_END)
+        {
+            gameManager.turnManager = GameManager.TurnManager.PLAYER_START;
+        }
+        if (!(gameManager.turnManager == GameManager.TurnManager.PLAYER_START))
+        {
+            //StartCoroutine()
+        }
         //プレイヤーのターン
         if (gameManager.turnManager == GameManager.TurnManager.PLAYER_START)
         {
@@ -98,7 +108,29 @@ public sealed class Player : MoveObject
         }
     }
 
-    
+    #region 判定       
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.tag == "Exit")
+    //    {
+    //        //Debug.Log("exit");
+    //        gameManager.Exit();
+    //        //gameManager.FloorNumber += 1;
+    //        //Destroy(GameObject.Find("Map"));
+    //        //Destroy(GameObject.Find("Enemy"));
+    //        //Destroy(GameObject.Find("Item"));
+    //        //mapGenerator.Awake();
+    //        //gameManager.Refrash();
+    //        ////mapGenerator.InitializeMap();
+    //        ////mapGenerator.RoomCreate();
+    //        ////mapGenerator.CreateDungeon();
+    //        ////gameManager.Start();
+    //        //gameManager.ListAdd();
+    //        //gameManager.RandomDeploy();
+    //        //gameManager.CameraOnCenter();
+    //    }
+    //}
+    #endregion
 
     #region プレイヤーの移動
     /// <summary>
@@ -118,10 +150,6 @@ public sealed class Player : MoveObject
                 {
                     return false;
                 }
-                else if (mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.ITEM)
-                {
-                    return true;
-                }
                 else if (mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.TRAP_POISON)
                 {
                     state = STATE.POISON;
@@ -134,10 +162,6 @@ public sealed class Player : MoveObject
                     mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.ENEMY)
                 {
                     return false;
-                }
-                else if (mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.ITEM)
-                {
-                    return true;
                 }
                 else if (mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.TRAP_POISON)
                 {
@@ -152,10 +176,6 @@ public sealed class Player : MoveObject
                 {
                     return false;
                 }
-                else if (mapGenerator.MapStatusType[x - 1, y] == (int)MapGenerator.STATE.ITEM)
-                {
-                    return true;
-                }
                 else if (mapGenerator.MapStatusType[x - 1, y] == (int)MapGenerator.STATE.TRAP_POISON)
                 {
                     state = STATE.POISON;
@@ -169,10 +189,6 @@ public sealed class Player : MoveObject
                 {
                     return false;
                 }
-                else if (mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.ITEM)
-                {
-                    return true;
-                }
                 else if (mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.TRAP_POISON)
                 {
                     state = STATE.POISON;
@@ -182,10 +198,6 @@ public sealed class Player : MoveObject
             default:
                 return false;
         }
-    }
-    private void CheckExit(bool Exit)
-    {
-
     }
     /// <summary>
     /// プレイヤーの移動
@@ -201,7 +213,6 @@ public sealed class Player : MoveObject
             SpriteDirection();
             if (CheckMovePlayer(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
             {
-                gameManager.turnManager = GameManager.TurnManager.PLAYER_MOVE_START;
                 Vector2 prevPosition = gameObject.transform.position;
                 if (mapGenerator.MapStatusType[x, y + 1] != (int)MapGenerator.STATE.EXIT)
                 {
@@ -210,10 +221,6 @@ public sealed class Player : MoveObject
                 }
                 SpriteDirection();
                 StartCoroutine(FrameWait(0.0001f, 0, 0.1f, MoveNum[(int)DIRECTION.UP], DIRECTION.UP, prevPosition));
-                if (mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.ITEM)
-                {
-                    
-                }
                 if (mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.EXIT)
                 {
                     gameManager.Exit();
@@ -247,7 +254,6 @@ public sealed class Player : MoveObject
         //左方向
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            bool isExit = false;
             direction = DIRECTION.LEFT;
             SpriteDirection();
             if (CheckMovePlayer(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
@@ -262,14 +268,9 @@ public sealed class Player : MoveObject
                 StartCoroutine(FrameWait(0.0001f, -0.1f, 0, MoveNum[(int)DIRECTION.LEFT], DIRECTION.LEFT, prevPosition));
                 if (mapGenerator.MapStatusType[x - 1, y] == (int)MapGenerator.STATE.EXIT)
                 {
-                    isExit = true;
-                    //gameManager.Exit();
+                    gameManager.Exit();
                 }
-                
-            }
-            if (isExit == true)
-            {
-                gameManager.Exit();
+
             }
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
@@ -308,17 +309,17 @@ public sealed class Player : MoveObject
                 {
                     if (JudgeAttack() == true)
                     {
-                        foreach (var enemy in gameManager.enemiesList)
+                        for (int i = 0; i < gameManager.enemiesList.Count; i += 1)
                         {
-                            if (enemy.transform.position == new Vector3(x, y + 1))
+                            if (gameManager.enemiesList[i].transform.position == new Vector3(x, y + 1))
                             {
-                                if (enemy.GetComponent<EnemyZombie>() != null)
+                                if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>() != null)
                                 {
-                                    enemy.GetComponent<EnemyZombie>().HP -= ATK;
+                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
                                 }
-                                else if (enemy.GetComponent<EnemyKnight>() != null)
+                                else if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>() != null)
                                 {
-                                    enemy.GetComponent<EnemyKnight>().HP -= ATK;
+                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>().HP -= ATK;
                                 }
                             }
                         }
@@ -331,17 +332,17 @@ public sealed class Player : MoveObject
                 {
                     if (JudgeAttack() == true)
                     {
-                        foreach (var enemy in gameManager.enemiesList)
+                        for (int i = 0; i < gameManager.enemiesList.Count; i += 1)
                         {
-                            if (enemy.transform.position == new Vector3(x, y - 1))
+                            if (gameManager.enemiesList[i].transform.position == new Vector3(x, y - 1))
                             {
-                                if (enemy.GetComponent<EnemyZombie>() != null)
+                                if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>() != null)
                                 {
-                                    enemy.GetComponent<EnemyZombie>().HP -= ATK;
+                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
                                 }
-                                else if (enemy.GetComponent<EnemyKnight>() != null)
+                                else if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>() != null)
                                 {
-                                    enemy.GetComponent<EnemyKnight>().HP -= ATK;
+                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>().HP -= ATK;
                                 }
                             }
                         }
@@ -354,17 +355,17 @@ public sealed class Player : MoveObject
                 {
                     if (JudgeAttack() == true)
                     {
-                        foreach (var enemy in gameManager.enemiesList)
+                        for (int i = 0; i < gameManager.enemiesList.Count; i += 1)
                         {
-                            if (enemy.transform.position == new Vector3(x - 1, y))
+                            if (gameManager.enemiesList[i].transform.position == new Vector3(x - 1, y))
                             {
-                                if (enemy.GetComponent<EnemyZombie>() != null)
+                                if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>() != null)
                                 {
-                                    enemy.GetComponent<EnemyZombie>().HP -= ATK;
+                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
                                 }
-                                else if (enemy.GetComponent<EnemyKnight>() != null)
+                                else if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>() != null)
                                 {
-                                    enemy.GetComponent<EnemyKnight>().HP -= ATK;
+                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>().HP -= ATK;
                                 }
                             }
                         }
@@ -377,17 +378,17 @@ public sealed class Player : MoveObject
                 {
                     if (JudgeAttack() == true)
                     {
-                        foreach (var enemy in gameManager.enemiesList)
+                        for (int i = 0; i < gameManager.enemiesList.Count; i += 1)
                         {
-                            if (enemy.transform.position == new Vector3(x + 1, y))
+                            if (gameManager.enemiesList[i].transform.position == new Vector3(x + 1, y))
                             {
-                                if (enemy.GetComponent<EnemyZombie>() != null)
+                                if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>() != null)
                                 {
-                                    enemy.GetComponent<EnemyZombie>().HP -= ATK;
+                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
                                 }
-                                else if (enemy.gameObject.GetComponent<EnemyKnight>() != null)
+                                else if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>() != null)
                                 {
-                                    enemy.GetComponent<EnemyKnight>().HP -= ATK;
+                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>().HP -= ATK;
                                 }
                             }
                         }

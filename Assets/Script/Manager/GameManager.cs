@@ -17,7 +17,7 @@ public sealed class GameManager : MonoBehaviour
     private GameObject subCamPos;
     private Transform enemyHolder;
     private Transform itemHolder;
-    public enum TurnManager { PLAYER_START, PLAYER_MOVE_START, PLAYER_MOVING, PLAYER_MOVE_END, PLAYER_ATTACK, PLAYER_END, STATE_JUDGE, SATIETY_CHECK, ENEMIES_TURN, ENIMIES_END }
+    public enum TurnManager { PLAYER_START, PLAYER_MOVE, PLAYER_ATTACK, PLAYER_END, STATE_JUDGE, SATIETY_CHECK, ENEMIES_TURN, ENIMIES_END }
     [SerializeField] private TurnManager _turnManager;
     public TurnManager turnManager { get { return _turnManager; } set { _turnManager = value; } }
     public List<GameObject> enemiesList;
@@ -66,11 +66,6 @@ public sealed class GameManager : MonoBehaviour
             EnemiesAction<EnemyKnight>();
             EnemiesAction<EnemyZombie>();
             turnManager = TurnManager.ENIMIES_END;
-        }
-        //敵の行動が終わったら
-        if (turnManager == TurnManager.ENIMIES_END)
-        {
-            turnManager = TurnManager.PLAYER_START;
         }
     }
     private void EnemiesAction<T>()
@@ -202,10 +197,7 @@ public sealed class GameManager : MonoBehaviour
         Destroy(GameObject.Find("Map"));
         Destroy(GameObject.Find("Enemy"));
         Destroy(GameObject.Find("Item"));
-        mapGenerator.Start();
         mapGenerator.Awake();
-        mapGenerator = gameObject.GetComponent<MapGenerator>();
-        //playerObject = GameObject.FindGameObjectWithTag("Player");
         Refrash();
         ListAdd();
         RandomDeploy();
@@ -261,7 +253,6 @@ public sealed class GameManager : MonoBehaviour
     /// </summary>
     public void DataDelete()
     {
-        File.Delete($"{Application.persistentDataPath}{FileName}");
     }
     //デバッグ時のみ
     /*[System.Diagnostics.Conditional("a")]

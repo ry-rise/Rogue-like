@@ -36,7 +36,6 @@ public sealed class MapGenerator : MonoBehaviour
     public int[,] MapStatusType;
     public int[,] MapStatusRoom;
     public int[,] MapStatusTrap;
-    public int[,] MapStatusMoveObject;
     private Player playerPos;
     private GameManager gameManager; 
     #endregion
@@ -49,7 +48,7 @@ public sealed class MapGenerator : MonoBehaviour
         RoomCreate();
         CreateDungeon();
     }
-    public void Start()
+    private void Start()
     {
         playerPos = gameManager.playerObject.GetComponent<Player>();
     }
@@ -67,7 +66,6 @@ public sealed class MapGenerator : MonoBehaviour
                 MapStatusType[x, y] = (int)STATE.WALL;
                 MapStatusTrap[x, y] = (int)STATE.NONE;
                 MapStatusRoom[x, y] = (int)STATE.WALL;
-                MapStatusMoveObject[x, y] = (int)STATE.NONE;
             }
         }
     }

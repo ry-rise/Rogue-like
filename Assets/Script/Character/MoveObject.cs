@@ -100,8 +100,7 @@ public abstract class MoveObject : MonoBehaviour
             }
             gameManager.CameraOnCenter();
             num = 0;
-            gameManager.turnManager = GameManager.TurnManager.PLAYER_MOVE_END;
-            yield return gameObject.transform.position;
+            yield break;
         }
 
     }
