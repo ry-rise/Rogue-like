@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using InputKey;
@@ -29,8 +30,7 @@ public sealed class Player : MoveObject
             MaxHP = HP;
             Satiety = 100;
         }
-        //var a = Enum.GetNames(typeof(DIRECTION)).Length;
-        for (int i = 0; i < Enum.GetNames(typeof(DIRECTION)).Length; i += 1)
+        foreach (var i in Enumerable.Range(0,Enum.GetValues(typeof(DIRECTION)).Length))
         {
             MoveNum[i] = 0;
         }
@@ -208,8 +208,7 @@ public sealed class Player : MoveObject
     private void MovePlayer(int x, int y)
     {
         //上方向
-        if(InputManager.GridInputKeyDown(KeyCode.W)||InputManager.GridInputKeyDown(KeyCode.UpArrow))
-        //if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+        if (InputManager.GridInputKeyDown(KeyCode.W) || InputManager.GridInputKeyDown(KeyCode.UpArrow))
         {
             direction = DIRECTION.UP;
             SpriteDirection();
@@ -231,9 +230,7 @@ public sealed class Player : MoveObject
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
         //下方向
-        if(InputManager.GridInputKeyDown(KeyCode.S)||InputManager.GridInputKeyDown(KeyCode.DownArrow))
-
-        //if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+        if (InputManager.GridInputKeyDown(KeyCode.S) || InputManager.GridInputKeyDown(KeyCode.DownArrow))
         {
             direction = DIRECTION.DOWN;
             SpriteDirection();
@@ -256,9 +253,7 @@ public sealed class Player : MoveObject
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
         //左方向
-        if(InputManager.GridInputKeyDown(KeyCode.A)||InputManager.GridInputKeyDown(KeyCode.LeftArrow))
-
-        //if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        if (InputManager.GridInputKeyDown(KeyCode.A) || InputManager.GridInputKeyDown(KeyCode.LeftArrow))
         {
             direction = DIRECTION.LEFT;
             SpriteDirection();
@@ -281,8 +276,7 @@ public sealed class Player : MoveObject
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
         //右方向
-        if(InputManager.GridInputKeyDown(KeyCode.D)||InputManager.GridInputKeyDown(KeyCode.RightArrow))
-        //if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        if (InputManager.GridInputKeyDown(KeyCode.D) || InputManager.GridInputKeyDown(KeyCode.RightArrow))
         {
             direction = DIRECTION.RIGHT;
             SpriteDirection();
@@ -316,17 +310,17 @@ public sealed class Player : MoveObject
                 {
                     if (JudgeAttack() == true)
                     {
-                        for (int i = 0; i < gameManager.enemiesList.Count; i += 1)
+                        foreach (var enemy in gameManager.enemiesList)
                         {
-                            if (gameManager.enemiesList[i].transform.position == new Vector3(x, y + 1))
+                            if (enemy.transform.position == new Vector3(x, y + 1))
                             {
-                                if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>() != null)
+                                if (enemy.gameObject.GetComponent<EnemyZombie>() != null)
                                 {
-                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
+                                    enemy.gameObject.GetComponent<EnemyZombie>().HP -= ATK;
                                 }
-                                else if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>() != null)
+                                else if (enemy.gameObject.GetComponent<EnemyKnight>() != null)
                                 {
-                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>().HP -= ATK;
+                                    enemy.gameObject.GetComponent<EnemyKnight>().HP -= ATK;
                                 }
                             }
                         }
@@ -339,17 +333,17 @@ public sealed class Player : MoveObject
                 {
                     if (JudgeAttack() == true)
                     {
-                        for (int i = 0; i < gameManager.enemiesList.Count; i += 1)
+                        foreach (var enemy in gameManager.enemiesList)
                         {
-                            if (gameManager.enemiesList[i].transform.position == new Vector3(x, y - 1))
+                            if (enemy.transform.position == new Vector3(x, y - 1))
                             {
-                                if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>() != null)
+                                if (enemy.gameObject.GetComponent<EnemyZombie>() != null)
                                 {
-                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
+                                    enemy.gameObject.GetComponent<EnemyZombie>().HP -= ATK;
                                 }
-                                else if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>() != null)
+                                else if (enemy.gameObject.GetComponent<EnemyKnight>() != null)
                                 {
-                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>().HP -= ATK;
+                                    enemy.gameObject.GetComponent<EnemyKnight>().HP -= ATK;
                                 }
                             }
                         }
@@ -362,17 +356,17 @@ public sealed class Player : MoveObject
                 {
                     if (JudgeAttack() == true)
                     {
-                        for (int i = 0; i < gameManager.enemiesList.Count; i += 1)
+                        foreach (var enemy in gameManager.enemiesList)
                         {
-                            if (gameManager.enemiesList[i].transform.position == new Vector3(x - 1, y))
+                            if (enemy.transform.position == new Vector3(x - 1, y))
                             {
-                                if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>() != null)
+                                if (enemy.gameObject.GetComponent<EnemyZombie>() != null)
                                 {
-                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
+                                    enemy.gameObject.GetComponent<EnemyZombie>().HP -= ATK;
                                 }
-                                else if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>() != null)
+                                else if (enemy.gameObject.GetComponent<EnemyKnight>() != null)
                                 {
-                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>().HP -= ATK;
+                                    enemy.gameObject.GetComponent<EnemyKnight>().HP -= ATK;
                                 }
                             }
                         }
@@ -385,17 +379,17 @@ public sealed class Player : MoveObject
                 {
                     if (JudgeAttack() == true)
                     {
-                        for (int i = 0; i < gameManager.enemiesList.Count; i += 1)
+                        foreach (var enemy in gameManager.enemiesList)
                         {
-                            if (gameManager.enemiesList[i].transform.position == new Vector3(x + 1, y))
+                            if (enemy.transform.position == new Vector3(x + 1, y))
                             {
-                                if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>() != null)
+                                if (enemy.gameObject.GetComponent<EnemyZombie>() != null)
                                 {
-                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyZombie>().HP -= ATK;
+                                    enemy.gameObject.GetComponent<EnemyZombie>().HP -= ATK;
                                 }
-                                else if (gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>() != null)
+                                else if (enemy.gameObject.GetComponent<EnemyKnight>() != null)
                                 {
-                                    gameManager.enemiesList[i].gameObject.GetComponent<EnemyKnight>().HP -= ATK;
+                                    enemy.gameObject.GetComponent<EnemyKnight>().HP -= ATK;
                                 }
                             }
                         }
