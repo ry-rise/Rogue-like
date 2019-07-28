@@ -208,7 +208,7 @@ public sealed class Player : MoveObject
     private void MovePlayer(int x, int y)
     {
         //上方向
-        if(InputManager.MyInputKeyDown(KeyCode.W)||InputManager.MyInputKeyDown(KeyCode.UpArrow))
+        if(InputManager.GridInputKeyDown(KeyCode.W)||InputManager.GridInputKeyDown(KeyCode.UpArrow))
         //if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             direction = DIRECTION.UP;
@@ -231,7 +231,7 @@ public sealed class Player : MoveObject
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
         //下方向
-        if(InputManager.MyInputKeyDown(KeyCode.S)||InputManager.MyInputKeyDown(KeyCode.DownArrow))
+        if(InputManager.GridInputKeyDown(KeyCode.S)||InputManager.GridInputKeyDown(KeyCode.DownArrow))
 
         //if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
@@ -256,7 +256,7 @@ public sealed class Player : MoveObject
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
         //左方向
-        if(InputManager.MyInputKeyDown(KeyCode.A)||InputManager.MyInputKeyDown(KeyCode.LeftArrow))
+        if(InputManager.GridInputKeyDown(KeyCode.A)||InputManager.GridInputKeyDown(KeyCode.LeftArrow))
 
         //if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
@@ -281,7 +281,7 @@ public sealed class Player : MoveObject
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
         //右方向
-        if(InputManager.MyInputKeyDown(KeyCode.D)||InputManager.MyInputKeyDown(KeyCode.RightArrow))
+        if(InputManager.GridInputKeyDown(KeyCode.D)||InputManager.GridInputKeyDown(KeyCode.RightArrow))
         //if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
             direction = DIRECTION.RIGHT;
