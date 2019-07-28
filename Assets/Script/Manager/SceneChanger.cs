@@ -2,33 +2,33 @@
 using UnityEngine.SceneManagement;
 
 //シーン切り替え
-public sealed class SceneChanger : MonoBehaviour
+public static class SceneChanger
 {
     /// <summary>
     /// タイトル画面からゲーム画面に
     /// </summary>
-    public void FromTitleToStart()
+    public static void FromTitleToStart()
     {
         SceneManager.LoadScene("GamePlay");
     }
     /// <summary>
     /// タイトル画面から設定画面に
     /// </summary>
-    public void FromTitleToSettings()
+    public static void FromTitleToSettings()
     {
         SceneManager.LoadScene("GameSettings");
     }
     /// <summary>
     /// 設定画面とからタイトル画面に
     /// </summary>
-    public void FromSettingsToTitle()
+    public static void FromSettingsToTitle()
     {
         SceneManager.LoadScene("GameTitle");
     }
     /// <summary>
     /// タイトル画面から終了する
     /// </summary>
-    public void FromTitleToExit()
+    public static void FromTitleToExit()
     {
         Application.Quit();
 #if UNITY_EDITOR
@@ -38,14 +38,14 @@ public sealed class SceneChanger : MonoBehaviour
     /// <summary>
     /// ゲーム画面からゲームオーバーに
     /// </summary>
-    public void FromPlayToOver()
+    public static void FromPlayToOver()
     {
         SceneManager.LoadScene("GameOver");
     }
     /// <summary>
     /// ゲームオーバーからタイトル画面に
     /// </summary>
-    public void FromOverToTitle()
+    public static void FromOverToTitle()
     {
         SceneManager.LoadScene("GameTitle");
     }

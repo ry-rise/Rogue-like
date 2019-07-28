@@ -105,7 +105,7 @@ public sealed class Player : MoveObject
         //死ぬとシーンチェンジ
         if (HP <= 0)
         {
-            sceneChanger.FromPlayToOver();
+            SceneChanger.FromPlayToOver();
         }
     }
 
