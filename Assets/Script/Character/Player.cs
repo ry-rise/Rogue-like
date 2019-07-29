@@ -109,30 +109,6 @@ public sealed class Player : MoveObject
         }
     }
 
-    #region 判定       
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.tag == "Exit")
-    //    {
-    //        //Debug.Log("exit");
-    //        gameManager.Exit();
-    //        //gameManager.FloorNumber += 1;
-    //        //Destroy(GameObject.Find("Map"));
-    //        //Destroy(GameObject.Find("Enemy"));
-    //        //Destroy(GameObject.Find("Item"));
-    //        //mapGenerator.Awake();
-    //        //gameManager.Refrash();
-    //        ////mapGenerator.InitializeMap();
-    //        ////mapGenerator.RoomCreate();
-    //        ////mapGenerator.CreateDungeon();
-    //        ////gameManager.Start();
-    //        //gameManager.ListAdd();
-    //        //gameManager.RandomDeploy();
-    //        //gameManager.CameraOnCenter();
-    //    }
-    //}
-    #endregion
-
     #region プレイヤーの移動
     /// <summary>
     /// プレイヤーの移動判定

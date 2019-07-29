@@ -3187,7 +3187,6 @@ GameObject:
   - component: {fileID: 1437518963}
   - component: {fileID: 1437518962}
   - component: {fileID: 1437518964}
-  - component: {fileID: 1437518965}
   - component: {fileID: 1437518967}
   - component: {fileID: 1437518966}
   m_Layer: 0
@@ -3251,17 +3250,6 @@ MonoBehaviour:
   poisonPrefab: {fileID: 1653377357855926, guid: 11efcb7aa4b2d924cac6e51ff0aa516f,
     type: 2}
   exitPrefab: {fileID: 1419922357144804, guid: f6fd7d5d1d689a54694c826d8e9cc486, type: 2}
---- !u!114 &1437518965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1437518961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3504079cc63ddea488f18052e9149808, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1437518966
 MonoBehaviour:
   m_ObjectHideFlags: 0

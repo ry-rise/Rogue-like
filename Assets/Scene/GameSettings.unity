@@ -1803,7 +1803,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1897572647}
+      - m_Target: {fileID: 0}
         m_MethodName: FromSettingsToTitle
         m_Mode: 1
         m_Arguments:
@@ -1948,7 +1948,6 @@ GameObject:
   - component: {fileID: 1897572643}
   - component: {fileID: 1897572642}
   - component: {fileID: 1897572646}
-  - component: {fileID: 1897572647}
   - component: {fileID: 1897572648}
   m_Layer: 5
   m_Name: Canvas
@@ -2058,17 +2057,6 @@ MonoBehaviour:
   masterSlider: {fileID: 1940003321}
   bgmSlider: {fileID: 969791097}
   seSlider: {fileID: 1748768240}
---- !u!114 &1897572647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1897572641}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3504079cc63ddea488f18052e9149808, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1897572648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2253,7 +2241,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1897572647}
+      - m_Target: {fileID: 0}
         m_MethodName: FromSettingsToTitle
         m_Mode: 1
         m_Arguments:
