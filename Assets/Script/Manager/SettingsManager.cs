@@ -3,11 +3,12 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-public class Settings : MonoBehaviour
+public class SettingsManager : MonoBehaviour
 {
     private readonly string SettingsFileName = "//SettingsData.json";
     private readonly string GameFileName = "//SaveData.json";
     [SerializeField] private AudioMixer audioMixer;
+    [SerializeField] private Button dataDeleteButton;
     private void Start()
     {
         if (File.Exists($"{Application.persistentDataPath}{SettingsFileName}") == true)

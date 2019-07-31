@@ -30,7 +30,7 @@ public sealed class Player : MoveObject
             MaxHP = HP;
             Satiety = 100;
         }
-        foreach (var i in Enumerable.Range(0,Enum.GetValues(typeof(DIRECTION)).Length))
+        foreach (var i in Enumerable.Range(0, Enum.GetValues(typeof(DIRECTION)).Length))
         {
             MoveNum[i] = 0;
         }
@@ -206,7 +206,7 @@ public sealed class Player : MoveObject
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
         //下方向
-        if (InputManager.GridInputKeyDown(KeyCode.S) || InputManager.GridInputKeyDown(KeyCode.DownArrow))
+        else if (InputManager.GridInputKeyDown(KeyCode.S) || InputManager.GridInputKeyDown(KeyCode.DownArrow))
         {
             direction = DIRECTION.DOWN;
             SpriteDirection();
@@ -229,7 +229,7 @@ public sealed class Player : MoveObject
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
         //左方向
-        if (InputManager.GridInputKeyDown(KeyCode.A) || InputManager.GridInputKeyDown(KeyCode.LeftArrow))
+        else if (InputManager.GridInputKeyDown(KeyCode.A) || InputManager.GridInputKeyDown(KeyCode.LeftArrow))
         {
             direction = DIRECTION.LEFT;
             SpriteDirection();
@@ -252,7 +252,7 @@ public sealed class Player : MoveObject
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
         //右方向
-        if (InputManager.GridInputKeyDown(KeyCode.D) || InputManager.GridInputKeyDown(KeyCode.RightArrow))
+        else if (InputManager.GridInputKeyDown(KeyCode.D) || InputManager.GridInputKeyDown(KeyCode.RightArrow))
         {
             direction = DIRECTION.RIGHT;
             SpriteDirection();
@@ -272,6 +272,34 @@ public sealed class Player : MoveObject
                 }
             }
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
+        }
+    }
+
+    private void DirectionMove()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.W)) 
+        { 
+            direction=DIRECTION.UP;
+            SpriteDirection();
+            return;
+        }
+        else if(Input.GetKeyDown(KeyCode.LeftShift)&&Input.GetKeyDown(KeyCode.S))
+        {
+            direction=DIRECTION.DOWN;
+            SpriteDirection();
+            return;
+        }
+        else if(Input.GetKeyDown(KeyCode.LeftShift)&&Input.GetKeyDown(KeyCode.A))
+        {
+            direction=DIRECTION.LEFT;
+            SpriteDirection();
+            return;
+        }
+        else if(Input.GetKeyDown(KeyCode.LeftShift)&&Input.GetKeyDown(KeyCode.D))
+        {
+            direction=DIRECTION.RIGHT;
+            SpriteDirection();
+            return;
         }
     }
     #endregion
