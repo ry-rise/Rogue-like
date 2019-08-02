@@ -7,7 +7,6 @@ public abstract class MoveObject : MonoBehaviour
     protected Sprite[] sprites = new Sprite[4];
     protected GameManager gameManager;
     protected MapGenerator mapGenerator;
-    //protected SceneChanger sceneChanger;
     protected SpriteRenderer spriteRenderer;
     protected DIRECTION direction;
     //移動変数
@@ -34,7 +33,6 @@ public abstract class MoveObject : MonoBehaviour
     {
         gameManager = GameObject.Find("Manager").GetComponent<GameManager>();
         mapGenerator = GameObject.Find("Manager").GetComponent<MapGenerator>();
-        //sceneChanger = GameObject.Find("Manager").GetComponent<SceneChanger>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
     
@@ -78,6 +76,7 @@ public abstract class MoveObject : MonoBehaviour
         if (num < 10)
         {
             gameObject.transform.position += new Vector3(moveX, moveY, 0);
+            gameManager.CameraOnCenter();
             num += 1;
             StartCoroutine(FrameWait(0.0001f, moveX, moveY, num, direction,prevPos));
         }
@@ -100,7 +99,7 @@ public abstract class MoveObject : MonoBehaviour
             }
             gameManager.CameraOnCenter();
             num = 0;
-            yield break;
+            yield return null;
         }
 
     }

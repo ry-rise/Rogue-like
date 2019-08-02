@@ -17,7 +17,7 @@ public sealed class GameManager : MonoBehaviour
     private GameObject subCamPos;
     private Transform enemyHolder;
     private Transform itemHolder;
-    public enum TurnManager { PLAYER_START, PLAYER_MOVE, PLAYER_ATTACK, PLAYER_END, STATE_JUDGE, SATIETY_CHECK, ENEMIES_TURN, ENIMIES_END }
+    public enum TurnManager { PLAYER_START, PLAYER_MOVE, PLAYER_ATTACK, PLAYER_END, STATE_JUDGE, SATIETY_CHECK, HierarchyMovement, ENEMIES_TURN, ENIMIES_END }
     [SerializeField] private TurnManager _turnManager;
     public TurnManager turnManager { get { return _turnManager; } set { _turnManager = value; } }
     public List<GameObject> enemiesList;
@@ -60,12 +60,25 @@ public sealed class GameManager : MonoBehaviour
         //プレイヤーの行動が終わったら
         if (turnManager == TurnManager.PLAYER_END)
         {
-            turnManager = TurnManager.ENEMIES_TURN;
+            if (player.isExit == true)
+            {
+                turnManager = TurnManager.HierarchyMovement;
+            }
+            else
+            {
+                turnManager = TurnManager.ENEMIES_TURN;
 
-            //敵の処理をする
-            EnemiesAction<EnemyKnight>();
-            EnemiesAction<EnemyZombie>();
-            turnManager = TurnManager.ENIMIES_END;
+                //敵の処理をする
+                EnemiesAction<EnemyKnight>();
+                EnemiesAction<EnemyZombie>();
+                turnManager = TurnManager.ENIMIES_END;
+            }
+        }
+        if(turnManager==TurnManager.HierarchyMovement)
+        {
+            Exit();
+            player.isExit = false;
+            turnManager = TurnManager.PLAYER_START;
         }
     }
     private void EnemiesAction<T>()
