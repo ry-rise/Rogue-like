@@ -196,17 +196,17 @@ public sealed class Player : MoveObject
             if (CheckMovePlayer(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
             {
                 Vector2 prevPosition = gameObject.transform.position;
-                if (mapGenerator.MapStatusType[x, y + 1] != (int)MapGenerator.STATE.EXIT)
-                {
-                    mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
-                    mapGenerator.MapStatusType[x, y + 1] = (int)MapGenerator.STATE.PLAYER;
-                }
-                //SpriteDirection();
-                StartCoroutine(FrameWait(0.0001f, 0, 0.1f, MoveNum[(int)DIRECTION.UP], DIRECTION.UP, prevPosition));
                 if (mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.EXIT)
                 {
                     isExit = true;
                 }
+                else //(mapGenerator.MapStatusType[x, y + 1] != (int)MapGenerator.STATE.EXIT)
+                {
+                    mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
+                    mapGenerator.MapStatusType[x, y + 1] = (int)MapGenerator.STATE.PLAYER;
+                }
+                StartCoroutine(FrameWait(0.0001f, 0, 0.1f, MoveNum[(int)DIRECTION.UP], DIRECTION.UP, prevPosition));
+                
             }
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
@@ -218,17 +218,17 @@ public sealed class Player : MoveObject
             if (CheckMovePlayer(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
             {
                 Vector2 prevPosition = gameObject.transform.position;
-                if (mapGenerator.MapStatusType[x, y - 1] != (int)MapGenerator.STATE.EXIT)
+                if (mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.EXIT)
+                {
+                    isExit = true;
+                }
+                else//if (mapGenerator.MapStatusType[x, y - 1] != (int)MapGenerator.STATE.EXIT)
                 {
                     mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
                     mapGenerator.MapStatusType[x, y - 1] = (int)MapGenerator.STATE.PLAYER;
                 }
                 StartCoroutine(FrameWait(0.0001f, 0, -0.1f, MoveNum[(int)DIRECTION.DOWN], DIRECTION.DOWN, prevPosition));
-                //gameManager.CameraOnCenter();
-                if (mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.EXIT)
-                {
-                    isExit = true;
-                }
+                
 
             }
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
@@ -241,17 +241,17 @@ public sealed class Player : MoveObject
             if (CheckMovePlayer(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
             {
                 Vector2 prevPosition = gameObject.transform.position;
-                if (mapGenerator.MapStatusType[x - 1, y] != (int)MapGenerator.STATE.EXIT)
+                if (mapGenerator.MapStatusType[x - 1, y] == (int)MapGenerator.STATE.EXIT)
+                {
+                    isExit = true;
+                }
+                else//if (mapGenerator.MapStatusType[x - 1, y] != (int)MapGenerator.STATE.EXIT)
                 {
                     mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
                     mapGenerator.MapStatusType[x - 1, y] = (int)MapGenerator.STATE.PLAYER;
                 }
                 StartCoroutine(FrameWait(0.0001f, -0.1f, 0, MoveNum[(int)DIRECTION.LEFT], DIRECTION.LEFT, prevPosition));
-                //gameManager.CameraOnCenter();
-                if (mapGenerator.MapStatusType[x - 1, y] == (int)MapGenerator.STATE.EXIT)
-                {
-                    isExit = true;
-                }
+                
 
             }
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
@@ -264,17 +264,17 @@ public sealed class Player : MoveObject
             if (CheckMovePlayer(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y))
             {
                 Vector2 prevPosition = gameObject.transform.position;
-                if (mapGenerator.MapStatusType[x + 1, y] != (int)MapGenerator.STATE.EXIT)
+                if (mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.EXIT)
+                {
+                    isExit = true;
+                }
+                else//if (mapGenerator.MapStatusType[x + 1, y] != (int)MapGenerator.STATE.EXIT)
                 {
                     mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
                     mapGenerator.MapStatusType[x + 1, y] = (int)MapGenerator.STATE.PLAYER;
                 }
                 StartCoroutine(FrameWait(0.0001f, 0.1f, 0, MoveNum[(int)DIRECTION.RIGHT], DIRECTION.RIGHT, prevPosition));
-                //gameManager.CameraOnCenter();
-                if (mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.EXIT)
-                {
-                    isExit = true;
-                }
+                
             }
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
@@ -282,7 +282,8 @@ public sealed class Player : MoveObject
 
     private void DirectionMove()
     {
-        if(InputManager.GridInputKeyDown(KeyCode.LeftShift)&&InputManager.GridInputKeyDown(KeyCode.W))
+        if(InputManager.GridInputKeyDown(KeyCode.LeftShift,KeyCode.W))
+        //if(InputManager.GridInputKeyDown(KeyCode.LeftShift)&&InputManager.GridInputKeyDown(KeyCode.W))
         //if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.W)) 
         { 
             direction=DIRECTION.UP;

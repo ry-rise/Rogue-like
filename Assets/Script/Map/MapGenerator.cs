@@ -21,7 +21,7 @@ public sealed class MapGenerator : MonoBehaviour
     private int RandomY;
     public enum STATE
     {
-        NONE,
+        //NONE,
         FLOOR,
         ROAD,
         PLAYER,
@@ -31,12 +31,13 @@ public sealed class MapGenerator : MonoBehaviour
         EXIT,
         WALL = -1
     }
+
     
     private Transform mapHolder;
     public int[,] MapStatusType;
-    public int[,] MapStatusRoom;
-    public int[,] MapStatusTrap;
-    private Player playerPos;
+    //public int[,] MapStatusRoom;
+    //public int[,] MapStatusTrap;
+    //private Player playerPos;
     private GameManager gameManager; 
     #endregion
     #region マップ生成
@@ -50,22 +51,22 @@ public sealed class MapGenerator : MonoBehaviour
     }
     private void Start()
     {
-        playerPos = gameManager.playerObject.GetComponent<Player>();
+        //playerPos = gameManager.playerObject.GetComponent<Player>();
     }
 
     public void InitializeMap()
     {
         MapStatusType = new int[MapWidth, MapHeight];
-        MapStatusTrap = new int[MapWidth, MapHeight];
-        MapStatusRoom = new int[MapWidth, MapHeight];
+        //MapStatusTrap = new int[MapWidth, MapHeight];
+        //MapStatusRoom = new int[MapWidth, MapHeight];
         //一旦、すべて壁で初期化
         for (int y = 0; y < MapHeight; y += 1)
         {
             for (int x = 0; x < MapWidth; x += 1)
             {
                 MapStatusType[x, y] = (int)STATE.WALL;
-                MapStatusTrap[x, y] = (int)STATE.NONE;
-                MapStatusRoom[x, y] = (int)STATE.WALL;
+                //MapStatusTrap[x, y] = (int)STATE.NONE;
+                //MapStatusRoom[x, y] = (int)STATE.WALL;
             }
         }
     }
@@ -100,11 +101,11 @@ public sealed class MapGenerator : MonoBehaviour
                 CreateRoad(roadStartPointX, roadStartPointY, roadAggPointX[Random.Range(0, 0)], roadAggPointY[Random.Range(0, 0)]);
             }
         }
+        //FLOORのところにExitをランダムで配置
         while (true)
         {
             RandomX = Random.Range(0, MapWidth);
             RandomY = Random.Range(0, MapHeight);
-            //FLOORのところにExitをランダムで配置
             if (MapStatusType[RandomX, RandomY] == (int)STATE.FLOOR)
             {
                 MapStatusType[RandomX, RandomY] = (int)STATE.EXIT;
@@ -115,14 +116,14 @@ public sealed class MapGenerator : MonoBehaviour
                 continue;
             }
         }
+        //FLOORのところにTrapをランダムで配置
         while (true)
         {
             RandomX = Random.Range(0, MapWidth);
             RandomY = Random.Range(0, MapHeight);
-            //FLOORのところにTrapをランダムで配置
             if (MapStatusType[RandomX, RandomY] == (int)STATE.FLOOR)
             {
-                MapStatusTrap[RandomX, RandomY] = (int)STATE.TRAP_POISON;
+                //MapStatusTrap[RandomX, RandomY] = (int)STATE.TRAP_POISON;
                 MapStatusType[RandomX, RandomY] = (int)STATE.TRAP_POISON;
                 break;
             }
@@ -147,7 +148,7 @@ public sealed class MapGenerator : MonoBehaviour
                 else
                 {
                     MapStatusType[ roomPointX + x,roomPointY + y] = (int)STATE.FLOOR;
-                    MapStatusRoom[ roomPointX + x,roomPointY + y] = x;
+                    //MapStatusRoom[ roomPointX + x,roomPointY + y] = x;
                 }
             }
         }
@@ -208,14 +209,6 @@ public sealed class MapGenerator : MonoBehaviour
                                                       Quaternion.identity,
                                                       mapHolder) as GameObject;
                 }
-                else if (MapStatusType[x, y] == (int)STATE.PLAYER)
-                {
-                    GameObject instance = Instantiate(floorPrefab[0],
-                                                      new Vector2(x, y),
-                                                      Quaternion.identity,
-                                                      mapHolder) as GameObject;
-                    playerPos.transform.position = new Vector2(x, y);
-                }
                 else if (MapStatusType[x, y] == (int)STATE.EXIT)
                 {
                     GameObject instance = Instantiate(exitPrefab,
@@ -223,20 +216,28 @@ public sealed class MapGenerator : MonoBehaviour
                                                       Quaternion.identity,
                                                       mapHolder) as GameObject;
                 }
-                else if(MapStatusTrap[x,y]==(int)STATE.TRAP_POISON)
+                else if(MapStatusType[x,y]==(int)STATE.TRAP_POISON)
                 {
                     GameObject instance = Instantiate(poisonPrefab,
                                                     new Vector2(x, y),
                                                     Quaternion.identity,
                                                     mapHolder) as GameObject;
                 }
-                else
+                else if(MapStatusType[x,y]==(int)STATE.FLOOR)
                 {
                     GameObject instance = Instantiate(floorPrefab[0],
                                                       new Vector2(x, y),
                                                       Quaternion.identity,
                                                       mapHolder) as GameObject;
                 }
+                else if(MapStatusType[x,y]==(int)STATE.ROAD)
+                {
+                    GameObject instance = Instantiate(floorPrefab[0],
+                                                      new Vector2(x, y),
+                                                      Quaternion.identity,
+                                                      mapHolder) as GameObject;
+                }
+                else { continue; }
             }
         }
     }
