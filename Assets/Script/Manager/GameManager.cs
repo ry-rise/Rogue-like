@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public sealed class GameManager : MonoBehaviour
@@ -22,10 +23,13 @@ public sealed class GameManager : MonoBehaviour
     public TurnManager turnManager { get { return _turnManager; } set { _turnManager = value; } }
     public List<GameObject> enemiesList;
     public List<GameObject> itemsList;
-    public int FloorNumber { get; set; }
+    public static int FloorNumber { get; set; }
+    public static int TotalScore { get; set; }
+
     public bool GamePause { get; set; } = false;
     public readonly string FileName = "//SaveData.json";
 
+    
     private void Awake()
     {
         Refrash();
@@ -37,14 +41,11 @@ public sealed class GameManager : MonoBehaviour
         subCamPos = GameObject.Find("Sub Camera");
         playerObject = Instantiate(playerPrefab);
         mapGenerator = gameObject.GetComponent<MapGenerator>();
-        fadeManager = GameObject.Find("Canvas/FadeInOut").GetComponent<FadeManager>();
     }
     public void Start()
     {
         ListAdd();
         RandomDeploy();
-        CameraOnCenter();
-        Debug.Log(Application.persistentDataPath);
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
         if (File.Exists($"{Application.persistentDataPath}{FileName}") == true)
         {
@@ -54,9 +55,11 @@ public sealed class GameManager : MonoBehaviour
         //プレイヤーのターン
         turnManager = TurnManager.PLAYER_START;
 
+
     }
     private void Update()
     {
+        mainCamPos.transform.position=new Vector3(playerObject.transform.position.x,playerObject.transform.position.y,-1);
         //プレイヤーの行動が終わったら
         if (turnManager == TurnManager.PLAYER_END)
         {
@@ -68,19 +71,24 @@ public sealed class GameManager : MonoBehaviour
             {
                 turnManager = TurnManager.ENEMIES_TURN;
 
-                //敵の処理をする
                 EnemiesAction<EnemyKnight>();
                 EnemiesAction<EnemyZombie>();
                 turnManager = TurnManager.ENIMIES_END;
             }
         }
-        if(turnManager==TurnManager.HierarchyMovement)
+        //階層移動
+        if (turnManager == TurnManager.HierarchyMovement)
         {
-            Exit();
-            player.isExit = false;
+            FloorNumber+=1;
+            DataSave();
+            SceneManager.LoadScene("FloorNumberView");
             turnManager = TurnManager.PLAYER_START;
         }
     }
+    /// <summary>
+    /// 敵の処理をする
+    /// </summary>
+    /// <typeparam name="T">敵のクラス</typeparam>
     private void EnemiesAction<T>()
         where T : EnemyBase
     {
@@ -116,7 +124,7 @@ public sealed class GameManager : MonoBehaviour
                 == (int)MapGenerator.STATE.FLOOR)
             {
                 playerObject.transform.position = new Vector2(playerRandomX, playerRandomY);
-                mapGenerator.MapStatusType[playerRandomX, playerRandomY] = (int)MapGenerator.STATE.PLAYER;
+                mapGenerator.MapStatusMoveObject[playerRandomX, playerRandomY] = (int)MapGenerator.STATE.PLAYER;
                 break;
             }
             else
@@ -135,7 +143,7 @@ public sealed class GameManager : MonoBehaviour
                    == (int)MapGenerator.STATE.FLOOR)
                 {
                     enemy.transform.position = new Vector2(enemyRandomX, enemyRandomY);
-                    mapGenerator.MapStatusType[enemyRandomX, enemyRandomY] = (int)MapGenerator.STATE.ENEMY;
+                    mapGenerator.MapStatusMoveObject[enemyRandomX, enemyRandomY] = (int)MapGenerator.STATE.ENEMY;
                     break;
                 }
                 else
@@ -205,8 +213,10 @@ public sealed class GameManager : MonoBehaviour
     }
     public void Exit()
     {
+        player.isExit = false;
         fadeManager.isFadeOut = true;
         FloorNumber += 1;
+        FloorMoveManager.viewFloorNumber=FloorNumber;
         Destroy(GameObject.Find("Map"));
         Destroy(GameObject.Find("Enemy"));
         Destroy(GameObject.Find("Item"));
@@ -214,7 +224,6 @@ public sealed class GameManager : MonoBehaviour
         Refrash();
         ListAdd();
         RandomDeploy();
-        CameraOnCenter();
         fadeManager.isFadeIn = true;
         DataSave();
     }
@@ -274,6 +283,14 @@ public sealed class GameManager : MonoBehaviour
         Debug.Log("a");
     }
     */
+    public static int GetFloorNumber()
+    {
+        return FloorNumber;
+    }
+    public static int GetTotalScore()
+    {
+        return 0;
+    }
     IEnumerator KeyWait()
     {
         while (!Input.GetKeyDown(KeyCode.Return))

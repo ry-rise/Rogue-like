@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scene/GameSettings.unity
     guid: dd744abcbd8ff544bbbe1683dc1433e1
+  - enabled: 1
+    path: Assets/Scene/FloorNumberView.unity
+    guid: ea31dcc4688ee4ee4aa92487369236f5
   m_configObjects: {}
