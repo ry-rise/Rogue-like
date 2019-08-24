@@ -25,92 +25,89 @@ public sealed class Player : MoveObject
         if (File.Exists($"{Application.persistentDataPath}{gameManager.FileName}") == false)
         {
             Level = 1;
-            HP = 50;
+            HP = 100;
             ATK = 10;
             DEF = 5;
             MaxHP = HP;
             Satiety = 100;
+            direction = DIRECTION.UP;
         }
+        //移動可能かどうかを記憶
         foreach (var i in Enumerable.Range(0, Enum.GetValues(typeof(DIRECTION)).Length))
         {
             MoveNum[i] = 0;
         }
-        direction = DIRECTION.UP;
         state = STATE.NONE;
         SpriteDirection();
     }
 
     private void Update()
     {
-        //gameManager.CameraOnCenter();
-        //敵の行動が終わったら
-        if (gameManager.turnManager == GameManager.TurnManager.ENIMIES_END)
+        //ターン遷移
+        switch (gameManager.turnManager)
         {
-            gameManager.turnManager = GameManager.TurnManager.PLAYER_START;
-        }
-        if (!(gameManager.turnManager == GameManager.TurnManager.PLAYER_START))
-        {
-            //StartCoroutine()
-        }
-        //プレイヤーのターン
-        if (gameManager.turnManager == GameManager.TurnManager.PLAYER_START)
-        {
-            //行動する(ポーズ時以外)
-            if (gameManager.GamePause == false)
-            {
-                MovePlayer((int)gameObject.transform.position.x,
-                           (int)gameObject.transform.position.y);
-                //gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
-                if(Input.GetKeyDown(KeyCode.LeftShift))
+            //プレイヤーのターン
+            case GameManager.TurnManager.PLAYER_START:
+                //行動する(ポーズ時以外)
+                if (gameManager.GamePause == false)
                 {
-                    DirectionMove();
+                    MovePlayer((int)gameObject.transform.position.x,
+                               (int)gameObject.transform.position.y);
+                    if (Input.GetKeyDown(KeyCode.LeftShift))
+                    {
+                        DirectionMove();
+                    }
+                    if (InputManager.GridInputKeyDown(KeyCode.Return))
+                    {
+                        gameManager.turnManager = GameManager.TurnManager.PLAYER_ATTACK;
+                        AttackPlayer((int)gameObject.transform.position.x,
+                                     (int)gameObject.transform.position.y);
+                        gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
+                    }
                 }
-                if (InputManager.GridInputKeyDown(KeyCode.Return))
-                {
-                    gameManager.turnManager = GameManager.TurnManager.PLAYER_ATTACK;
-                    AttackPlayer((int)gameObject.transform.position.x,
-                                 (int)gameObject.transform.position.y);
-                    gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
-                }
-            }
-        }
-        //状態異常の判定に移動
-        if (gameManager.turnManager == GameManager.TurnManager.STATE_JUDGE)
-        {
-            //状態異常の遷移
-            switch (state)
-            {
-                case STATE.NONE:
-                    break;
-                case STATE.POISON:
-                    HP -= 1;
-                    if (ReleaseDetermination() == true) { state = STATE.NONE; }
-                    break;
-                case STATE.PARALYSIS:
-                    if (ReleaseDetermination() == true) { state = STATE.NONE; }
-                    else { gameManager.turnManager = GameManager.TurnManager.PLAYER_END; }
-                    break;
-                default:
-                    break;
-            }
-            gameManager.turnManager = GameManager.TurnManager.SATIETY_CHECK;
-        }
+                break;
 
-        //空腹度チェック
-        if (gameManager.turnManager == GameManager.TurnManager.SATIETY_CHECK)
-        {
-            //空腹度が０
-            if (Satiety == 0) { HP -= 1; }
-            //０以外
-            else { Satiety -= 1; }
-            //行動終了
-            gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
+            case GameManager.TurnManager.STATE_JUDGE:
+                //状態異常の遷移
+                switch (state)
+                {
+                    case STATE.NONE:
+                        break;
+                    case STATE.POISON:
+                        HP -= 1;
+                        if (ReleaseDetermination() == true) { state = STATE.NONE; }
+                        break;
+                    case STATE.PARALYSIS:
+                        if (ReleaseDetermination() == true) { state = STATE.NONE; }
+                        else { gameManager.turnManager = GameManager.TurnManager.PLAYER_END; }
+                        break;
+                    default:
+                        break;
+                }
+                gameManager.turnManager = GameManager.TurnManager.SATIETY_CHECK;
+                break;
+
+            case GameManager.TurnManager.SATIETY_CHECK:
+                //空腹度が０
+                if (Satiety == 0) { HP -= 1; }
+                //０以外
+                else { Satiety -= 1; }
+                //行動終了
+                gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
+                break;
+
+            //敵の行動が終わったら
+            case GameManager.TurnManager.ENIMIES_END:
+                gameManager.turnManager = GameManager.TurnManager.PLAYER_START;
+                break;
+            default:
+                break;
         }
 
         //死ぬとシーンチェンジ
         if (HP <= 0)
         {
-            SceneChanger.FromPlayToOver();
+            SceneChanger.ToOver();
         }
     }
 
@@ -200,13 +197,13 @@ public sealed class Player : MoveObject
                 {
                     isExit = true;
                 }
-                else //(mapGenerator.MapStatusType[x, y + 1] != (int)MapGenerator.STATE.EXIT)
+                else
                 {
-                    mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
-                    mapGenerator.MapStatusType[x, y + 1] = (int)MapGenerator.STATE.PLAYER;
+                    mapGenerator.MapStatusMoveObject[x, y] = (int)MapGenerator.STATE.FLOOR;
+                    mapGenerator.MapStatusMoveObject[x, y + 1] = (int)MapGenerator.STATE.PLAYER;
                 }
                 StartCoroutine(FrameWait(0.0001f, 0, 0.1f, MoveNum[(int)DIRECTION.UP], DIRECTION.UP, prevPosition));
-                
+
             }
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
@@ -222,13 +219,13 @@ public sealed class Player : MoveObject
                 {
                     isExit = true;
                 }
-                else//if (mapGenerator.MapStatusType[x, y - 1] != (int)MapGenerator.STATE.EXIT)
+                else
                 {
-                    mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
-                    mapGenerator.MapStatusType[x, y - 1] = (int)MapGenerator.STATE.PLAYER;
+                    mapGenerator.MapStatusMoveObject[x, y] = (int)MapGenerator.STATE.FLOOR;
+                    mapGenerator.MapStatusMoveObject[x, y - 1] = (int)MapGenerator.STATE.PLAYER;
                 }
                 StartCoroutine(FrameWait(0.0001f, 0, -0.1f, MoveNum[(int)DIRECTION.DOWN], DIRECTION.DOWN, prevPosition));
-                
+
 
             }
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
@@ -245,13 +242,13 @@ public sealed class Player : MoveObject
                 {
                     isExit = true;
                 }
-                else//if (mapGenerator.MapStatusType[x - 1, y] != (int)MapGenerator.STATE.EXIT)
+                else
                 {
-                    mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
-                    mapGenerator.MapStatusType[x - 1, y] = (int)MapGenerator.STATE.PLAYER;
+                    mapGenerator.MapStatusMoveObject[x, y] = (int)MapGenerator.STATE.FLOOR;
+                    mapGenerator.MapStatusMoveObject[x - 1, y] = (int)MapGenerator.STATE.PLAYER;
                 }
                 StartCoroutine(FrameWait(0.0001f, -0.1f, 0, MoveNum[(int)DIRECTION.LEFT], DIRECTION.LEFT, prevPosition));
-                
+
 
             }
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
@@ -268,13 +265,13 @@ public sealed class Player : MoveObject
                 {
                     isExit = true;
                 }
-                else//if (mapGenerator.MapStatusType[x + 1, y] != (int)MapGenerator.STATE.EXIT)
+                else
                 {
-                    mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
-                    mapGenerator.MapStatusType[x + 1, y] = (int)MapGenerator.STATE.PLAYER;
+                    mapGenerator.MapStatusMoveObject[x, y] = (int)MapGenerator.STATE.FLOOR;
+                    mapGenerator.MapStatusMoveObject[x + 1, y] = (int)MapGenerator.STATE.PLAYER;
                 }
                 StartCoroutine(FrameWait(0.0001f, 0.1f, 0, MoveNum[(int)DIRECTION.RIGHT], DIRECTION.RIGHT, prevPosition));
-                
+
             }
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
         }
@@ -282,32 +279,27 @@ public sealed class Player : MoveObject
 
     private void DirectionMove()
     {
-        if(InputManager.GridInputKeyDown(KeyCode.LeftShift,KeyCode.W))
-        //if(InputManager.GridInputKeyDown(KeyCode.LeftShift)&&InputManager.GridInputKeyDown(KeyCode.W))
-        //if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.W)) 
-        { 
-            direction=DIRECTION.UP;
+        if (InputManager.GridInputKeyDown(KeyCode.LeftShift, KeyCode.W))
+        {
+            direction = DIRECTION.UP;
             SpriteDirection();
             return;
         }
         else if (InputManager.GridInputKeyDown(KeyCode.LeftShift) && InputManager.GridInputKeyDown(KeyCode.S))
-        //else if(Input.GetKeyDown(KeyCode.LeftShift)&&Input.GetKeyDown(KeyCode.S))
         {
-            direction=DIRECTION.DOWN;
+            direction = DIRECTION.DOWN;
             SpriteDirection();
             return;
         }
         else if (InputManager.GridInputKeyDown(KeyCode.LeftShift) && InputManager.GridInputKeyDown(KeyCode.A))
-        //else if(Input.GetKeyDown(KeyCode.LeftShift)&&Input.GetKeyDown(KeyCode.A))
         {
-            direction=DIRECTION.LEFT;
+            direction = DIRECTION.LEFT;
             SpriteDirection();
             return;
         }
         else if (InputManager.GridInputKeyDown(KeyCode.LeftShift) && InputManager.GridInputKeyDown(KeyCode.D))
-        //else if(Input.GetKeyDown(KeyCode.LeftShift)&&Input.GetKeyDown(KeyCode.D))
         {
-            direction=DIRECTION.RIGHT;
+            direction = DIRECTION.RIGHT;
             SpriteDirection();
             return;
         }
@@ -315,6 +307,27 @@ public sealed class Player : MoveObject
     #endregion
 
     #region 攻撃
+    private void AttackPlayerFunc<T>(Vector3 Vec3)
+    where T : EnemyBase
+    {
+        if (mapGenerator.MapStatusType[(int)Vec3.x, (int)Vec3.y] == (int)MapGenerator.STATE.ENEMY)
+        {
+            if (JudgeAttack() == true)
+            {
+                foreach (var enemy in gameManager.enemiesList)
+                {
+                    if (enemy.transform.position == Vec3)
+                    {
+                        var enemyClass = enemy.GetComponent<T>();
+                        if (enemyClass != null)
+                        {
+                            enemyClass.HP -= ATK;
+                        }
+                    }
+                }
+            }
+        }
+    }
     private void AttackPlayer(int x, int y)
     {
         switch (direction)
@@ -426,8 +439,8 @@ public sealed class Player : MoveObject
     {
         Level += 1;
         NextExp -= 1;
-        ATK *= 2;//Mathf.RoundToInt(ATK * 1.2f);
-        DEF *= 2;// Mathf.RoundToInt(DEF * 1.2f);
+        ATK *= 2;
+        DEF *= 2;
     }
     #endregion
 
