@@ -76,7 +76,6 @@ public abstract class MoveObject : MonoBehaviour
         if (num < 10)
         {
             gameObject.transform.position += new Vector3(moveX, moveY, 0);
-            gameManager.CameraOnCenter();
             num += 1;
             StartCoroutine(FrameWait(0.0001f, moveX, moveY, num, direction,prevPos));
         }
@@ -97,7 +96,6 @@ public abstract class MoveObject : MonoBehaviour
                     gameObject.transform.position = new Vector2((int)prevPos.x + 1, (int)gameObject.transform.position.y);
                     break;
             }
-            gameManager.CameraOnCenter();
             num = 0;
             yield return null;
         }

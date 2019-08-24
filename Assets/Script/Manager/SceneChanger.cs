@@ -7,28 +7,28 @@ public static class SceneChanger
     /// <summary>
     /// タイトル画面からゲーム画面に
     /// </summary>
-    public static void FromTitleToStart()
+    public static void ToStart()
     {
         SceneManager.LoadScene("GamePlay");
     }
     /// <summary>
     /// タイトル画面から設定画面に
     /// </summary>
-    public static void FromTitleToSettings()
+    public static void ToSettings()
     {
         SceneManager.LoadScene("GameSettings");
     }
     /// <summary>
-    /// 設定画面とからタイトル画面に
+    /// タイトル画面に移動
     /// </summary>
-    public static void FromSettingsToTitle()
+    public static void ToTitle()
     {
         SceneManager.LoadScene("GameTitle");
     }
     /// <summary>
     /// タイトル画面から終了する
     /// </summary>
-    public static void FromTitleToExit()
+    public static void ToExit()
     {
         Application.Quit();
 #if UNITY_EDITOR
@@ -38,16 +38,9 @@ public static class SceneChanger
     /// <summary>
     /// ゲーム画面からゲームオーバーに
     /// </summary>
-    public static void FromPlayToOver()
+    public static void ToOver()
     {
         SceneManager.LoadScene("GameOver");
-    }
-    /// <summary>
-    /// ゲームオーバーからタイトル画面に
-    /// </summary>
-    public static void FromOverToTitle()
-    {
-        SceneManager.LoadScene("GameTitle");
     }
 }
 

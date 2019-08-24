@@ -5,13 +5,13 @@ using UnityEngine.UI;
 public class FadeManager : MonoBehaviour {
     private float fadeSpeed = 0.02f;        
     private float red, green, blue, alfa;
-    private Image fadeImage;
+    [SerializeField] private Image fadeImage;
     public bool isFadeOut = false;         
     public bool isFadeIn = false;
     
     private void Start()
     {
-        fadeImage = GetComponent<Image>();
+        //fadeImage = GetComponent<Image>();
         red = fadeImage.color.r;
         green = fadeImage.color.g;
         blue = fadeImage.color.b;
@@ -39,6 +39,7 @@ public class FadeManager : MonoBehaviour {
         {                    
             isFadeIn = false;
             fadeImage.enabled = false;
+            SceneChanger.ToStart();
         }
     }
     public void StartFadeOut()
