@@ -23,7 +23,7 @@ public sealed class GameManager : MonoBehaviour
     public TurnManager turnManager { get { return _turnManager; } set { _turnManager = value; } }
     public List<GameObject> enemiesList;
     public List<GameObject> itemsList;
-    public static int FloorNumber { get; set; }
+    private static int FloorNumber { get; set; }
     public static int TotalScore { get; set; }
 
     public bool GamePause { get; set; } = false;

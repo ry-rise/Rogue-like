@@ -21,7 +21,7 @@ public sealed class DataManager : MonoBehaviour {
         GameData gameData = new GameData()
         {
             //InventoryList = player.inventoryList,
-            FloorNumberData = gameManager.FloorNumber,
+            FloorNumberData = GameManager.GetFloorNumber(),
             HP = player.HP,
             MaxHP = player.MaxHP,
             ATK = player.ATK,
