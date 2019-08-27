@@ -5,13 +5,13 @@ using UnityEngine;
 
 public sealed class DataManager : MonoBehaviour {
     private Player player;
-    private GameManager gameManager;
+    //private GameManager gameManager;
     private readonly string GameFileName = "//SaveData.json";
     private readonly string SettingFileName = "//SettingsData.json";
     private void Start()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        gameManager = GameObject.Find("Manager").GetComponent<GameManager>();
+        //gameManager = GameObject.Find("Manager").GetComponent<GameManager>();
     }
     /// <summary>
     /// セーブ
