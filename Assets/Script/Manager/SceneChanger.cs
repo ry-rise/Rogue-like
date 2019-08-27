@@ -5,20 +5,6 @@ using UnityEngine.SceneManagement;
 public static class SceneChanger
 {
     /// <summary>
-    /// タイトル画面からゲーム画面に
-    /// </summary>
-    public static void ToStart()
-    {
-        SceneManager.LoadScene("GamePlay");
-    }
-    /// <summary>
-    /// タイトル画面から設定画面に
-    /// </summary>
-    public static void ToSettings()
-    {
-        SceneManager.LoadScene("GameSettings");
-    }
-    /// <summary>
     /// タイトル画面に移動
     /// </summary>
     public static void ToTitle()
@@ -26,7 +12,28 @@ public static class SceneChanger
         SceneManager.LoadScene("GameTitle");
     }
     /// <summary>
-    /// タイトル画面から終了する
+    /// ゲーム画面に移動
+    /// </summary>
+    public static void ToStart()
+    {
+        SceneManager.LoadScene("GamePlay");
+    }
+    /// <summary>
+    /// 設定画面に移動
+    /// </summary>
+    public static void ToSettings()
+    {
+        SceneManager.LoadScene("GameSettings");
+    }
+    /// <summary>
+    /// ゲームオーバー画面に移動
+    /// </summary>
+    public static void ToOver()
+    {
+        SceneManager.LoadScene("GameOver");
+    }
+    /// <summary>
+    /// ゲームを終了する
     /// </summary>
     public static void ToExit()
     {
@@ -35,12 +42,6 @@ public static class SceneChanger
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
     }
-    /// <summary>
-    /// ゲーム画面からゲームオーバーに
-    /// </summary>
-    public static void ToOver()
-    {
-        SceneManager.LoadScene("GameOver");
-    }
+    
 }
 
