@@ -73,31 +73,36 @@ public abstract class MoveObject : MonoBehaviour
     /// </summary>
     protected IEnumerator SquaresMove(float moveX,float moveY,int num,DIRECTION direction,Vector2 prevPos)
     {
-        if (num < 10)
+        while (true)
         {
-            gameObject.transform.position += new Vector3(moveX, moveY, 0);
-            num += 1;
-            StartCoroutine(FrameWait(0.0001f, moveX, moveY, num, direction,prevPos));
-        }
-        else
-        {
-            switch (direction)
+            
+            if (num < 10)
             {
-                case DIRECTION.UP:
-                    gameObject.transform.position = new Vector2((int)gameObject.transform.position.x, (int)prevPos.y + 1);
-                    break;
-                case DIRECTION.DOWN:
-                    gameObject.transform.position = new Vector2((int)gameObject.transform.position.x, (int)prevPos.y - 1);
-                    break;
-                case DIRECTION.LEFT:
-                    gameObject.transform.position = new Vector2((int)prevPos.x - 1, (int)gameObject.transform.position.y);
-                    break;
-                case DIRECTION.RIGHT:
-                    gameObject.transform.position = new Vector2((int)prevPos.x + 1, (int)gameObject.transform.position.y);
-                    break;
+                gameObject.transform.position += new Vector3(moveX, moveY, 0);
+                num += 1;
+                yield return null;
+                StartCoroutine(FrameWait(0.05f, moveX, moveY, num, direction, prevPos));//00
             }
-            num = 0;
-            yield return null;
+            else
+            {
+                switch (direction)
+                {
+                    case DIRECTION.UP:
+                        gameObject.transform.position = new Vector2((int)gameObject.transform.position.x, (int)prevPos.y + 1);
+                        break;
+                    case DIRECTION.DOWN:
+                        gameObject.transform.position = new Vector2((int)gameObject.transform.position.x, (int)prevPos.y - 1);
+                        break;
+                    case DIRECTION.LEFT:
+                        gameObject.transform.position = new Vector2((int)prevPos.x - 1, (int)gameObject.transform.position.y);
+                        break;
+                    case DIRECTION.RIGHT:
+                        gameObject.transform.position = new Vector2((int)prevPos.x + 1, (int)gameObject.transform.position.y);
+                        break;
+                }
+                //num = 0;
+                yield break;
+            }
         }
 
     }
