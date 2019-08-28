@@ -27,13 +27,11 @@ public sealed class GameManager : MonoBehaviour
     public static int TotalScore { get; set; }
 
     public bool GamePause { get; set; } = false;
-    public readonly string FileName = "//SaveData.json";
-
     
     private void Awake()
     {
         Refrash();
-        if (File.Exists($"{Application.persistentDataPath}{FileName}") == false)
+        if (File.Exists($"{Application.persistentDataPath}{DataManager.GameFileName}") == false)
         {
             FloorNumber = 1;
         }
@@ -41,16 +39,17 @@ public sealed class GameManager : MonoBehaviour
         subCamPos = GameObject.Find("Sub Camera");
         playerObject = Instantiate(playerPrefab);
         mapGenerator = gameObject.GetComponent<MapGenerator>();
+        mainCamPos.transform.parent = playerObject.transform;
     }
     public void Start()
     {
         ListAdd();
         RandomDeploy();
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        if (File.Exists($"{Application.persistentDataPath}{FileName}") == true)
+        if (File.Exists($"{Application.persistentDataPath}{DataManager.GameFileName}") == true)
         {
             Debug.Log("LOAD");
-            DataLoad();
+            DataManager.GameDataLoad(player);
         }
         //プレイヤーのターン
         turnManager = TurnManager.PLAYER_START;
@@ -59,7 +58,6 @@ public sealed class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        mainCamPos.transform.position=new Vector3(playerObject.transform.position.x,playerObject.transform.position.y,-1);
         //プレイヤーの行動が終わったら
         if (turnManager == TurnManager.PLAYER_END)
         {
@@ -80,10 +78,14 @@ public sealed class GameManager : MonoBehaviour
         if (turnManager == TurnManager.HierarchyMovement)
         {
             FloorNumber+=1;
-            DataSave();
+            DataManager.GameDataSave(player);
             SceneManager.LoadScene("FloorNumberView");
             turnManager = TurnManager.PLAYER_START;
         }
+    }
+    private void LateUpdate()
+    {
+        mainCamPos.transform.position = new Vector3(playerObject.transform.position.x, playerObject.transform.position.y, -1);
     }
     /// <summary>
     /// 敵の処理をする
@@ -108,7 +110,7 @@ public sealed class GameManager : MonoBehaviour
     private void OnApplicationQuit()
     {
         Debug.Log("SAVE_OnApplicationQuit");
-        DataSave();
+        DataManager.GameDataSave(player);
     }
     /// <summary>
     /// Player,Enemy,Itemを配置
@@ -225,57 +227,33 @@ public sealed class GameManager : MonoBehaviour
         ListAdd();
         RandomDeploy();
         fadeManager.isFadeIn = true;
-        DataSave();
+        DataManager.GameDataSave(player);
     }
     /// <summary>
     /// セーブ
     /// </summary>
-    private void DataSave()
-    {
-        GameData gameData = new GameData()
-        {
-            //InventoryList = player.inventoryList,
-            FloorNumberData = FloorNumber,
-            HP = player.HP,
-            MaxHP = player.MaxHP,
-            ATK = player.ATK,
-            Level = player.Level,
-            Exp = player.Exp,
-            Direction = player.Direction,
-            DEF = player.DEF,
-            Satiety = player.Satiety
+    //private void DataSave()
+    //{
+    //    GameData gameData = new GameData()
+    //    {
+    //        //InventoryList = player.inventoryList,
+    //        FloorNumberData = GetFloorNumber(),
+    //        HP = player.HP,
+    //        MaxHP = player.MaxHP,
+    //        ATK = player.ATK,
+    //        Level = player.Level,
+    //        Exp = player.Exp,
+    //        Direction = player.Direction,
+    //        DEF = player.DEF,
+    //        Satiety = player.Satiety
 
-        };
-        string json = JsonUtility.ToJson(gameData);
-        string path = $"{Application.persistentDataPath}{FileName}";
-        Debug.Log(json);
-        File.WriteAllText(path, json);
-    }
-    /// <summary>
-    /// ロード
-    /// </summary>
-    private void DataLoad()
-    {
-        string path = $"{Application.persistentDataPath}{FileName}";
-        string json = File.ReadAllText(path);
-        GameData restoreData = JsonUtility.FromJson<GameData>(json);
-        //player.inventoryList = restoreData.InventoryList;
-        FloorNumber = restoreData.FloorNumberData;
-        player.HP = restoreData.HP;
-        player.MaxHP = restoreData.MaxHP;
-        player.ATK = restoreData.ATK;
-        player.Level = restoreData.Level;
-        player.Exp = restoreData.Exp;
-        player.Direction = restoreData.Direction;
-        player.DEF = restoreData.DEF;
-        player.Satiety = restoreData.Satiety;
-    }
-    /// <summary>
-    /// データの削除
-    /// </summary>
-    public void DataDelete()
-    {
-    }
+    //    };
+    //    string json = JsonUtility.ToJson(gameData);
+    //    string path = $"{Application.persistentDataPath}{DataManager.GameFileName}";
+    //    Debug.Log(json);
+    //    File.WriteAllText(path, json);
+    //}
+    
     //デバッグ時のみ
     /*[System.Diagnostics.Conditional("a")]
     private static void A()
@@ -285,7 +263,15 @@ public sealed class GameManager : MonoBehaviour
     */
     public static int GetFloorNumber()
     {
+        //if (File.Exists($"{Application.persistentDataPath}{FileName}"))
+        //{
+        //    DataLoad();
+        //}
         return FloorNumber;
+    }
+    public static void SetFloorNumber(int FloorNumberData)
+    {
+        FloorNumber = FloorNumberData;
     }
     public static int GetTotalScore()
     {
