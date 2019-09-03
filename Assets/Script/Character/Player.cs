@@ -202,7 +202,9 @@ public sealed class Player : MoveObject
                     mapGenerator.MapStatusMoveObject[x, y] = (int)MapGenerator.STATE.FLOOR;
                     mapGenerator.MapStatusMoveObject[x, y + 1] = (int)MapGenerator.STATE.PLAYER;
                 }
-                StartCoroutine(FrameWait(0.0001f, 0, 0.1f, MoveNum[(int)DIRECTION.UP], DIRECTION.UP, prevPosition));
+                //StartCoroutine(FrameWait(0.0001f, 0, 0.1f, MoveNum[(int)DIRECTION.UP], DIRECTION.UP, prevPosition));
+                StartCoroutine(SquaresMove(0, 0.1f, MoveNum[(int)DIRECTION.UP], DIRECTION.UP, prevPosition));
+
                 MoveNum[(int)DIRECTION.UP] = 0;
             }
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
@@ -224,7 +226,9 @@ public sealed class Player : MoveObject
                     mapGenerator.MapStatusMoveObject[x, y] = (int)MapGenerator.STATE.FLOOR;
                     mapGenerator.MapStatusMoveObject[x, y - 1] = (int)MapGenerator.STATE.PLAYER;
                 }
-                StartCoroutine(FrameWait(0.0001f, 0, -0.1f, MoveNum[(int)DIRECTION.DOWN], DIRECTION.DOWN, prevPosition));
+                //StartCoroutine(FrameWait(0.0001f, 0, -0.1f, MoveNum[(int)DIRECTION.DOWN], DIRECTION.DOWN, prevPosition));
+                StartCoroutine(SquaresMove(0, -0.1f, MoveNum[(int)DIRECTION.DOWN], DIRECTION.DOWN, prevPosition));
+
                 MoveNum[(int)DIRECTION.DOWN] = 0;
             }
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
@@ -246,7 +250,9 @@ public sealed class Player : MoveObject
                     mapGenerator.MapStatusMoveObject[x, y] = (int)MapGenerator.STATE.FLOOR;
                     mapGenerator.MapStatusMoveObject[x - 1, y] = (int)MapGenerator.STATE.PLAYER;
                 }
-                StartCoroutine(FrameWait(0.0001f, -0.1f, 0, MoveNum[(int)DIRECTION.LEFT], DIRECTION.LEFT, prevPosition));
+                //StartCoroutine(FrameWait(0.0001f, -0.1f, 0, MoveNum[(int)DIRECTION.LEFT], DIRECTION.LEFT, prevPosition));
+                StartCoroutine(SquaresMove(-0.1f, 0, MoveNum[(int)DIRECTION.LEFT], DIRECTION.LEFT, prevPosition));
+
                 MoveNum[(int)DIRECTION.LEFT] = 0;
             }
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
@@ -268,7 +274,8 @@ public sealed class Player : MoveObject
                     mapGenerator.MapStatusMoveObject[x, y] = (int)MapGenerator.STATE.FLOOR;
                     mapGenerator.MapStatusMoveObject[x + 1, y] = (int)MapGenerator.STATE.PLAYER;
                 }
-                StartCoroutine(FrameWait(0.0001f, 0.1f, 0, MoveNum[(int)DIRECTION.RIGHT], DIRECTION.RIGHT, prevPosition));
+                //StartCoroutine(FrameWait(0.0001f, 0.1f, 0, MoveNum[(int)DIRECTION.RIGHT], DIRECTION.RIGHT, prevPosition));
+                StartCoroutine(SquaresMove(0.1f, 0, MoveNum[(int)DIRECTION.RIGHT], DIRECTION.RIGHT, prevPosition));
                 MoveNum[(int)DIRECTION.RIGHT] = 0;
             }
             gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;

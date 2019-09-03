@@ -293,8 +293,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1628362593}
-  - component: {fileID: 1628362594}
   - component: {fileID: 1628362595}
+  - component: {fileID: 1628362594}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -327,6 +327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeImage: {fileID: 2104647840}
+  fadeText: {fileID: 2139475877}
   isFadeOut: 0
   isFadeIn: 0
 --- !u!114 &1628362595

@@ -80,8 +80,9 @@ public abstract class MoveObject : MonoBehaviour
             {
                 gameObject.transform.position += new Vector3(moveX, moveY, 0);
                 num += 1;
-                yield return null;
-                StartCoroutine(FrameWait(0.05f, moveX, moveY, num, direction, prevPos));//00
+                gameManager.mainCamPos.transform.position=gameObject.transform.position;
+                yield return new WaitForSeconds(0.0001f);
+                //StartCoroutine(FrameWait(0.05f, moveX, moveY, num, direction, prevPos));//00
             }
             else
             {
@@ -106,9 +107,9 @@ public abstract class MoveObject : MonoBehaviour
         }
 
     }
-    protected IEnumerator FrameWait(float waitTime,float moveX,float moveY,int num, DIRECTION direction, Vector2 prevPos)
-    {
-        yield return new WaitForSeconds(waitTime);
-        StartCoroutine(SquaresMove(moveX,moveY,num,direction,prevPos));
-    }
+    // protected IEnumerator FrameWait(float waitTime,float moveX,float moveY,int num, DIRECTION direction, Vector2 prevPos)
+    // {
+    //     yield return new WaitForSeconds(waitTime);
+    //     StartCoroutine(SquaresMove(moveX,moveY,num,direction,prevPos));
+    // }
 }
