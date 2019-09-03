@@ -36,12 +36,12 @@ public sealed class MapGenerator : MonoBehaviour
     public int[,] MapStatusType;
     public int[,] MapStatusMoveObject;
     //public int[,] MapStatusRoom;
-    private GameManager gameManager;
+    //private GameManager gameManager;
     #endregion
     #region マップ生成
     public void Awake()
     {
-        gameManager = GameObject.Find("Manager").GetComponent<GameManager>();
+        //gameManager = GameObject.Find("Manager").GetComponent<GameManager>();
         mapHolder = new GameObject("Map").transform;
         InitializeMap();
         RoomCreate();

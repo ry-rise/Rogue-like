@@ -6,16 +6,27 @@ public class FadeManager : MonoBehaviour {
     private float fadeSpeed = 0.02f;        
     private float red, green, blue, alfa;
     [SerializeField] private Image fadeImage;
+    [SerializeField] private Text fadeText;
     public bool isFadeOut = false;         
     public bool isFadeIn = false;
-    
+
     private void Start()
     {
-        //fadeImage = GetComponent<Image>();
-        red = fadeImage.color.r;
-        green = fadeImage.color.g;
-        blue = fadeImage.color.b;
-        alfa = fadeImage.color.a;
+        if (fadeImage != null)
+        {
+            red = fadeImage.color.r;
+            green = fadeImage.color.g;
+            blue = fadeImage.color.b;
+            alfa = fadeImage.color.a;
+        }
+        if(fadeText!=null)
+        {
+            red = fadeText.color.r;
+            green = fadeText.color.g;
+            blue = fadeText.color.b;
+            alfa = fadeText.color.a;
+
+        }
     }
 
     private void Update()
@@ -39,7 +50,7 @@ public class FadeManager : MonoBehaviour {
         {                    
             isFadeIn = false;
             fadeImage.enabled = false;
-            SceneChanger.ToStart();
+            return;
         }
     }
     public void StartFadeOut()
@@ -58,4 +69,5 @@ public class FadeManager : MonoBehaviour {
     {
         fadeImage.color = new Color(red, green, blue, alfa);
     }
+
 }

@@ -14,7 +14,7 @@ public sealed class GameManager : MonoBehaviour
     private Player player;
     private MapGenerator mapGenerator;
     private FadeManager fadeManager;
-    private GameObject mainCamPos;
+    public GameObject mainCamPos{get;set;}
     private GameObject subCamPos;
     private Transform enemyHolder;
     private Transform itemHolder;
@@ -80,7 +80,7 @@ public sealed class GameManager : MonoBehaviour
             FloorNumber+=1;
             DataManager.GameDataSave(player);
             SceneManager.LoadScene("FloorNumberView");
-            turnManager = TurnManager.PLAYER_START;
+            //turnManager = TurnManager.PLAYER_START;
         }
     }
     private void LateUpdate()
@@ -218,7 +218,7 @@ public sealed class GameManager : MonoBehaviour
         player.isExit = false;
         fadeManager.isFadeOut = true;
         FloorNumber += 1;
-        FloorMoveManager.viewFloorNumber=FloorNumber;
+        //FloorMoveManager.viewFloorNumber=FloorNumber;
         Destroy(GameObject.Find("Map"));
         Destroy(GameObject.Find("Enemy"));
         Destroy(GameObject.Find("Item"));
