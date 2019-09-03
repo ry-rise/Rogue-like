@@ -9,7 +9,9 @@ public class OverManager : MonoBehaviour
     [SerializeField] private Text ScoreText;
     private void Start()
     {
+        OKButton.onClick.AddListener(DataManager.GameDataDelete);
         OKButton.onClick.AddListener(SceneChanger.ToTitle);
+        ScoreText.text=$"Score: {GameManager.GetTotalScore().ToString()}";
     }
 	
 }

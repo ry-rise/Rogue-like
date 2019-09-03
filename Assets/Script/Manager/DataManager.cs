@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public sealed class DataManager : MonoBehaviour {
     public static string GameFileName { get; private set; } = "//SaveData.json";
-    public static string SettingFileName { get; private set; } = "//SettingsData.json";
+    public static string SettingsFileName { get; private set; } = "//SettingsData.json";
 
     /// <summary>
     /// ゲームデータのセーブ
@@ -53,15 +54,35 @@ public sealed class DataManager : MonoBehaviour {
     /// <summary>
     /// データの削除
     /// </summary>
-    public void GameDataDelete()
+    public static void GameDataDelete()
     {
+        File.Delete($"{Application.persistentDataPath}{GameFileName}");
     }
-    public void SettingsDataSave()
+    public static void SettingsDataSave(AudioMixer audioMixer)
     {
-
+        float MasterVolume;
+        float BGMVolume;
+        float SEVolume;
+        bool MasVol = audioMixer.GetFloat("MasterVol", out MasterVolume);
+        bool BGMVol = audioMixer.GetFloat("BGMVol", out BGMVolume);
+        bool SEVol = audioMixer.GetFloat("SEVol", out SEVolume);
+        SettingsData settingsData = new SettingsData()
+        {
+            MasterVolume = MasterVolume,
+            bgmVolume = BGMVolume,
+            seVolume = SEVolume
+        };
+        string json = JsonUtility.ToJson(settingsData);
+        string path = $"{Application.persistentDataPath}{SettingsFileName}";
+        File.WriteAllText(path, json);
     }
-    public void SettingsDataLoad()
+    public static void SettingsDataLoad(AudioMixer audioMixer)
     {
-
+        string path = $"{Application.persistentDataPath}{SettingsFileName}";
+        string json = File.ReadAllText(path);
+        SettingsData restoreSettingsData = JsonUtility.FromJson<SettingsData>(json);
+        audioMixer.SetFloat("MasterVol", restoreSettingsData.MasterVolume);
+        audioMixer.SetFloat("BGMVol", restoreSettingsData.bgmVolume);
+        audioMixer.SetFloat("SEVol", restoreSettingsData.seVolume);
     }
 }
