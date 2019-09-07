@@ -82,7 +82,6 @@ public abstract class MoveObject : MonoBehaviour
                 num += 1;
                 gameManager.mainCamPos.transform.position=gameObject.transform.position;
                 yield return new WaitForSeconds(0.0001f);
-                //StartCoroutine(FrameWait(0.05f, moveX, moveY, num, direction, prevPos));//00
             }
             else
             {
@@ -101,15 +100,9 @@ public abstract class MoveObject : MonoBehaviour
                         gameObject.transform.position = new Vector2((int)prevPos.x + 1, (int)gameObject.transform.position.y);
                         break;
                 }
-                //num = 0;
                 yield break;
             }
         }
 
     }
-    // protected IEnumerator FrameWait(float waitTime,float moveX,float moveY,int num, DIRECTION direction, Vector2 prevPos)
-    // {
-    //     yield return new WaitForSeconds(waitTime);
-    //     StartCoroutine(SquaresMove(moveX,moveY,num,direction,prevPos));
-    // }
 }
