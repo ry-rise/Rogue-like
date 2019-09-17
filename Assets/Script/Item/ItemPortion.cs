@@ -12,7 +12,7 @@ public sealed class ItemPortion : ItemBase
     {
         if (collision.gameObject.tag == "Player")
         {
-            Debug.Log("itemPortion");
+            //Debug.Log("itemPortion");
             PickUP();
         }
     }

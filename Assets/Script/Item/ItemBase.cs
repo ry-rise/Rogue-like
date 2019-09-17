@@ -29,7 +29,7 @@ public abstract class ItemBase : MonoBehaviour
         for (int i = 0; i < iManager.LogText.Length; i += 1)
         {
             //ログが空だった場合
-            if (iManager.LogText[i].text == "")
+            if(string.IsNullOrEmpty(iManager.LogText[i].text)==true)
             {
                 iManager.LogText[i].text = $"{Name}を手に入れた";
                 break;
@@ -37,7 +37,7 @@ public abstract class ItemBase : MonoBehaviour
             else { continue; }
         }
         //すべてのログに文字が入っていた場合に一個ずつずらす
-        if (iManager.LogText[iManager.LogText.Length - 1].text != "")
+        if(string.IsNullOrEmpty(iManager.LogText[iManager.LogText.Length-1].text)==false)
         {
             iManager.LogText[0].text = iManager.LogText[1].text;
             iManager.LogText[1].text = iManager.LogText[2].text;

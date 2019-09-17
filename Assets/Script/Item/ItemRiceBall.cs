@@ -13,7 +13,7 @@ public sealed class ItemRiceBall : ItemBase
     {
         if (collision.gameObject.tag == "Player")
         {
-            Debug.Log("itemRiceBall");
+            //Debug.Log("itemRiceBall");
             PickUP();
         }
     }
