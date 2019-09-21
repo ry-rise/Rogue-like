@@ -41,7 +41,7 @@ public sealed class UIManager : MonoBehaviour
         SatietyText.text = $"空腹度:{player.Satiety.ToString()}";
         if (player != null)
         {
-            if (gameManager.turnManager == GameManager.TurnManager.STATE_JUDGE)
+            if (gameManager.turnManager == GameManager.TurnManager.StateJudge)
             {
                 StateTextChanger();
             }

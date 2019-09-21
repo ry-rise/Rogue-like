@@ -28,7 +28,7 @@ public sealed class ItemPortion : ItemBase
         player.HP += recoveryAmount[i];
         player.inventoryList.Remove(gameObject);
         Destroy(gameObject);
-        gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
+        GameManager.Instance.turnManager = GameManager.TurnManager.PlayerEnd;
     }
 
 }

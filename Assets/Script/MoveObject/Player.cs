@@ -48,7 +48,7 @@ public sealed class Player : MoveObject
         switch (gameManager.turnManager)
         {
             //プレイヤーのターン
-            case GameManager.TurnManager.PLAYER_START:
+            case GameManager.TurnManager.PlayerStart:
                 //行動する(ポーズ時以外)
                 if (gameManager.GamePause == false)
                 {
@@ -63,15 +63,15 @@ public sealed class Player : MoveObject
                     }
                     if (InputManager.GridInputKeyDown(KeyCode.Return))
                     {
-                        gameManager.turnManager = GameManager.TurnManager.PLAYER_ATTACK;
+                        gameManager.turnManager = GameManager.TurnManager.PlayerAttack;
                         AttackPlayer((int)gameObject.transform.position.x,
                                      (int)gameObject.transform.position.y);
-                        gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
+                        gameManager.turnManager = GameManager.TurnManager.PlayerEnd;
                     }
                 }
                 break;
 
-            case GameManager.TurnManager.STATE_JUDGE:
+            case GameManager.TurnManager.StateJudge:
                 //状態異常の遷移
                 switch (state)
                 {
@@ -83,26 +83,26 @@ public sealed class Player : MoveObject
                         break;
                     case STATE.PARALYSIS:
                         if (ReleaseDetermination() == true) { state = STATE.NONE; }
-                        else { gameManager.turnManager = GameManager.TurnManager.PLAYER_END; }
+                        else { gameManager.turnManager = GameManager.TurnManager.PlayerEnd; }
                         break;
                     default:
                         break;
                 }
-                gameManager.turnManager = GameManager.TurnManager.SATIETY_CHECK;
+                gameManager.turnManager = GameManager.TurnManager.SatietyCheck;
                 break;
 
-            case GameManager.TurnManager.SATIETY_CHECK:
+            case GameManager.TurnManager.SatietyCheck:
                 //空腹度が０
                 if (Satiety == 0) { HP -= 1; }
                 //０以外
                 else { Satiety -= 1; }
                 //行動終了
-                gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
+                gameManager.turnManager = GameManager.TurnManager.PlayerEnd;
                 break;
 
             //敵の行動が終わったら
-            case GameManager.TurnManager.ENIMIES_END:
-                gameManager.turnManager = GameManager.TurnManager.PLAYER_START;
+            case GameManager.TurnManager.EmemiesEnd:
+                gameManager.turnManager = GameManager.TurnManager.PlayerStart;
                 break;
             default:
                 break;
@@ -210,7 +210,7 @@ public sealed class Player : MoveObject
                 StartCoroutine(SquaresMove(0, 0.1f, MoveNum[(int)DIRECTION.UP], DIRECTION.UP, prevPosition));
                 MoveNum[(int)DIRECTION.UP] = 0;
             }
-            gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
+            gameManager.turnManager = GameManager.TurnManager.StateJudge;
         }
         //下方向
         else if (InputManager.GridInputKeyDown(KeyCode.S) || InputManager.GridInputKeyDown(KeyCode.DownArrow))
@@ -233,7 +233,7 @@ public sealed class Player : MoveObject
                 StartCoroutine(SquaresMove(0, -0.1f, MoveNum[(int)DIRECTION.DOWN], DIRECTION.DOWN, prevPosition));
                 MoveNum[(int)DIRECTION.DOWN] = 0;
             }
-            gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
+            gameManager.turnManager = GameManager.TurnManager.StateJudge;
         }
         //左方向
         else if (InputManager.GridInputKeyDown(KeyCode.A) || InputManager.GridInputKeyDown(KeyCode.LeftArrow))
@@ -256,7 +256,7 @@ public sealed class Player : MoveObject
                 StartCoroutine(SquaresMove(-0.1f, 0, MoveNum[(int)DIRECTION.LEFT], DIRECTION.LEFT, prevPosition));
                 MoveNum[(int)DIRECTION.LEFT] = 0;
             }
-            gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
+            gameManager.turnManager = GameManager.TurnManager.StateJudge;
         }
         //右方向
         else if (InputManager.GridInputKeyDown(KeyCode.D) || InputManager.GridInputKeyDown(KeyCode.RightArrow))
@@ -279,7 +279,7 @@ public sealed class Player : MoveObject
                 StartCoroutine(SquaresMove(0.1f, 0, MoveNum[(int)DIRECTION.RIGHT], DIRECTION.RIGHT, prevPosition));
                 MoveNum[(int)DIRECTION.RIGHT] = 0;
             }
-            gameManager.turnManager = GameManager.TurnManager.STATE_JUDGE;
+            gameManager.turnManager = GameManager.TurnManager.StateJudge;
         }
     }
 
@@ -359,7 +359,7 @@ public sealed class Player : MoveObject
                         }
                     }
                 }
-                gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
+                gameManager.turnManager = GameManager.TurnManager.PlayerEnd;
                 break;
             case DIRECTION.DOWN:
                 if (mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.ENEMY)
@@ -382,7 +382,7 @@ public sealed class Player : MoveObject
                         }
                     }
                 }
-                gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
+                gameManager.turnManager = GameManager.TurnManager.PlayerEnd;
                 break;
             case DIRECTION.LEFT:
                 if (mapGenerator.MapStatusType[x - 1, y] == (int)MapGenerator.STATE.ENEMY)
@@ -405,7 +405,7 @@ public sealed class Player : MoveObject
                         }
                     }
                 }
-                gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
+                gameManager.turnManager = GameManager.TurnManager.PlayerEnd;
                 break;
             case DIRECTION.RIGHT:
                 if (mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.ENEMY)
@@ -428,7 +428,7 @@ public sealed class Player : MoveObject
                         }
                     }
                 }
-                gameManager.turnManager = GameManager.TurnManager.PLAYER_END;
+                gameManager.turnManager = GameManager.TurnManager.PlayerEnd;
                 break;
         }
     }

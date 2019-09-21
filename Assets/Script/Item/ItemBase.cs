@@ -2,7 +2,7 @@
 
 public abstract class ItemBase : MonoBehaviour
 {
-    protected GameManager gameManager;
+    //protected GameManager gameManager;
     protected MapGenerator mapGenerator;
     protected UIManager iManager;
     protected Player player;
@@ -11,7 +11,7 @@ public abstract class ItemBase : MonoBehaviour
 
     protected virtual void Awake()
     {
-        gameManager = GameObject.Find("Manager").GetComponent<GameManager>();
+        //gameManager = GameObject.Find("Manager").GetComponent<GameManager>();
         mapGenerator = GameObject.Find("Manager").GetComponent<MapGenerator>();
         iManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
@@ -22,7 +22,7 @@ public abstract class ItemBase : MonoBehaviour
     protected virtual void PickUP()
     {
         player.inventoryList.Add(gameObject);
-        gameManager.itemsList.Remove(gameObject);
+        GameManager.Instance.itemsList.Remove(gameObject);
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         mapGenerator.MapStatusType[(int)transform.position.x, (int)transform.position.y] = (int)MapGenerator.STATE.FLOOR;

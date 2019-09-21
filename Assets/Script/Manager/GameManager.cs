@@ -7,6 +7,19 @@ using Random = UnityEngine.Random;
 
 public sealed class GameManager : MonoBehaviour
 {
+    private static GameManager instance;
+    public static GameManager Instance
+    {
+        get
+        {
+            if(instance==null)
+            {
+                GameObject obj = GameObject.Find("Manager");
+                instance = obj.AddComponent<GameManager>();
+            }
+            return instance;
+        }
+    }
     [HideInInspector] public GameObject playerObject;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject[] enemyPrefab;
@@ -14,11 +27,11 @@ public sealed class GameManager : MonoBehaviour
     private Player player;
     private MapGenerator mapGenerator;
     private FadeManager fadeManager;
-    public GameObject mainCamPos{get;set;}
+    public GameObject mainCamPos { get; set; }
     private GameObject subCamPos;
     private Transform enemyHolder;
     private Transform itemHolder;
-    public enum TurnManager { PLAYER_START, PLAYER_MOVE, PLAYER_ATTACK, PLAYER_END, STATE_JUDGE, SATIETY_CHECK, HierarchyMovement, ENEMIES_TURN, ENIMIES_END }
+    public enum TurnManager { PlayerStart, PlayerMove, PlayerAttack, PlayerEnd, StateJudge, SatietyCheck, HierarchyMovement, EmemiesTurn, EmemiesEnd }
     [SerializeField] private TurnManager _turnManager;
     public TurnManager turnManager { get { return _turnManager; } set { _turnManager = value; } }
     public List<GameObject> enemiesList;
@@ -27,9 +40,10 @@ public sealed class GameManager : MonoBehaviour
     public static int TotalScore { get; set; }
 
     public bool GamePause { get; set; } = false;
-    
+
     private void Awake()
     {
+        instance = this;
         Refrash();
         if (File.Exists($"{Application.persistentDataPath}{DataManager.GameFileName}") == false)
         {
@@ -52,14 +66,14 @@ public sealed class GameManager : MonoBehaviour
             DataManager.GameDataLoad(player);
         }
         //プレイヤーのターン
-        turnManager = TurnManager.PLAYER_START;
+        turnManager = TurnManager.PlayerStart;
 
 
     }
     private void Update()
     {
         //プレイヤーの行動が終わったら
-        if (turnManager == TurnManager.PLAYER_END)
+        if (turnManager == TurnManager.PlayerEnd)
         {
             if (player.isExit == true)
             {
@@ -67,17 +81,17 @@ public sealed class GameManager : MonoBehaviour
             }
             else
             {
-                turnManager = TurnManager.ENEMIES_TURN;
+                turnManager = TurnManager.EmemiesTurn;
 
                 EnemiesAction<EnemyKnight>();
                 EnemiesAction<EnemyZombie>();
-                turnManager = TurnManager.ENIMIES_END;
+                turnManager = TurnManager.EmemiesEnd;
             }
         }
         //階層移動
         if (turnManager == TurnManager.HierarchyMovement)
         {
-            FloorNumber+=1;
+            FloorNumber += 1;
             DataManager.GameDataSave(player);
             SceneManager.LoadScene("FloorNumberView");
             //turnManager = TurnManager.PLAYER_START;
@@ -229,38 +243,7 @@ public sealed class GameManager : MonoBehaviour
         fadeManager.isFadeIn = true;
         DataManager.GameDataSave(player);
     }
-    /// <summary>
-    /// セーブ
-    /// </summary>
-    //private void DataSave()
-    //{
-    //    GameData gameData = new GameData()
-    //    {
-    //        //InventoryList = player.inventoryList,
-    //        FloorNumberData = GetFloorNumber(),
-    //        HP = player.HP,
-    //        MaxHP = player.MaxHP,
-    //        ATK = player.ATK,
-    //        Level = player.Level,
-    //        Exp = player.Exp,
-    //        Direction = player.Direction,
-    //        DEF = player.DEF,
-    //        Satiety = player.Satiety
-
-    //    };
-    //    string json = JsonUtility.ToJson(gameData);
-    //    string path = $"{Application.persistentDataPath}{DataManager.GameFileName}";
-    //    Debug.Log(json);
-    //    File.WriteAllText(path, json);
-    //}
     
-    //デバッグ時のみ
-    /*[System.Diagnostics.Conditional("a")]
-    private static void A()
-    {
-        Debug.Log("a");
-    }
-    */
     public static int GetFloorNumber()
     {
         //if (File.Exists($"{Application.persistentDataPath}{FileName}"))
