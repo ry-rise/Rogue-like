@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public sealed class DataManager : MonoBehaviour {
+public sealed class DataManager //: MonoBehaviour 
+{
     public static string GameFileName { get; private set; } = "//SaveData.json";
     public static string SettingsFileName { get; private set; } = "//SettingsData.json";
 
@@ -28,7 +27,7 @@ public sealed class DataManager : MonoBehaviour {
         };
         string json = JsonUtility.ToJson(gameData);
         string path = $"{Application.persistentDataPath}{GameFileName}";
-        Debug.Log(json);
+        //Debug.Log(json);
         File.WriteAllText(path, json);
     }
     /// <summary>
