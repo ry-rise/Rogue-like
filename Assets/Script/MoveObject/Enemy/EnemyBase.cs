@@ -21,6 +21,7 @@ public class EnemyBase : MoveObject
         iManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<Player>();
+        //playerSearch=gameObject.GetComponent<PlayerSearch>();
         playerPos = player.transform;
         Exp = 3;
 	}
@@ -38,7 +39,7 @@ public class EnemyBase : MoveObject
     protected void DieEnemy()
     {
         playerScript.Exp += Exp;
-        gameManager.enemiesList.Remove(gameObject);
+        GameManager.Instance.enemiesList.Remove(gameObject);
         mapGenerator.MapStatusType[(int)transform.position.x, (int)transform.position.y] = (int)MapGenerator.STATE.FLOOR;
         Destroy(gameObject);
     }
@@ -109,8 +110,8 @@ public class EnemyBase : MoveObject
                     if (CheckMoveEnemy((DIRECTION)b,(int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
                     {
                         direction = DIRECTION.UP;
-                        mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
-                        mapGenerator.MapStatusType[x, y + 1] = (int)MapGenerator.STATE.ENEMY;
+                        mapGenerator.MapStatusMoveObject[x, y] = (int)MapGenerator.STATE.FLOOR;
+                        mapGenerator.MapStatusMoveObject[x, y + 1] = (int)MapGenerator.STATE.ENEMY;
                         SpriteDirection();
                         gameObject.transform.position = new Vector2(gameObject.transform.position.x,
                                                                     gameObject.transform.position.y + 1);
@@ -127,8 +128,8 @@ public class EnemyBase : MoveObject
                     if (CheckMoveEnemy((DIRECTION)b,(int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
                     {
                         direction = DIRECTION.DOWN;
-                        mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
-                        mapGenerator.MapStatusType[x, y - 1] = (int)MapGenerator.STATE.ENEMY;
+                        mapGenerator.MapStatusMoveObject[x, y] = (int)MapGenerator.STATE.FLOOR;
+                        mapGenerator.MapStatusMoveObject[x, y - 1] = (int)MapGenerator.STATE.ENEMY;
                         SpriteDirection();
                         gameObject.transform.position = new Vector2(gameObject.transform.position.x,
                                                           gameObject.transform.position.y - 1);
@@ -146,8 +147,8 @@ public class EnemyBase : MoveObject
                     if (CheckMoveEnemy((DIRECTION)b,(int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
                     {
                         direction = DIRECTION.LEFT;
-                        mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
-                        mapGenerator.MapStatusType[x - 1, y] = (int)MapGenerator.STATE.ENEMY;
+                        mapGenerator.MapStatusMoveObject[x, y] = (int)MapGenerator.STATE.FLOOR;
+                        mapGenerator.MapStatusMoveObject[x - 1, y] = (int)MapGenerator.STATE.ENEMY;
                         SpriteDirection();
                         gameObject.transform.position = new Vector2(gameObject.transform.position.x - 1,
                                                                     gameObject.transform.position.y);
@@ -165,8 +166,8 @@ public class EnemyBase : MoveObject
                     if (CheckMoveEnemy((DIRECTION)b,(int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
                     {
                         direction = DIRECTION.RIGHT;
-                        mapGenerator.MapStatusType[x, y] = (int)MapGenerator.STATE.FLOOR;
-                        mapGenerator.MapStatusType[x + 1, y] = (int)MapGenerator.STATE.ENEMY;
+                        mapGenerator.MapStatusMoveObject[x, y] = (int)MapGenerator.STATE.FLOOR;
+                        mapGenerator.MapStatusMoveObject[x + 1, y] = (int)MapGenerator.STATE.ENEMY;
                         SpriteDirection();
                         gameObject.transform.position = new Vector2(gameObject.transform.position.x + 1,
                                                                     gameObject.transform.position.y);
