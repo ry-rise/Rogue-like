@@ -5,6 +5,7 @@ using InputKey;
 public class TitleManager : MonoBehaviour
 {
     [SerializeField] private Button startButton;
+    [SerializeField] private Button loadButton;
     [SerializeField] private Button settingButton;
     [SerializeField] private Button exitButton;
     [SerializeField] private Button textButton;
@@ -21,14 +22,14 @@ public class TitleManager : MonoBehaviour
 
     private void Update()
     {
-		if(flag==false)
-		{
-        if (InputManager.GridInputKeyDown(KeyCode.Space))
+        if (flag == false)
         {
-			CanvasSwitch();
-            flag=true;
+            if (InputManager.GridInputKeyDown(KeyCode.Space))
+            {
+                CanvasSwitch();
+                flag = true;
+            }
         }
-		}
     }
 
     private void CanvasSwitch()
