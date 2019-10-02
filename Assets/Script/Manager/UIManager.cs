@@ -4,23 +4,17 @@ using UnityEngine.UI;
 public sealed class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject InventoryScreen;
-    [SerializeField] private GameObject Log;
     [SerializeField] private GameObject Header;
     [SerializeField] private Text LevelText;
     [SerializeField] private Text FloorText;
     [SerializeField] private Text HPText;
     [SerializeField] private Text SatietyText;
     [SerializeField] private Text StateText;
-    public static Text[] LogText { get; private set; }//=new Text[5];
     private Player player;
-    //private GameManager gameManager;
     private bool checkTurn;
 	private void Start ()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        //gameManager = GameObject.Find("Manager").GetComponent<GameManager>();
-        LogText = new Text[5];
-        LogText = Log.GetComponentsInChildren<Text>();
         StateTextChanger();
     }
 	private void Update ()
@@ -68,28 +62,6 @@ public sealed class UIManager : MonoBehaviour
             case MoveObject.STATE.POISON:
                 StateText.text = "毒";
                 break;
-        }
-    }
-    public static void LogTextWrite(string str)
-    {
-        for (int i = 0; i < LogText.Length; i += 1)
-        {
-            //ログが空だった場合
-            if (string.IsNullOrEmpty(LogText[i].text) == true)
-            {
-                LogText[i].text = str;
-                break;
-            }
-            else { continue; }
-        }
-        //すべてのログに文字が入っていた場合に一個ずつずらす
-        if (string.IsNullOrEmpty(LogText[LogText.Length - 1].text) == false)
-        {
-            LogText[0].text = LogText[1].text;
-            LogText[1].text = LogText[2].text;
-            LogText[2].text = LogText[3].text;
-            LogText[3].text = LogText[4].text;
-            LogText[LogText.Length - 1].text = str;
         }
     }
 }

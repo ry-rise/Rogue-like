@@ -5,7 +5,6 @@ public class EnemyBase : MoveObject
 {
     protected Transform playerPos;
     protected string Name;
-    private UIManager iManager;
     private GameObject player;
     private Player playerScript;
     protected bool check;
@@ -18,7 +17,6 @@ public class EnemyBase : MoveObject
     protected override void Start ()
     {
         base.Start();
-        iManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<Player>();
         //playerSearch=gameObject.GetComponent<PlayerSearch>();

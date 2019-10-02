@@ -28,7 +28,6 @@ public sealed class GameManager : MonoBehaviour
     private MapGenerator mapGenerator;
     private FadeManager fadeManager;
     public GameObject mainCamPos { get; set; }
-    //private GameObject subCamPos;
     private Transform enemyHolder;
     private Transform itemHolder;
     public enum TurnManager { PlayerStart, PlayerMove, PlayerAttack, PlayerEnd, StateJudge, SatietyCheck, HierarchyMovement, EmemiesTurn, EmemiesEnd }
@@ -50,7 +49,6 @@ public sealed class GameManager : MonoBehaviour
             FloorNumber = 1;
         }
         mainCamPos = GameObject.Find("Main Camera");
-        //subCamPos = GameObject.Find("Sub Camera");
         playerObject = Instantiate(playerPrefab);
         mapGenerator = gameObject.GetComponent<MapGenerator>();
         mainCamPos.transform.parent = playerObject.transform;
@@ -91,7 +89,7 @@ public sealed class GameManager : MonoBehaviour
                 }
                 break;
             //敵の行動が終わったら
-            case GameManager.TurnManager.EmemiesEnd:
+            case TurnManager.EmemiesEnd:
                 player.isMoving=false;
                 turnManager = TurnManager.PlayerStart;
                 break;
@@ -207,9 +205,6 @@ public sealed class GameManager : MonoBehaviour
         mainCamPos.transform.position = new Vector3(playerObject.transform.position.x,
                                                     playerObject.transform.position.y,
                                                     playerObject.transform.position.z - 1);
-        //subCamPos.transform.position = new Vector3(playerObject.transform.position.x,
-        //                                           playerObject.transform.position.y,
-        //                                           playerObject.transform.position.z - 15);
     }
     /// <summary>
     /// Listに追加する

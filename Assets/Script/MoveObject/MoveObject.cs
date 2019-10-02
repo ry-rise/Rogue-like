@@ -5,7 +5,6 @@ public abstract class MoveObject : MonoBehaviour
 {
     [NamedArray(new string[] { "UP", "DOWN", "LEFT", "RIGHT" })] [SerializeField]
     protected Sprite[] sprites = new Sprite[4];
-    //protected GameManager gameManager;
     protected MapGenerator mapGenerator;
     protected SpriteRenderer spriteRenderer;
     protected DIRECTION direction;
@@ -31,7 +30,6 @@ public abstract class MoveObject : MonoBehaviour
 
     protected virtual void Start()
     {
-        //gameManager = GameObject.Find("Manager").GetComponent<GameManager>();
         mapGenerator = GameObject.Find("Manager").GetComponent<MapGenerator>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }

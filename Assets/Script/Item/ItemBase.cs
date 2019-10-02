@@ -27,7 +27,7 @@ public abstract class ItemBase : MonoBehaviour
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         mapGenerator.MapStatusType[(int)transform.position.x, (int)transform.position.y] = (int)MapGenerator.STATE.FLOOR;
-        UIManager.LogTextWrite($"{Name}を手に入れた");
+        Log.Instance.LogTextWrite($"{Name}を手に入れた");
     }
     ///<summary>  
     ///アイテムを使うときの処理

@@ -1,13 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Log : MonoBehaviour 
 {
-	[SerializeField] private GameObject LogA;
-	public static Text[] LogText{get;set;}
-	public static void LogTextWrite(string str)
+    private static Log instance;
+    public static Log Instance { get { return instance; } }
+    public Text[] LogText { get; set; }
+    private void Awake()
+    {
+        instance = this;
+    }
+    private void Start()
+    {
+        LogText = new Text[5];
+        LogText = GetComponentsInChildren<Text>();
+    }
+    public void LogTextWrite(string str)
     {
         for (int i = 0; i < LogText.Length; i += 1)
         {
