@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 61057450398688762}
   - component: {fileID: 212146031288397682}
   - component: {fileID: 114081782246130120}
+  - component: {fileID: 114723393727281956}
   m_Layer: 0
   m_Name: EnemyZombie
   m_TagString: Enemy
@@ -83,6 +84,17 @@ MonoBehaviour:
   - {fileID: 21300050, guid: 199e7784379a20c439d39346e738b6f3, type: 3}
   - {fileID: 21300074, guid: 199e7784379a20c439d39346e738b6f3, type: 3}
   - {fileID: 21300026, guid: 199e7784379a20c439d39346e738b6f3, type: 3}
+--- !u!114 &114723393727281956
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1826253905578890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff447b4dadece464f9d402bfdfbce454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212146031288397682
 SpriteRenderer:
   m_ObjectHideFlags: 1

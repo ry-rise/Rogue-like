@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 61057450398688762}
   - component: {fileID: 212146031288397682}
   - component: {fileID: 114648971690630666}
+  - component: {fileID: 114427272680633834}
   m_Layer: 0
   m_Name: EnemyFrog
   m_TagString: Enemy
@@ -67,6 +68,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.3}
   m_EdgeRadius: 0
+--- !u!114 &114427272680633834
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1826253905578890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff447b4dadece464f9d402bfdfbce454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114648971690630666
 MonoBehaviour:
   m_ObjectHideFlags: 1
