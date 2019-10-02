@@ -5,7 +5,7 @@ public abstract class MoveObject : MonoBehaviour
 {
     [NamedArray(new string[] { "UP", "DOWN", "LEFT", "RIGHT" })] [SerializeField]
     protected Sprite[] sprites = new Sprite[4];
-    protected GameManager gameManager;
+    //protected GameManager gameManager;
     protected MapGenerator mapGenerator;
     protected SpriteRenderer spriteRenderer;
     protected DIRECTION direction;
@@ -31,7 +31,7 @@ public abstract class MoveObject : MonoBehaviour
 
     protected virtual void Start()
     {
-        gameManager = GameObject.Find("Manager").GetComponent<GameManager>();
+        //gameManager = GameObject.Find("Manager").GetComponent<GameManager>();
         mapGenerator = GameObject.Find("Manager").GetComponent<MapGenerator>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
@@ -80,7 +80,7 @@ public abstract class MoveObject : MonoBehaviour
             {
                 gameObject.transform.position += new Vector3(moveX, moveY, 0);
                 num += 1;
-                gameManager.mainCamPos.transform.position=gameObject.transform.position;
+                GameManager.Instance.mainCamPos.transform.position=gameObject.transform.position;
                 yield return new WaitForSeconds(0.0001f);
             }
             else
@@ -103,6 +103,5 @@ public abstract class MoveObject : MonoBehaviour
                 yield break;
             }
         }
-
     }
 }

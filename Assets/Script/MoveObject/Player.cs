@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 public sealed class Player : MoveObject
 {
     private static readonly Dictionary<int, int> LevelUpExp;
+
     [SerializeField] private STATE _state;
     private bool AbnormalCondition;
     public bool isExit { get; set; }
@@ -45,12 +46,12 @@ public sealed class Player : MoveObject
     private void Update()
     {
         //ターン遷移
-        switch (gameManager.turnManager)
+        switch (GameManager.Instance.turnManager)
         {
             //プレイヤーのターン
             case GameManager.TurnManager.PlayerStart:
                 //行動する(ポーズ時以外)
-                if (gameManager.GamePause == false)
+                if (GameManager.Instance.GamePause == false)
                 {
                     if(isMoving==false)
                     {
@@ -63,10 +64,10 @@ public sealed class Player : MoveObject
                     }
                     if (InputManager.GridInputKeyDown(KeyCode.Return))
                     {
-                        gameManager.turnManager = GameManager.TurnManager.PlayerAttack;
+                        GameManager.Instance.turnManager = GameManager.TurnManager.PlayerAttack;
                         AttackPlayer((int)gameObject.transform.position.x,
                                      (int)gameObject.transform.position.y);
-                        gameManager.turnManager = GameManager.TurnManager.PlayerEnd;
+                        GameManager.Instance.turnManager = GameManager.TurnManager.PlayerEnd;
                     }
                 }
                 break;
@@ -83,12 +84,12 @@ public sealed class Player : MoveObject
                         break;
                     case STATE.PARALYSIS:
                         if (ReleaseDetermination() == true) { state = STATE.NONE; }
-                        else { gameManager.turnManager = GameManager.TurnManager.PlayerEnd; }
+                        else { GameManager.Instance.turnManager = GameManager.TurnManager.PlayerEnd; }
                         break;
                     default:
                         break;
                 }
-                gameManager.turnManager = GameManager.TurnManager.SatietyCheck;
+                GameManager.Instance.turnManager = GameManager.TurnManager.SatietyCheck;
                 break;
 
             case GameManager.TurnManager.SatietyCheck:
@@ -97,12 +98,7 @@ public sealed class Player : MoveObject
                 //０以外
                 else { Satiety -= 1; }
                 //行動終了
-                gameManager.turnManager = GameManager.TurnManager.PlayerEnd;
-                break;
-
-            //敵の行動が終わったら
-            case GameManager.TurnManager.EmemiesEnd:
-                gameManager.turnManager = GameManager.TurnManager.PlayerStart;
+                GameManager.Instance.turnManager = GameManager.TurnManager.PlayerEnd;
                 break;
             default:
                 break;
@@ -210,7 +206,7 @@ public sealed class Player : MoveObject
                 StartCoroutine(SquaresMove(0, 0.1f, MoveNum[(int)DIRECTION.UP], DIRECTION.UP, prevPosition));
                 MoveNum[(int)DIRECTION.UP] = 0;
             }
-            gameManager.turnManager = GameManager.TurnManager.StateJudge;
+            GameManager.Instance.turnManager = GameManager.TurnManager.StateJudge;
         }
         //下方向
         else if (InputManager.GridInputKeyDown(KeyCode.S) || InputManager.GridInputKeyDown(KeyCode.DownArrow))
@@ -233,7 +229,7 @@ public sealed class Player : MoveObject
                 StartCoroutine(SquaresMove(0, -0.1f, MoveNum[(int)DIRECTION.DOWN], DIRECTION.DOWN, prevPosition));
                 MoveNum[(int)DIRECTION.DOWN] = 0;
             }
-            gameManager.turnManager = GameManager.TurnManager.StateJudge;
+            GameManager.Instance.turnManager = GameManager.TurnManager.StateJudge;
         }
         //左方向
         else if (InputManager.GridInputKeyDown(KeyCode.A) || InputManager.GridInputKeyDown(KeyCode.LeftArrow))
@@ -256,7 +252,7 @@ public sealed class Player : MoveObject
                 StartCoroutine(SquaresMove(-0.1f, 0, MoveNum[(int)DIRECTION.LEFT], DIRECTION.LEFT, prevPosition));
                 MoveNum[(int)DIRECTION.LEFT] = 0;
             }
-            gameManager.turnManager = GameManager.TurnManager.StateJudge;
+            GameManager.Instance.turnManager = GameManager.TurnManager.StateJudge;
         }
         //右方向
         else if (InputManager.GridInputKeyDown(KeyCode.D) || InputManager.GridInputKeyDown(KeyCode.RightArrow))
@@ -279,7 +275,7 @@ public sealed class Player : MoveObject
                 StartCoroutine(SquaresMove(0.1f, 0, MoveNum[(int)DIRECTION.RIGHT], DIRECTION.RIGHT, prevPosition));
                 MoveNum[(int)DIRECTION.RIGHT] = 0;
             }
-            gameManager.turnManager = GameManager.TurnManager.StateJudge;
+            GameManager.Instance.turnManager = GameManager.TurnManager.StateJudge;
         }
     }
 
@@ -320,7 +316,7 @@ public sealed class Player : MoveObject
         {
             if (JudgeAttack() == true)
             {
-                foreach (var enemy in gameManager.enemiesList)
+                foreach (var enemy in GameManager.Instance.enemiesList)
                 {
                     if (enemy.transform.position == Vec3)
                     {
@@ -343,7 +339,7 @@ public sealed class Player : MoveObject
                 {
                     if (JudgeAttack() == true)
                     {
-                        foreach (var enemy in gameManager.enemiesList)
+                        foreach (var enemy in GameManager.Instance.enemiesList)
                         {
                             if (enemy.transform.position == new Vector3(x, y + 1))
                             {
@@ -359,14 +355,14 @@ public sealed class Player : MoveObject
                         }
                     }
                 }
-                gameManager.turnManager = GameManager.TurnManager.PlayerEnd;
+                GameManager.Instance.turnManager = GameManager.TurnManager.PlayerEnd;
                 break;
             case DIRECTION.DOWN:
                 if (mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.ENEMY)
                 {
                     if (JudgeAttack() == true)
                     {
-                        foreach (var enemy in gameManager.enemiesList)
+                        foreach (var enemy in GameManager.Instance.enemiesList)
                         {
                             if (enemy.transform.position == new Vector3(x, y - 1))
                             {
@@ -382,14 +378,14 @@ public sealed class Player : MoveObject
                         }
                     }
                 }
-                gameManager.turnManager = GameManager.TurnManager.PlayerEnd;
+                GameManager.Instance.turnManager = GameManager.TurnManager.PlayerEnd;
                 break;
             case DIRECTION.LEFT:
                 if (mapGenerator.MapStatusType[x - 1, y] == (int)MapGenerator.STATE.ENEMY)
                 {
                     if (JudgeAttack() == true)
                     {
-                        foreach (var enemy in gameManager.enemiesList)
+                        foreach (var enemy in GameManager.Instance.enemiesList)
                         {
                             if (enemy.transform.position == new Vector3(x - 1, y))
                             {
@@ -405,14 +401,14 @@ public sealed class Player : MoveObject
                         }
                     }
                 }
-                gameManager.turnManager = GameManager.TurnManager.PlayerEnd;
+                GameManager.Instance.turnManager = GameManager.TurnManager.PlayerEnd;
                 break;
             case DIRECTION.RIGHT:
                 if (mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.ENEMY)
                 {
                     if (JudgeAttack() == true)
                     {
-                        foreach (var enemy in gameManager.enemiesList)
+                        foreach (var enemy in GameManager.Instance.enemiesList)
                         {
                             if (enemy.transform.position == new Vector3(x + 1, y))
                             {
@@ -428,7 +424,7 @@ public sealed class Player : MoveObject
                         }
                     }
                 }
-                gameManager.turnManager = GameManager.TurnManager.PlayerEnd;
+                GameManager.Instance.turnManager = GameManager.TurnManager.PlayerEnd;
                 break;
         }
     }
@@ -447,6 +443,7 @@ public sealed class Player : MoveObject
         NextExp -= 1;
         ATK *= 2;
         DEF *= 2;
+        UIManager.LogTextWrite($"レベルが上がった！");
     }
     #endregion
 
