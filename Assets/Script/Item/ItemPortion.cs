@@ -4,19 +4,15 @@ public sealed class ItemPortion : ItemBase
 {    
     protected override void Awake()
     {
+        ID=1;
         Name = "ポーション";
         base.Awake();
     }
    
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected override void Update()
     {
-        if (collision.gameObject.tag == "Player")
-        {
-            //Debug.Log("itemPortion");
-            PickUP();
-        }
+        base.Update();
     }
-
     protected override void PickUP()
     {
         base.PickUP();

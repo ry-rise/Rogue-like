@@ -8,6 +8,7 @@ public abstract class ItemBase : MonoBehaviour
     protected Player player;
     protected int[] recoveryAmount = { 10, 20, 30, 40, 50 };
     public string Name { get; protected set; }
+    public int ID{get; protected set;}
 
     protected virtual void Awake()
     {
@@ -22,34 +23,30 @@ public abstract class ItemBase : MonoBehaviour
     protected virtual void PickUP()
     {
         player.inventoryList.Add(gameObject);
-        GameManager.Instance.itemsList.Remove(gameObject);
+        //GameManager.Instance.itemsList.Remove(gameObject);
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         mapGenerator.MapStatusType[(int)transform.position.x, (int)transform.position.y] = (int)MapGenerator.STATE.FLOOR;
-        for (int i = 0; i < iManager.LogText.Length; i += 1)
-        {
-            //ログが空だった場合
-            if(string.IsNullOrEmpty(iManager.LogText[i].text)==true)
-            {
-                iManager.LogText[i].text = $"{Name}を手に入れた";
-                break;
-            }
-            else { continue; }
-        }
-        //すべてのログに文字が入っていた場合に一個ずつずらす
-        if(string.IsNullOrEmpty(iManager.LogText[iManager.LogText.Length-1].text)==false)
-        {
-            iManager.LogText[0].text = iManager.LogText[1].text;
-            iManager.LogText[1].text = iManager.LogText[2].text;
-            iManager.LogText[2].text = iManager.LogText[3].text;
-            iManager.LogText[3].text = iManager.LogText[4].text;
-            iManager.LogText[iManager.LogText.Length - 1].text = $"{Name}を手に入れた";
-        }
+        UIManager.LogTextWrite($"{Name}を手に入れた");
     }
     ///<summary>  
     ///アイテムを使うときの処理
     ///</summary>
     public virtual void Use() { }
 
-    
+    ///<summary>
+    ///Playerの位置と一致すると取る
+    ///</summary>    
+    protected virtual void Update()
+    {
+        if(gameObject.transform.position.x==player.gameObject.transform.position.x&&
+           gameObject.transform.position.y==player.gameObject.transform.position.y)
+           {
+               gameObject.SetActive(false);
+           }
+    }
+    protected virtual void OnDisable()
+    {
+        PickUP();
+    }
 }

@@ -5,23 +5,28 @@ public sealed class ItemRiceBall : ItemBase
 
     protected override void Awake ()
     {
+        ID=0;
         Name = "おにぎり";
         base.Awake();
 	}
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    // private void OnTriggerEnter2D(Collider2D collision)
+    // {
+    //     if (collision.gameObject.tag == "Player")
+    //     {
+    //         //Debug.Log("itemRiceBall");
+    //         PickUP();
+    //     }
+    // }
+    protected override void Update()
     {
-        if (collision.gameObject.tag == "Player")
-        {
-            //Debug.Log("itemRiceBall");
-            PickUP();
-        }
+        base.Update();
     }
-
     protected override void PickUP()
     {
         base.PickUP();
     }
+    
 
     public override void Use()
     {
@@ -34,6 +39,7 @@ public sealed class ItemRiceBall : ItemBase
         {
             player.Satiety += recoveryAmount[i];
         }
+        UIManager.LogTextWrite($"HPを{recoveryAmount[i].ToString()}回復した");
         player.inventoryList.Remove(gameObject);
         Destroy(gameObject);
         GameManager.Instance.turnManager = GameManager.TurnManager.PlayerEnd;

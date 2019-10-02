@@ -862,7 +862,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.5803922}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5372549}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1381,7 +1381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.32156864}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5372549}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1661,6 +1661,11 @@ MonoBehaviour:
   InventoryScreen: {fileID: 1896745051}
   Log: {fileID: 752202774}
   Header: {fileID: 322512093}
+  LevelText: {fileID: 298446908}
+  FloorText: {fileID: 822287096}
+  HPText: {fileID: 2092826212}
+  SatietyText: {fileID: 1567987218}
+  StateText: {fileID: 1178622246}
 --- !u!114 &949815685
 MonoBehaviour:
   m_ObjectHideFlags: 0
