@@ -27,6 +27,9 @@ public class FadeManager : MonoBehaviour {
             alfa = fadeText.color.a;
 
         }
+        red=0;
+        green=0;
+        blue=0;
     }
 
     private void Update()
@@ -50,7 +53,7 @@ public class FadeManager : MonoBehaviour {
         {                    
             isFadeIn = false;
             fadeImage.enabled = false;
-            return;
+            SceneChanger.ToStart();
         }
     }
     public void StartFadeOut()

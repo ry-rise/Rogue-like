@@ -14,7 +14,7 @@ public class FloorMoveManager : MonoBehaviour
         fadeManager = gameObject.GetComponent<FadeManager>();
         fadeManager.isFadeIn = true;
         //fadeManager.StartFadeIn();
-        SceneChanger.ToStart();
+        //SceneChanger.ToStart();
     }
 
 }

@@ -37,11 +37,11 @@ public static class SceneChanger
     /// </summary>
     public static void ToExit()
     {
-        Application.Quit();
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
+        Application.Quit();
     }
-    
+
 }
 

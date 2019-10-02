@@ -16,7 +16,7 @@ public sealed class MapGenerator : MonoBehaviour
     public int MaxRoomHeight { get; private set; } = 10;
     public int MinRoomAmount { get; private set; } = 20;
     public int MaxRoomAmount { get; private set; } = 25;
-    public int RoadPoint { get; private set; } = 1;
+    public int RoadPoint { get; private set; } = 3;
     private int RandomX;
     private int RandomY;
     public enum STATE
@@ -136,6 +136,7 @@ public sealed class MapGenerator : MonoBehaviour
                 if (MapStatusType[roomPointX + x, roomPointY + y] == (int)STATE.FLOOR)
                 {
                     createFloor = true;
+
                 }
                 else
                 {
@@ -148,13 +149,15 @@ public sealed class MapGenerator : MonoBehaviour
     }
     private void CreateRoad(int roadStartPointX, int roadStartPointY, int meetPointX, int meetPointY)
     {
+        //左右の判定
         bool isRight;
         if (roadStartPointX > meetPointX) { isRight = true; }
         else { isRight = false; }
+        //上下の判定
         bool isUnder;
         if (roadStartPointY > meetPointY) { isUnder = false; }
         else { isUnder = true; }
-
+        //道を作る
         if (Random.Range(0, 2) == 0)
         {
             while (roadStartPointX != meetPointX)
@@ -173,21 +176,25 @@ public sealed class MapGenerator : MonoBehaviour
 
         else
         {
-            while (roadStartPointY != meetPointY)
-            {
-                MapStatusType[roadStartPointX, roadStartPointY] = (int)STATE.ROAD;
-                if (isUnder == true) { roadStartPointY += 1; }
-                else { roadStartPointY -= 1; }
-            }
             while (roadStartPointX != meetPointX)
             {
                 MapStatusType[roadStartPointX, roadStartPointY] = (int)STATE.ROAD;
                 if (isRight == true) { roadStartPointX -= 1; }
                 else { roadStartPointX += 1; }
             }
+            while (roadStartPointY != meetPointY)
+            {
+                MapStatusType[roadStartPointX, roadStartPointY] = (int)STATE.ROAD;
+                if (isUnder == true) { roadStartPointY += 1; }
+                else { roadStartPointY -= 1; }
+            }
+
         }
     }
     #endregion
+    ///<summary>
+    /// 実際にゲームオブジェクトを生成
+    /// </summary>
     public void CreateDungeon()
     {
         for (int y = 0; y < MapHeight; y += 1)
