@@ -15,7 +15,7 @@ public sealed class GameManager : MonoBehaviour
             if(instance==null)
             {
                 GameObject obj = GameObject.Find("Manager");
-                instance = obj.AddComponent<GameManager>();
+                instance = obj.GetComponent<GameManager>();
             }
             return instance;
         }
@@ -28,7 +28,7 @@ public sealed class GameManager : MonoBehaviour
     private MapGenerator mapGenerator;
     private FadeManager fadeManager;
     public GameObject mainCamPos { get; set; }
-    private GameObject subCamPos;
+    //private GameObject subCamPos;
     private Transform enemyHolder;
     private Transform itemHolder;
     public enum TurnManager { PlayerStart, PlayerMove, PlayerAttack, PlayerEnd, StateJudge, SatietyCheck, HierarchyMovement, EmemiesTurn, EmemiesEnd }
@@ -50,7 +50,7 @@ public sealed class GameManager : MonoBehaviour
             FloorNumber = 1;
         }
         mainCamPos = GameObject.Find("Main Camera");
-        subCamPos = GameObject.Find("Sub Camera");
+        //subCamPos = GameObject.Find("Sub Camera");
         playerObject = Instantiate(playerPrefab);
         mapGenerator = gameObject.GetComponent<MapGenerator>();
         mainCamPos.transform.parent = playerObject.transform;
@@ -72,29 +72,39 @@ public sealed class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        //プレイヤーの行動が終わったら
-        if (turnManager == TurnManager.PlayerEnd)
+        switch (turnManager)
         {
-            if (player.isExit == true)
-            {
-                turnManager = TurnManager.HierarchyMovement;
-            }
-            else
-            {
-                turnManager = TurnManager.EmemiesTurn;
+            //プレイヤーの行動が終わったら
+            case TurnManager.PlayerEnd:
 
-                EnemiesAction<EnemyKnight>();
-                EnemiesAction<EnemyZombie>();
-                turnManager = TurnManager.EmemiesEnd;
-            }
-        }
-        //階層移動
-        if (turnManager == TurnManager.HierarchyMovement)
-        {
-            FloorNumber += 1;
-            DataManager.GameDataSave(player);
-            SceneManager.LoadScene("FloorNumberView");
-            //turnManager = TurnManager.PLAYER_START;
+                if (player.isExit == true)
+                {
+                    turnManager = TurnManager.HierarchyMovement;
+                }
+                else
+                {
+                    turnManager = TurnManager.EmemiesTurn;
+
+                    EnemiesAction<EnemyKnight>();
+                    EnemiesAction<EnemyZombie>();
+                    turnManager = TurnManager.EmemiesEnd;
+                }
+                break;
+            //敵の行動が終わったら
+            case GameManager.TurnManager.EmemiesEnd:
+                player.isMoving=false;
+                turnManager = TurnManager.PlayerStart;
+                break;
+                
+            //階層移動
+            case TurnManager.HierarchyMovement:
+                FloorNumber += 1;
+                DataManager.GameDataSave(player);
+                SceneManager.LoadScene("FloorNumberView");
+                break;
+                
+            default:
+                break;
         }
     }
     private void LateUpdate()
@@ -197,9 +207,9 @@ public sealed class GameManager : MonoBehaviour
         mainCamPos.transform.position = new Vector3(playerObject.transform.position.x,
                                                     playerObject.transform.position.y,
                                                     playerObject.transform.position.z - 1);
-        subCamPos.transform.position = new Vector3(playerObject.transform.position.x,
-                                                   playerObject.transform.position.y,
-                                                   playerObject.transform.position.z - 15);
+        //subCamPos.transform.position = new Vector3(playerObject.transform.position.x,
+        //                                           playerObject.transform.position.y,
+        //                                           playerObject.transform.position.z - 15);
     }
     /// <summary>
     /// Listに追加する
