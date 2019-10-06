@@ -6,35 +6,35 @@ using UnityEngine;
 public sealed class GameData
 {
     //インベントリ
-    [SerializeField] private List<GameObject> _InventoryList;
-    public List<GameObject> InventoryList { get { return _InventoryList; } set { _InventoryList = value; } }
+    [SerializeField] private List<GameObject> inventoryList;
+    public List<GameObject> InventoryList { get { return inventoryList; } set { inventoryList = value; } }
     //何階層か
-    [SerializeField] private int _FloorNumberData;
-    public int FloorNumberData { get { return _FloorNumberData; } set { _FloorNumberData = value; } }
+    [SerializeField] private int floorNumberData;
+    public int FloorNumberData { get { return floorNumberData; } set { floorNumberData = value; } }
     //プレイヤーのHP
-    [SerializeField] private int _HP;
-    public int HP { get { return _HP; } set { _HP = value; } }
+    [SerializeField] private int hP;
+    public int HP { get { return hP; } set { hP = value; } }
     //プレイヤーの最大HP
-    [SerializeField] private int _MaxHP;
-    public int MaxHP { get { return _MaxHP; } set { _MaxHP = value; } }
+    [SerializeField] private int maxHP;
+    public int MaxHP { get { return maxHP; } set { maxHP = value; } }
     //プレイヤーの攻撃力
-    [SerializeField] private int _ATK;
-    public int ATK { get { return _ATK; } set { _ATK = value; } }
+    [SerializeField] private int aTK;
+    public int ATK { get { return aTK; } set { aTK = value; } }
     //プレイヤーのレベル
     [SerializeField] private int _Level;
     public int Level { get { return _Level; } set { _Level = value; } }
     //プレイヤーの経験値
-    [SerializeField] private int _Exp;
-    public int Exp { get { return _Exp; } set { _Exp = value; } }
+    [SerializeField] private int exp;
+    public int Exp { get { return exp; } set { exp = value; } }
     //プレイヤーの方向
-    [SerializeField] private int _Direction;
-    public int Direction { get { return _Direction; } set { _Direction = value; } }
+    [SerializeField] private int direction;
+    public int Direction { get { return direction; } set { direction = value; } }
     //プレイヤーの防御力
-    [SerializeField] private int _DEF;
-    public int DEF { get { return _DEF; } set { _DEF = value; } }
+    [SerializeField] private int dEF;
+    public int DEF { get { return dEF; } set { dEF = value; } }
     //プレイヤーの空腹度
-    [SerializeField] private int _Satiety;
-    public int Satiety { get { return _Satiety; } set { _Satiety = value; } }
+    [SerializeField] private int satiety;
+    public int Satiety { get { return satiety; } set { satiety = value; } }
 }
 
 
