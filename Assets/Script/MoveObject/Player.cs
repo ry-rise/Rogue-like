@@ -443,7 +443,7 @@ public sealed class Player : MoveObject
         NextExp -= 1;
         ATK *= 2;
         DEF *= 2;
-        Log.Instance.LogTextWrite($"レベルが上がった！");
+        Log.LogTextWrite($"レベルが上がった！");
     }
     #endregion
 

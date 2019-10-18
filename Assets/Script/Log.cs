@@ -3,19 +3,23 @@ using UnityEngine.UI;
 
 public class Log : MonoBehaviour 
 {
-    private static Log instance;
-    public static Log Instance { get { return instance; } }
-    public Text[] LogText { get; set; }
+    //private static Log instance;
+    //public static Log Instance { get { return instance; } }
+    public static Text[] LogText { get; set; }
     private void Awake()
     {
-        instance = this;
+        //instance = this;
     }
     private void Start()
     {
         LogText = new Text[5];
         LogText = GetComponentsInChildren<Text>();
     }
-    public void LogTextWrite(string str)
+    private void OnDestroy()
+    {
+        Destroy(this);
+    }
+    public static void LogTextWrite(string str)
     {
         for (int i = 0; i < LogText.Length; i += 1)
         {
