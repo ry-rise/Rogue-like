@@ -10,6 +10,8 @@ public abstract class MoveObject : MonoBehaviour
     protected DIRECTION direction;
     //移動変数
     protected int[] MoveNum = new int[4];
+    //移動判定
+    protected bool isMoving { get; set; }
     //体力
     public int HP { get; set; }
     //レベル
@@ -98,6 +100,7 @@ public abstract class MoveObject : MonoBehaviour
                         gameObject.transform.position = new Vector2((int)prevPos.x + 1, (int)gameObject.transform.position.y);
                         break;
                 }
+                isMoving = false;
                 yield break;
             }
         }
