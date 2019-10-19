@@ -90,7 +90,7 @@ public sealed class GameManager : MonoBehaviour
                 break;
             //敵の行動が終わったら
             case TurnManager.EmemiesEnd:
-                player.isMoving=false;
+
                 turnManager = TurnManager.PlayerStart;
                 break;
                 

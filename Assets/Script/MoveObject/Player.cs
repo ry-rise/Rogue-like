@@ -13,8 +13,8 @@ public sealed class Player : MoveObject
     [SerializeField] private STATE _state;
     private bool AbnormalCondition;
     public bool isExit { get; set; }
-    public bool isMoving { get; set; }
-    public List<GameObject> inventoryList;
+    //public bool isMoving { get; set; }
+    public List<ItemData> inventoryList;
     public int MaxHP { get; set; }
     public int Satiety { get; set; } //満腹度
     public int MaxSatiety { get; private set; } = 100;
@@ -186,7 +186,7 @@ public sealed class Player : MoveObject
     private void MovePlayer(int x, int y)
     {
         //上方向
-        if (InputManager.GridInputKeyDown(KeyCode.W) || InputManager.GridInputKeyDown(KeyCode.UpArrow))
+        if ((InputManager.GridInputKeyDown(KeyCode.W) || InputManager.GridInputKeyDown(KeyCode.UpArrow))&&isMoving==false)
         {
             direction = DIRECTION.UP;
             SpriteDirection();
@@ -209,8 +209,9 @@ public sealed class Player : MoveObject
             GameManager.Instance.turnManager = GameManager.TurnManager.StateJudge;
         }
         //下方向
-        else if (InputManager.GridInputKeyDown(KeyCode.S) || InputManager.GridInputKeyDown(KeyCode.DownArrow))
+        else if ((InputManager.GridInputKeyDown(KeyCode.S) || InputManager.GridInputKeyDown(KeyCode.DownArrow))&&isMoving==false)
         {
+            
             direction = DIRECTION.DOWN;
             SpriteDirection();
             if (CheckMovePlayer(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
@@ -232,8 +233,9 @@ public sealed class Player : MoveObject
             GameManager.Instance.turnManager = GameManager.TurnManager.StateJudge;
         }
         //左方向
-        else if (InputManager.GridInputKeyDown(KeyCode.A) || InputManager.GridInputKeyDown(KeyCode.LeftArrow))
-        {
+        else if ((InputManager.GridInputKeyDown(KeyCode.A) || InputManager.GridInputKeyDown(KeyCode.LeftArrow))&&isMoving==false)
+        {   
+            
             direction = DIRECTION.LEFT;
             SpriteDirection();
             if (CheckMovePlayer(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
@@ -255,7 +257,7 @@ public sealed class Player : MoveObject
             GameManager.Instance.turnManager = GameManager.TurnManager.StateJudge;
         }
         //右方向
-        else if (InputManager.GridInputKeyDown(KeyCode.D) || InputManager.GridInputKeyDown(KeyCode.RightArrow))
+        else if ((InputManager.GridInputKeyDown(KeyCode.D) || InputManager.GridInputKeyDown(KeyCode.RightArrow))&&isMoving==false)
         {
             direction = DIRECTION.RIGHT;
             SpriteDirection();
