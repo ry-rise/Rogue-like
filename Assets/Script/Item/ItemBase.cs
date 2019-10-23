@@ -20,7 +20,7 @@ public abstract class ItemBase : MonoBehaviour
     /// </summary>
     protected virtual void PickUP()
     {
-        player.inventoryList.Add();
+        //player.inventoryList.Add();
         //GameManager.Instance.itemsList.Remove(gameObject);
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         gameObject.GetComponent<SpriteRenderer>().enabled = false;

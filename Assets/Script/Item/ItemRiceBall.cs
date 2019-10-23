@@ -40,7 +40,7 @@ public sealed class ItemRiceBall : ItemBase
             player.Satiety += recoveryAmount[i];
         }
         Log.LogTextWrite($"HPを{recoveryAmount[i].ToString()}回復した");
-        player.inventoryList.Remove(gameObject);
+        //player.inventoryList.Remove(gameObject);
         Destroy(gameObject);
         GameManager.Instance.turnManager = GameManager.TurnManager.PlayerEnd;
     }
