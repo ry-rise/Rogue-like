@@ -22,7 +22,7 @@ public sealed class ItemPortion : ItemBase
     {
         int i = Random.Range(0, recoveryAmount.Length);
         player.HP += recoveryAmount[i];
-        player.inventoryList.Remove(gameObject);
+        //player.inventoryList.Remove(gameObject);
         Destroy(gameObject);
         GameManager.Instance.turnManager = GameManager.TurnManager.PlayerEnd;
     }
