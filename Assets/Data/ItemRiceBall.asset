@@ -8,9 +8,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0e4676b2bf434dd8bd7bd3d005745f8, type: 3}
-  m_Name: ItemDataBase
+  m_Script: {fileID: 11500000, guid: f0abbd733c8410342863a9708a9e3cf7, type: 3}
+  m_Name: ItemRiceBall
   m_EditorClassIdentifier: 
-  itemLists:
-  - {fileID: 11400000, guid: 8f090bb2bde6e430da5c44e5a372d560, type: 2}
-  - {fileID: 11400000, guid: 034b039ecdfc8496c863297a805c7701, type: 2}
+  ID: 0
+  Name: "\u304A\u306B\u304E\u308A"
+  ItemText: 
+  Have: 0
+  ItemImage: {fileID: 21300000, guid: 36d8d8e34d03bfc418b580becd9f24b0, type: 3}

@@ -4,9 +4,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName="ItemDataBase",menuName="CreateItemDataBase")]
 public class ItemDataBase : ScriptableObject 
 {
-	[SerializeField] private List<ItemBase> itemLists=new List<ItemBase>();
+	[SerializeField] private List<ItemData> itemLists=new List<ItemData>();
 
-	public List<ItemBase> GetItemLists()
+	public List<ItemData> GetItemLists()
 	{
 		return itemLists;
 	}

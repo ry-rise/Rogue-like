@@ -1,20 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class ItemData
+[CreateAssetMenu(fileName = "ItemData", menuName = "CreateItemData")]
+public class ItemData : ScriptableObject
 {
-    public int ID { get; set; }
-    public string Name { get; set; }
-    public string ItemText { get; set; }
-    public int Have { get; set; }
-    public Sprite ItemImage { get; set; }
-    public ItemData(int id,string name,string itemtext,int have,Sprite itemimage)
-    {
-        ID = id;
-        Name = name;
-        ItemText = itemtext;
-        Have = have;
-        ItemImage = itemimage;
-    }
+    [SerializeField] private int ID;
+    [SerializeField] private string Name;
+    [SerializeField] private string ItemText;
+    [SerializeField] private int Have;
+    [SerializeField] private Sprite ItemImage;
 }
