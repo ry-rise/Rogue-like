@@ -1,15 +1,18 @@
 ﻿using InputKey;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
-
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 public sealed class Player : MoveObject
 {
     private static readonly Dictionary<int, int> LevelUpExp;
-
+    [ButtonDebug("aa","a")] public int a;
     [SerializeField] private STATE _state;
     private bool AbnormalCondition;
     public bool isExit { get; set; }

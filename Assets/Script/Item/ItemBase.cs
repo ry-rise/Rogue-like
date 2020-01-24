@@ -41,10 +41,12 @@ public abstract class ItemBase : MonoBehaviour
            gameObject.transform.position.y == player.gameObject.transform.position.y)
         {
             gameObject.SetActive(false);
+            //PickUP();
         }
     }
     protected virtual void OnDisable()
     {
         PickUP();
     }
+
 }

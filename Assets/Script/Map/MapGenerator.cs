@@ -210,10 +210,7 @@ public sealed class MapGenerator : MonoBehaviour
                 }
                 else if (MapStatusType[x, y] == (int)STATE.EXIT)
                 {
-                    GameObject instance = Instantiate(exitPrefab,
-                                                      new Vector2(x, y),
-                                                      Quaternion.identity,
-                                                      mapHolder) as GameObject;
+                    /*GameObject instance =*/ Instantiate(exitPrefab,new Vector2(x, y),Quaternion.identity,mapHolder);// as GameObject;
                 }
                 else if (MapStatusType[x, y] == (int)STATE.TRAP_POISON)
                 {

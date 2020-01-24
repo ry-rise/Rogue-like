@@ -24,6 +24,7 @@ public sealed class GameManager : MonoBehaviour
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject[] enemyPrefab;
     [SerializeField] private GameObject[] itemPrefab;
+    [SerializeField] private Log log;
     private Player player;
     private MapGenerator mapGenerator;
     private FadeManager fadeManager;

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 1
   Name: "\u30DD\u30FC\u30B7\u30E7\u30F3"
-  ItemText: 
+  ItemText: "\u4F53\u529B\u3092\u56DE\u5FA9\u3059\u308B"
   Have: 0
   ItemImage: {fileID: 21300000, guid: 5429cc580474b4ac9a9f9f0d57f19182, type: 3}
