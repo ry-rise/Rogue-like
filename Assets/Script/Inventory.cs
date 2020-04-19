@@ -36,8 +36,8 @@ public class Inventory : MonoBehaviour
 			{
 				itemNumber += 1;
 			}
-			itemData=itemDataBase.GetItemLists()[]
-                SetInventory();
+			itemData=itemDataBase.GetItemLists()[itemNumber];
+            SetInventory();
         }
     }
 
