@@ -9,7 +9,6 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Image itemImage = null;
     [SerializeField] private Text itemName = null;
     [SerializeField] private Text itemValue = null;
-    [SerializeField] private ItemManager itemManager = null;
     [SerializeField] private ItemDataBase itemDataBase = null;
     private ItemData itemData;
     private int itemNumber;
