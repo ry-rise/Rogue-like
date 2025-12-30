@@ -3,24 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ItemManager : MonoBehaviour 
+public class ItemManager : MonoBehaviour
 {
-    [SerializeField]private ItemDataBase itemDataBase;
-	private Dictionary<ItemData,int> NumItem=null;
-
+    [SerializeField] private ItemDataBase itemDataBase;
+    private Dictionary<ItemData, int> NumItem;
+    void Awake()
+    {
+        NumItem = new Dictionary<ItemData, int>();
+    }
     void Start()
     {
-        if(itemDataBase.GetItemLists()[0]==null) Debug.Log("NULL!!!!!!!");
-        var a=itemDataBase.GetItemLists();
-        Debug.Log(NumItem);
-        Debug.Log(a[0]);
-        // foreach (var i in Enumerable.Range(0,itemDataBase.GetItemLists().Count))
-        // {
-        //     NumItem.Add(a[i],1);
-        // }
-        for(int i=0;i<itemDataBase.GetItemLists().Count;i+=1)
+        if (itemDataBase == null)
         {
-            NumItem.Add(a[i],1);
+            Debug.LogError("ItemDataBase が Inspector で設定されていません");
+        }
+        var list = itemDataBase.GetItemLists();
+        
+        for (int i = 0; i < list.Count; i += 1)
+        {
+            if(list[i] == null) continue;
+            NumItem[list[i]] = 1;
         }
     }
 }

@@ -2,6 +2,7 @@
 
 public abstract class ItemBase : MonoBehaviour
 {
+    private bool pickedUp = false;
     protected MapGenerator mapGenerator;
     protected UIManager iManager;
     protected Player player;
@@ -20,12 +21,17 @@ public abstract class ItemBase : MonoBehaviour
     /// </summary>
     protected virtual void PickUP()
     {
-        //player.inventoryList.Add();
-        //GameManager.Instance.itemsList.Remove(gameObject);
-        gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        gameObject.GetComponent<SpriteRenderer>().enabled = false;
-        mapGenerator.MapStatusType[(int)transform.position.x, (int)transform.position.y] = (int)MapGenerator.STATE.FLOOR;
-        Log.Instance.LogTextWrite($"{Name}を手に入れた");
+        if (pickedUp) return; //二重実行防止
+        pickedUp = true;
+        var col = GetComponent<BoxCollider2D>();
+        if (col) col.enabled = false;
+        var spr = GetComponent<SpriteRenderer>();
+        if (spr) spr.enabled = false;
+        if (mapGenerator != null)
+        {
+            mapGenerator.MapStatusType[(int)transform.position.x, (int)transform.position.y] = (int)MapGenerator.STATE.FLOOR;
+        }
+        if (Log.Instance != null) Log.Instance.LogTextWrite($"{Name}を手に入れた");
     }
     ///<summary>  
     ///アイテムを使うときの処理
@@ -40,13 +46,13 @@ public abstract class ItemBase : MonoBehaviour
         if (gameObject.transform.position.x == player.gameObject.transform.position.x &&
            gameObject.transform.position.y == player.gameObject.transform.position.y)
         {
+            PickUP();
             gameObject.SetActive(false);
-            //PickUP();
         }
     }
     protected virtual void OnDisable()
     {
-        PickUP();
+
     }
 
 }
