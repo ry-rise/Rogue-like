@@ -1,55 +1,68 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class Log : MonoBehaviour 
+public class Log : MonoBehaviour
 {
     private static Log instance;
-    public static Log Instance 
-    { 
-        get 
-        { 
-            if(instance==null)
-            {
-                GameObject obj=GameObject.Find("Log");
-                instance=obj.GetComponent<Log>();
-            }
-            return instance; 
-        } 
+    public static Log Instance
+    {
+        get
+        {
+            //既にキャッシュがあれば返す
+            if (instance != null) return instance;
+            //シーン内からLogオブジェクトを探す
+            instance = FindObjectOfType<Log>();
+            return instance;
+        }
     }
     public Text[] LogText { get; set; }
+    private bool isQuitting = false;
     private void Awake()
     {
+        // 二重生成対策（必要なら）
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         instance = this;
-    }
-    private void Start()
-    {
-        LogText = new Text[5];
+        //取得
         LogText = GetComponentsInChildren<Text>();
+    }
+    private void OnApplicationQuit()
+    {
+        isQuitting = true;
     }
     private void OnDestroy()
     {
-        Destroy(this);
+        if (instance == this)
+        {
+            instance = null;
+        }
     }
     public void LogTextWrite(string str)
     {
+        //終了中は何もしない
+        if (isQuitting) return;
+        if (LogText == null || LogText.Length == 0) return;
+        //空いているログ欄を探す
         for (int i = 0; i < LogText.Length; i += 1)
         {
+            if (LogText[i] == null) continue;
+            if (!LogText[i].gameObject.activeInHierarchy) continue;
             //ログが空だった場合
-            if (string.IsNullOrEmpty(LogText[i].text) == true)
+            if (string.IsNullOrEmpty(LogText[i].text))
             {
                 LogText[i].text = str;
                 break;
             }
-            else { continue; }
         }
         //すべてのログに文字が入っていた場合に一個ずつずらす
-        if (string.IsNullOrEmpty(LogText[LogText.Length - 1].text) == false)
+        for (int i = 0; i < LogText.Length-1; i += 1)
         {
-            LogText[0].text = LogText[1].text;
-            LogText[1].text = LogText[2].text;
-            LogText[2].text = LogText[3].text;
-            LogText[3].text = LogText[4].text;
-            LogText[LogText.Length - 1].text = str;
+            if (LogText[i] == null||LogText[i+1] == null) continue;
+            LogText[i].text = LogText[i + 1].text;
         }
+        LogText[LogText.Length - 1].text = str;
     }
 }
