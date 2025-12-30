@@ -11,46 +11,75 @@ public sealed class UIManager : MonoBehaviour
     [SerializeField] private Text SatietyText;
     [SerializeField] private Text StateText;
     private Player player;
-    private bool checkTurn;
-	private void Start ()
+    private bool isQuitting = false;
+    private void Awake()
     {
-        player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        // Inspector未設定チェック（必要最低限）
+        if (InventoryScreen == null) Debug.LogError("[UIManager] InventoryScreen が未設定");
+        if (Header == null) Debug.LogError("[UIManager] Header が未設定");
+        if (LevelText == null) Debug.LogError("[UIManager] LevelText が未設定");
+        if (FloorText == null) Debug.LogError("[UIManager] FloorText が未設定");
+        if (HPText == null) Debug.LogError("[UIManager] HPText が未設定");
+        if (SatietyText == null) Debug.LogError("[UIManager] SatietyText が未設定");
+        if (StateText == null) Debug.LogError("[UIManager] StateText が未設定");
+
+        var playerObj = GameObject.FindWithTag("Player");
+        if (playerObj == null)
+        {
+            Debug.LogError("[UIManager] Player タグのオブジェクトが見つかりません");
+            enabled = false;
+            return;
+        }
+
+        player = playerObj.GetComponent<Player>();
+        if (player == null)
+        {
+            Debug.LogError("[UIManager] Player コンポーネントが見つかりません");
+            enabled = false;
+            return;
+        }
+    }
+
+    private void Start()
+    {
         StateTextChanger();
     }
-	private void Update ()
+
+    private void OnApplicationQuit()
     {
-        LevelText.text = $"LV:{player.Level.ToString()}";
-        FloorText.text = $"{GameManager.GetFloorNumber().ToString()}F";
-        HPText.text = $"HP:{player.HP.ToString()}/{player.MaxHP.ToString()}";
-        SatietyText.text = $"空腹度:{player.Satiety.ToString()}";
-        if (player != null)
+        isQuitting = true;
+    }
+
+    private void Update()
+    {
+        if (isQuitting) return;
+        if (!enabled) return;
+        if (player == null) return;
+
+        if (LevelText != null) LevelText.text = $"LV:{player.Level.ToString()}";
+        if (FloorText != null) FloorText.text = $"{GameManager.GetFloorNumber().ToString()}F";
+        if (HPText != null) HPText.text = $"HP:{player.HP.ToString()}/{player.MaxHP.ToString()}";
+        if (SatietyText != null) SatietyText.text = $"空腹度:{player.Satiety.ToString()}";
+
+        //状態表示
+        if (GameManager.Instance != null && GameManager.Instance.turnManager == GameManager.TurnManager.StateJudge)
         {
-            if (GameManager.Instance.turnManager == GameManager.TurnManager.StateJudge)
-            {
-                StateTextChanger();
-            }
+            StateTextChanger();
         }
-        
+
         //Iキーを押すとインベントリが表示/非表示
         if (Input.GetKeyDown(KeyCode.I))
         {
-            switch(InventoryScreen.activeSelf)
-            {
-                case true:
-                    InventoryScreen.SetActive(false);
-                    GameManager.Instance.GamePause = false;
-                    Header.SetActive(true);
-                    break;
-                case false:
-                    InventoryScreen.SetActive(true);
-                    GameManager.Instance.GamePause = true;
-                    Header.SetActive(false);
-                    break;
-            }
+            if (InventoryScreen == null || Header == null) return;
+            bool open = !InventoryScreen.activeSelf;
+            InventoryScreen.SetActive(open);
+            Header.SetActive(!open);
+            if (GameManager.Instance != null) GameManager.Instance.GamePause = open;
         }
     }
     private void StateTextChanger()
     {
+        if (StateText == null || player == null) return;
         switch (player.state)
         {
             case MoveObject.STATE.NONE:
