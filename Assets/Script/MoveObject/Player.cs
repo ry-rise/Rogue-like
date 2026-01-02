@@ -1,11 +1,10 @@
-﻿using InputKey;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -23,14 +22,22 @@ public sealed class Player : MoveObject
     public int Satiety { get; set; } //満腹度
     public int MaxSatiety { get; private set; } = 100;
     public STATE state { get { return _state; } set { _state = value; } }
+    private PlayerInputRouter input;
 
     protected override void Start()
     {
         base.Start();
         status = GetComponent<PlayerStatus>();
+        input = GetComponent<PlayerInputRouter>();
         if (status == null)
         {
             Debug.LogError("[Player] PlayerStatus が付いていません");
+            enabled = false;
+            return;
+        }
+        if (input == null)
+        {
+            Debug.LogError("[Player] PlayerInputRouter が付いていません");
             enabled = false;
             return;
         }
@@ -57,24 +64,34 @@ public sealed class Player : MoveObject
             //プレイヤーのターン
             case GameManager.TurnManager.PlayerStart:
                 //行動する(ポーズ時以外)
-                if (GameManager.Instance.GamePause == false)
+                if (GameManager.Instance.GamePause) return;
+
+                //Shift押しながら方向入力＝向きだけ変更（ターン消費しない）
+                bool shiftHeld = UnityEngine.InputSystem.Keyboard.current?.leftShiftKey.isPressed ?? false;
+                if (shiftHeld && input.MoveDir != Vector2Int.zero)
                 {
-                    if (isMoving == false)
-                    {
-                        MovePlayer((int)gameObject.transform.position.x,
-                                   (int)gameObject.transform.position.y);
-                    }
-                    if (Input.GetKeyDown(KeyCode.LeftShift))
-                    {
-                        DirectionMove();
-                    }
-                    if (InputManager.GridInputKeyDown(KeyCode.Return))
-                    {
-                        GameManager.Instance.turnManager = GameManager.TurnManager.PlayerAttack;
-                        AttackPlayer((int)gameObject.transform.position.x,
-                                     (int)gameObject.transform.position.y);
-                        GameManager.Instance.turnManager = GameManager.TurnManager.PlayerEnd;
-                    }
+                    direction = DirFromMove(input.MoveDir);
+                    SpriteDirection();
+                    input.Consume();//入力フラグをクリア
+                    break;
+                }
+
+                //攻撃(submit) = ターン消費
+                if (input.SubmitPressed)
+                {
+                    GameManager.Instance.turnManager = GameManager.TurnManager.PlayerAttack;
+                    AttackPlayer((int)transform.position.x, (int)transform.position.y);
+                    GameManager.Instance.turnManager = GameManager.TurnManager.PlayerEnd;
+                    input.Consume();
+                    break;
+                }
+
+                //移動 = ターン消費
+                if (!isMoving && input.MoveDir != Vector2Int.zero)
+                {
+                    MovePlayerByDir((int)transform.position.x, (int)transform.position.y, input.MoveDir);
+                    GameManager.Instance.turnManager = GameManager.TurnManager.StateJudge;
+                    input.Consume();
                 }
                 break;
 
@@ -101,7 +118,6 @@ public sealed class Player : MoveObject
         }
     }
 
-    #region プレイヤーの移動
     /// <summary>
     /// プレイヤーの移動判定
     /// </summary>
@@ -168,137 +184,6 @@ public sealed class Player : MoveObject
                 return false;
         }
     }
-    /// <summary>
-    /// プレイヤーの移動
-    /// </summary>
-    /// <param name="x">プレイヤーのx座標</param>
-    /// <param name="y">プレイヤーのy座標</param>
-    private void MovePlayer(int x, int y)
-    {
-        //上方向
-        if ((InputManager.GridInputKeyDown(KeyCode.W) || InputManager.GridInputKeyDown(KeyCode.UpArrow)) && isMoving == false)
-        {
-            direction = DIRECTION.UP;
-            SpriteDirection();
-            if (CheckMovePlayer(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
-            {
-                Vector2 prevPosition = gameObject.transform.position;
-                if (mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.EXIT)
-                {
-                    isExit = true;
-                }
-                else
-                {
-                    mapGenerator.MapStatusMoveObject[x, y] = (int)MapGenerator.STATE.FLOOR;
-                    mapGenerator.MapStatusMoveObject[x, y + 1] = (int)MapGenerator.STATE.PLAYER;
-                }
-                isMoving = true;
-                StartCoroutine(SquaresMove(0, 0.1f, MoveNum[(int)DIRECTION.UP], DIRECTION.UP, prevPosition));
-                MoveNum[(int)DIRECTION.UP] = 0;
-            }
-            GameManager.Instance.turnManager = GameManager.TurnManager.StateJudge;
-        }
-        //下方向
-        else if ((InputManager.GridInputKeyDown(KeyCode.S) || InputManager.GridInputKeyDown(KeyCode.DownArrow)) && isMoving == false)
-        {
-
-            direction = DIRECTION.DOWN;
-            SpriteDirection();
-            if (CheckMovePlayer(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
-            {
-                Vector2 prevPosition = gameObject.transform.position;
-                if (mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.EXIT)
-                {
-                    isExit = true;
-                }
-                else
-                {
-                    mapGenerator.MapStatusMoveObject[x, y] = (int)MapGenerator.STATE.FLOOR;
-                    mapGenerator.MapStatusMoveObject[x, y - 1] = (int)MapGenerator.STATE.PLAYER;
-                }
-                isMoving = true;
-                StartCoroutine(SquaresMove(0, -0.1f, MoveNum[(int)DIRECTION.DOWN], DIRECTION.DOWN, prevPosition));
-                MoveNum[(int)DIRECTION.DOWN] = 0;
-            }
-            GameManager.Instance.turnManager = GameManager.TurnManager.StateJudge;
-        }
-        //左方向
-        else if ((InputManager.GridInputKeyDown(KeyCode.A) || InputManager.GridInputKeyDown(KeyCode.LeftArrow)) && isMoving == false)
-        {
-
-            direction = DIRECTION.LEFT;
-            SpriteDirection();
-            if (CheckMovePlayer(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
-            {
-                Vector2 prevPosition = gameObject.transform.position;
-                if (mapGenerator.MapStatusType[x - 1, y] == (int)MapGenerator.STATE.EXIT)
-                {
-                    isExit = true;
-                }
-                else
-                {
-                    mapGenerator.MapStatusMoveObject[x, y] = (int)MapGenerator.STATE.FLOOR;
-                    mapGenerator.MapStatusMoveObject[x - 1, y] = (int)MapGenerator.STATE.PLAYER;
-                }
-                isMoving = true;
-                StartCoroutine(SquaresMove(-0.1f, 0, MoveNum[(int)DIRECTION.LEFT], DIRECTION.LEFT, prevPosition));
-                MoveNum[(int)DIRECTION.LEFT] = 0;
-            }
-            GameManager.Instance.turnManager = GameManager.TurnManager.StateJudge;
-        }
-        //右方向
-        else if ((InputManager.GridInputKeyDown(KeyCode.D) || InputManager.GridInputKeyDown(KeyCode.RightArrow)) && isMoving == false)
-        {
-            direction = DIRECTION.RIGHT;
-            SpriteDirection();
-            if (CheckMovePlayer(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y))
-            {
-                Vector2 prevPosition = gameObject.transform.position;
-                if (mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.EXIT)
-                {
-                    isExit = true;
-                }
-                else
-                {
-                    mapGenerator.MapStatusMoveObject[x, y] = (int)MapGenerator.STATE.FLOOR;
-                    mapGenerator.MapStatusMoveObject[x + 1, y] = (int)MapGenerator.STATE.PLAYER;
-                }
-                isMoving = true;
-                StartCoroutine(SquaresMove(0.1f, 0, MoveNum[(int)DIRECTION.RIGHT], DIRECTION.RIGHT, prevPosition));
-                MoveNum[(int)DIRECTION.RIGHT] = 0;
-            }
-            GameManager.Instance.turnManager = GameManager.TurnManager.StateJudge;
-        }
-    }
-
-    private void DirectionMove()
-    {
-        if (InputManager.GridInputKeyDown(KeyCode.LeftShift, KeyCode.W))
-        {
-            direction = DIRECTION.UP;
-            SpriteDirection();
-            return;
-        }
-        else if (InputManager.GridInputKeyDown(KeyCode.LeftShift) && InputManager.GridInputKeyDown(KeyCode.S))
-        {
-            direction = DIRECTION.DOWN;
-            SpriteDirection();
-            return;
-        }
-        else if (InputManager.GridInputKeyDown(KeyCode.LeftShift) && InputManager.GridInputKeyDown(KeyCode.A))
-        {
-            direction = DIRECTION.LEFT;
-            SpriteDirection();
-            return;
-        }
-        else if (InputManager.GridInputKeyDown(KeyCode.LeftShift) && InputManager.GridInputKeyDown(KeyCode.D))
-        {
-            direction = DIRECTION.RIGHT;
-            SpriteDirection();
-            return;
-        }
-    }
-    #endregion
 
     #region 攻撃
     private void AttackPlayerFunc<T>(Vector3 Vec3)
@@ -432,4 +317,45 @@ public sealed class Player : MoveObject
     {
         return ReleaseDetermination();
     }
+
+    private DIRECTION DirFromMove(Vector2Int move)
+    {
+        if (move.y > 0) return DIRECTION.UP;
+        if (move.y < 0) return DIRECTION.DOWN;
+        if (move.x < 0) return DIRECTION.LEFT;
+        return DIRECTION.RIGHT;
+    }
+
+    private void MovePlayerByDir(int x, int y, Vector2Int move)
+    {
+        direction = DirFromMove(move);
+        SpriteDirection();
+
+        if (!CheckMovePlayer(direction, x, y)) return;
+
+        Vector2 prevPosition = transform.position;
+
+        int nx = x + move.x;
+        int ny = y + move.y;
+
+        if (mapGenerator.MapStatusType[nx, ny] == (int)MapGenerator.STATE.EXIT)
+        {
+            isExit = true;
+        }
+        else
+        {
+            mapGenerator.MapStatusMoveObject[x, y] = (int)MapGenerator.STATE.FLOOR;
+            mapGenerator.MapStatusMoveObject[nx, ny] = (int)MapGenerator.STATE.PLAYER;
+        }
+
+        isMoving = true;
+
+        // 既存のSquaresMoveに合わせて delta を作る
+        float dx = move.x * 0.1f;
+        float dy = move.y * 0.1f;
+
+        StartCoroutine(SquaresMove(dx, dy, MoveNum[(int)direction], direction, prevPosition));
+        MoveNum[(int)direction] = 0;
+    }
 }
+

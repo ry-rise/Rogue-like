@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using InputKey;
 
 public class TitleManager : MonoBehaviour
 {
@@ -22,9 +22,9 @@ public class TitleManager : MonoBehaviour
 
     private void Update()
     {
-        if (flag == false)
+        if (!flag)
         {
-            if (InputManager.GridInputKeyDown(KeyCode.Space))
+            if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
             {
                 CanvasSwitch();
                 flag = true;
@@ -36,6 +36,5 @@ public class TitleManager : MonoBehaviour
     {
         textButton.gameObject.SetActive(false);
         buttonCanvas.gameObject.SetActive(true);
-
     }
 }

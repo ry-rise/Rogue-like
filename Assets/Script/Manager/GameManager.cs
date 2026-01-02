@@ -12,7 +12,7 @@ public sealed class GameManager : MonoBehaviour
     {
         get
         {
-            if(instance==null)
+            if (instance == null)
             {
                 GameObject obj = GameObject.Find("Manager");
                 instance = obj.GetComponent<GameManager>();
@@ -94,14 +94,14 @@ public sealed class GameManager : MonoBehaviour
 
                 turnManager = TurnManager.PlayerStart;
                 break;
-                
+
             //階層移動
             case TurnManager.HierarchyMovement:
                 FloorNumber += 1;
                 DataManager.GameDataSave(player);
                 SceneManager.LoadScene("FloorNumberView");
                 break;
-                
+
             default:
                 break;
         }
@@ -249,7 +249,7 @@ public sealed class GameManager : MonoBehaviour
         fadeManager.isFadeIn = true;
         DataManager.GameDataSave(player);
     }
-    
+
     public static int GetFloorNumber()
     {
         //if (File.Exists($"{Application.persistentDataPath}{FileName}"))
@@ -266,11 +266,5 @@ public sealed class GameManager : MonoBehaviour
     {
         return 0;
     }
-    IEnumerator KeyWait()
-    {
-        while (!Input.GetKeyDown(KeyCode.Return))
-        {
-            yield return null;
-        }
-    }
+
 }

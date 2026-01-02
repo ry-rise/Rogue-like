@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using InputKey;
 
 public class Inventory : MonoBehaviour
 {
@@ -20,22 +18,18 @@ public class Inventory : MonoBehaviour
 
     void Update()
     {
-        if (InputManager.GridInputKeyDown(KeyCode.Z))
+        //z:前へ
+        if (Keyboard.current != null && Keyboard.current.zKey.wasPressedThisFrame)
         {
-            if (itemNumber != 0)
-            {
-                itemNumber -= 1;
-            }
-            itemData = itemDataBase.GetItemLists()[itemNumber];
+            if (itemNumber > 0) itemNumber -= 1;
             SetInventory();
         }
-        else if (InputManager.GridInputKeyDown(KeyCode.X))
+
+        //x:次へ
+        else if (Keyboard.current != null && Keyboard.current.xKey.wasPressedThisFrame)
         {
-            if (itemNumber != 0)
-			{
-				itemNumber += 1;
-			}
-			itemData=itemDataBase.GetItemLists()[itemNumber];
+            int max = itemDataBase.GetItemLists().Count - 1;
+            if (itemNumber < max) itemNumber += 1;
             SetInventory();
         }
     }

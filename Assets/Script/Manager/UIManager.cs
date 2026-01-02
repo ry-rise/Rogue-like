@@ -11,6 +11,7 @@ public sealed class UIManager : MonoBehaviour
     [SerializeField] private Text SatietyText;
     [SerializeField] private Text StateText;
     private Player player;
+    private PlayerInputRouter input;
     private bool isQuitting = false;
     private void Awake()
     {
@@ -35,6 +36,14 @@ public sealed class UIManager : MonoBehaviour
         if (player == null)
         {
             Debug.LogError("[UIManager] Player コンポーネントが見つかりません");
+            enabled = false;
+            return;
+        }
+
+        input = player.GetComponent<PlayerInputRouter>();
+        if (input == null)
+        {
+            Debug.LogError("[UIManager] PlayerInputRouter が見つかりません");
             enabled = false;
             return;
         }
@@ -68,15 +77,19 @@ public sealed class UIManager : MonoBehaviour
         }
 
         //Iキーを押すとインベントリが表示/非表示
-        if (Input.GetKeyDown(KeyCode.I))
+        if (input.InventoryPressed)
         {
             if (InventoryScreen == null || Header == null) return;
+
             bool open = !InventoryScreen.activeSelf;
             InventoryScreen.SetActive(open);
             Header.SetActive(!open);
             if (GameManager.Instance != null) GameManager.Instance.GamePause = open;
+
+            input.Consume(); //トグルが1回で止まれないようにクリア
         }
     }
+
     private void StateTextChanger()
     {
         if (StateText == null || player == null) return;
