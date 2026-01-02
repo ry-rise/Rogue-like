@@ -12,9 +12,10 @@ using UnityEditor;
 public sealed class Player : MoveObject
 {
     private static readonly Dictionary<int, int> LevelUpExp;
-    [ButtonDebug("aa","a")] public int a;
+    [ButtonDebug("aa", "a")] public int a;
     [SerializeField] private STATE _state;
     private bool AbnormalCondition;
+    private PlayerStatus status;
     public bool isExit { get; set; }
     //public bool isMoving { get; set; }
     public List<ItemData> inventoryList;
@@ -26,15 +27,17 @@ public sealed class Player : MoveObject
     protected override void Start()
     {
         base.Start();
+        status = GetComponent<PlayerStatus>();
+        if (status == null)
+        {
+            Debug.LogError("[Player] PlayerStatus が付いていません");
+            enabled = false;
+            return;
+        }
         //データが無ければ初期化
         if (File.Exists($"{Application.persistentDataPath}{DataManager.GameFileName}") == false)
         {
-            Level = 1;
-            HP = 100;
-            ATK = 10;
-            DEF = 5;
-            MaxHP = HP;
-            Satiety = 100;
+            status.InitDefaultForNewGame();
             direction = DIRECTION.UP;
         }
         //移動可能かどうかを記憶
@@ -77,29 +80,13 @@ public sealed class Player : MoveObject
 
             case GameManager.TurnManager.StateJudge:
                 //状態異常の遷移
-                switch (state)
-                {
-                    case STATE.NONE:
-                        break;
-                    case STATE.POISON:
-                        HP -= 1;
-                        if (ReleaseDetermination() == true) { state = STATE.NONE; }
-                        break;
-                    case STATE.PARALYSIS:
-                        if (ReleaseDetermination() == true) { state = STATE.NONE; }
-                        else { GameManager.Instance.turnManager = GameManager.TurnManager.PlayerEnd; }
-                        break;
-                    default:
-                        break;
-                }
+                status.ApplyStateTurnEffects();
                 GameManager.Instance.turnManager = GameManager.TurnManager.SatietyCheck;
                 break;
 
             case GameManager.TurnManager.SatietyCheck:
-                //空腹度が０
-                if (Satiety == 0) { HP -= 1; }
-                //０以外
-                else { Satiety -= 1; }
+                //空腹度チェック
+                status.ApplySatietyTurnEffects();
                 //行動終了
                 GameManager.Instance.turnManager = GameManager.TurnManager.PlayerEnd;
                 break;
@@ -189,7 +176,7 @@ public sealed class Player : MoveObject
     private void MovePlayer(int x, int y)
     {
         //上方向
-        if ((InputManager.GridInputKeyDown(KeyCode.W) || InputManager.GridInputKeyDown(KeyCode.UpArrow))&&isMoving==false)
+        if ((InputManager.GridInputKeyDown(KeyCode.W) || InputManager.GridInputKeyDown(KeyCode.UpArrow)) && isMoving == false)
         {
             direction = DIRECTION.UP;
             SpriteDirection();
@@ -212,9 +199,9 @@ public sealed class Player : MoveObject
             GameManager.Instance.turnManager = GameManager.TurnManager.StateJudge;
         }
         //下方向
-        else if ((InputManager.GridInputKeyDown(KeyCode.S) || InputManager.GridInputKeyDown(KeyCode.DownArrow))&&isMoving==false)
+        else if ((InputManager.GridInputKeyDown(KeyCode.S) || InputManager.GridInputKeyDown(KeyCode.DownArrow)) && isMoving == false)
         {
-            
+
             direction = DIRECTION.DOWN;
             SpriteDirection();
             if (CheckMovePlayer(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
@@ -236,9 +223,9 @@ public sealed class Player : MoveObject
             GameManager.Instance.turnManager = GameManager.TurnManager.StateJudge;
         }
         //左方向
-        else if ((InputManager.GridInputKeyDown(KeyCode.A) || InputManager.GridInputKeyDown(KeyCode.LeftArrow))&&isMoving==false)
-        {   
-            
+        else if ((InputManager.GridInputKeyDown(KeyCode.A) || InputManager.GridInputKeyDown(KeyCode.LeftArrow)) && isMoving == false)
+        {
+
             direction = DIRECTION.LEFT;
             SpriteDirection();
             if (CheckMovePlayer(direction, (int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
@@ -260,7 +247,7 @@ public sealed class Player : MoveObject
             GameManager.Instance.turnManager = GameManager.TurnManager.StateJudge;
         }
         //右方向
-        else if ((InputManager.GridInputKeyDown(KeyCode.D) || InputManager.GridInputKeyDown(KeyCode.RightArrow))&&isMoving==false)
+        else if ((InputManager.GridInputKeyDown(KeyCode.D) || InputManager.GridInputKeyDown(KeyCode.RightArrow)) && isMoving == false)
         {
             direction = DIRECTION.RIGHT;
             SpriteDirection();
@@ -441,15 +428,8 @@ public sealed class Player : MoveObject
     }
     #endregion
 
-    #region レベルアップ時の挙動
-    private void LevelUP()
+    public bool TryReleaseState()
     {
-        Level += 1;
-        NextExp -= 1;
-        ATK *= 2;
-        DEF *= 2;
-        Log.Instance.LogTextWrite($"レベルが上がった！");
+        return ReleaseDetermination();
     }
-    #endregion
-
 }
