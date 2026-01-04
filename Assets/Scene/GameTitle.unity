@@ -425,12 +425,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startButton: {fileID: 1326946644}
-  loadButton: {fileID: 0}
+  loadButton: {fileID: 1048043204}
   settingButton: {fileID: 763792092}
   exitButton: {fileID: 968050637}
   textButton: {fileID: 1658811986}
   buttonCanvas: {fileID: 1573748280}
   fadeText: {fileID: 0}
+  actions: {fileID: -944628639613478452, guid: 9ac524ca5d81c184e84ea6fc9c35edd4, type: 3}
+  actionMapName: GamePlay
+  submitActionName: Submit
 --- !u!4 &495751248
 Transform:
   m_ObjectHideFlags: 0

@@ -8,29 +8,20 @@ public class SettingsManager : MonoBehaviour
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private Button dataDeleteButton;
     [SerializeField] private Button backToTitleButton;
-    private void Awake()
-    {
-        DataManager.SettingsDataLoad(audioMixer);
-    }
+
     private void Start()
     {
         dataDeleteButton.onClick.AddListener(DataManager.GameDataDelete);
-        backToTitleButton.onClick.AddListener(()=>DataManager.SettingsDataSave(audioMixer));
+        backToTitleButton.onClick.AddListener(() => DataManager.SettingsDataSave(audioMixer));
         backToTitleButton.onClick.AddListener(SceneChanger.ToTitle);
         if (File.Exists($"{Application.persistentDataPath}{DataManager.SettingsFileName}") == true)
         {
             DataManager.SettingsDataLoad(audioMixer);
         }
-        if (File.Exists($"{Application.persistentDataPath}{DataManager.GameFileName}")==false)
+        if (File.Exists($"{Application.persistentDataPath}{DataManager.GameFileName}") == false)
         {
             dataDeleteButton.interactable = false;
         }
     }
-    
-    
-    
+
 }
-
-
-    
-
