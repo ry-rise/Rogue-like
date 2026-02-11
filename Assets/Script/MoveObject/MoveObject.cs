@@ -3,7 +3,8 @@ using UnityEngine;
 
 public abstract class MoveObject : MonoBehaviour
 {
-    [NamedArray(new string[] { "UP", "DOWN", "LEFT", "RIGHT" })] [SerializeField]
+    [NamedArray(new string[] { "UP", "DOWN", "LEFT", "RIGHT" })]
+    [SerializeField]
     protected Sprite[] sprites = new Sprite[4];
     protected MapGenerator mapGenerator;
     protected SpriteRenderer spriteRenderer;
@@ -35,7 +36,7 @@ public abstract class MoveObject : MonoBehaviour
         mapGenerator = GameObject.Find("Manager").GetComponent<MapGenerator>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
-    
+
     /// <summary>
     /// 状態異常の解除判定
     /// </summary>
@@ -52,7 +53,7 @@ public abstract class MoveObject : MonoBehaviour
     /// </summary>
     protected void SpriteDirection()
     {
-        switch(direction)
+        switch (direction)
         {
             case DIRECTION.UP:
                 spriteRenderer.sprite = sprites[(int)DIRECTION.UP];
@@ -71,38 +72,41 @@ public abstract class MoveObject : MonoBehaviour
     /// <summary>
     /// スムーズに移動する
     /// </summary>
-    protected IEnumerator SquaresMove(float moveX,float moveY,int num,DIRECTION direction,Vector2 prevPos)
+    protected IEnumerator SquaresMove(float moveX, float moveY, int num, DIRECTION direction, Vector2 prevPos)
     {
-        while (true)
+        Vector3 from = transform.position;
+        Vector3 to = from;
+
+        switch (direction)
         {
-            
-            if (num < 10)
-            {
-                gameObject.transform.position += new Vector3(moveX, moveY, 0);
-                num += 1;
-                GameManager.Instance.mainCamPos.transform.position=gameObject.transform.position;
-                yield return new WaitForSeconds(0.0001f);
-            }
-            else
-            {
-                switch (direction)
-                {
-                    case DIRECTION.UP:
-                        gameObject.transform.position = new Vector2((int)gameObject.transform.position.x, (int)prevPos.y + 1);
-                        break;
-                    case DIRECTION.DOWN:
-                        gameObject.transform.position = new Vector2((int)gameObject.transform.position.x, (int)prevPos.y - 1);
-                        break;
-                    case DIRECTION.LEFT:
-                        gameObject.transform.position = new Vector2((int)prevPos.x - 1, (int)gameObject.transform.position.y);
-                        break;
-                    case DIRECTION.RIGHT:
-                        gameObject.transform.position = new Vector2((int)prevPos.x + 1, (int)gameObject.transform.position.y);
-                        break;
-                }
-                isMoving = false;
-                yield break;
-            }
+            case DIRECTION.UP: to = new Vector3((int)prevPos.x, (int)prevPos.y + 1, from.z); break;
+            case DIRECTION.DOWN: to = new Vector3((int)prevPos.x, (int)prevPos.y - 1, from.z); break;
+            case DIRECTION.LEFT: to = new Vector3((int)prevPos.x - 1, (int)prevPos.y, from.z); break;
+            case DIRECTION.RIGHT: to = new Vector3((int)prevPos.x + 1, (int)prevPos.y, from.z); break;
         }
+        // 移動にかける時間（秒）：好みで調整
+        const float duration = 0.12f;
+
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime / duration;
+
+            // EaseInOut（滑らか開始→停止）
+            float eased = t * t * (3f - 2f * t);
+            transform.position = Vector3.Lerp(from, to, eased);
+
+            // カメラ追従（存在チェックは安全のため）
+            if (GameManager.Instance != null && GameManager.Instance.mainCamPos != null)
+                GameManager.Instance.mainCamPos.transform.position = transform.position;
+
+            yield return null; // フレーム同期が一番滑らか
+        }
+        transform.position = to;
+
+        if (GameManager.Instance != null && GameManager.Instance.mainCamPos != null)
+            GameManager.Instance.mainCamPos.transform.position = transform.position;
+
+        isMoving = false;
     }
 }
