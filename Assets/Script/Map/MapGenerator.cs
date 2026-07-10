@@ -79,7 +79,7 @@ public sealed class MapGenerator : MonoBehaviour
         int roomAmount = Random.Range(MinRoomAmount, MaxRoomAmount);
         int[] roadAggPointX = new int[RoadPoint];
         int[] roadAggPointY = new int[RoadPoint];
-        foreach (int i in roadAggPointX)
+        for (int i = 0; i < RoadPoint; i += 1)
         {
             roadAggPointX[i] = Random.Range(1, MapWidth);
             roadAggPointY[i] = Random.Range(1, MapHeight);
@@ -99,7 +99,8 @@ public sealed class MapGenerator : MonoBehaviour
             bool roomCheck = CheckRoomCreate(roomWidth, roomHeight, roomPointX, roomPointY);
             if (roomCheck == false)
             {
-                CreateRoad(roadStartPointX, roadStartPointY, roadAggPointX[Random.Range(0, 0)], roadAggPointY[Random.Range(0, 0)]);
+                int pick = Random.Range(0, RoadPoint);
+                CreateRoad(roadStartPointX, roadStartPointY, roadAggPointX[pick], roadAggPointY[pick]);
             }
         }
         //FLOORのところにExitをランダムで配置

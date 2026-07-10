@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
@@ -125,7 +124,6 @@ public sealed class GameManager : MonoBehaviour
             {
                 T EnemyClass = enemy.GetComponent<T>();
                 EnemyClass.MoveEnemy((int)enemy.transform.position.x, (int)enemy.transform.position.y);
-                EnemyClass.AttackEnemy((int)enemy.transform.position.x, (int)enemy.transform.position.y);
             }
         }
     }

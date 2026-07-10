@@ -232,56 +232,5 @@ public class EnemyBase : MoveObject
         }
 
     }
-    /// <summary>
-    /// 敵の攻撃処理
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    public void AttackEnemy(int x, int y)
-    {
-        if (CheckAttackEnemy((int)gameObject.transform.position.x, (int)gameObject.transform.position.y) == true)
-        {
-            playerScript.HP -= (playerScript.DEF - ATK);
-        }
-        else { return; }
-    }
-    /// <summary>
-    /// 敵の攻撃判定
-    /// </summary>
-    /// <param name="x">敵のX座標</param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    private bool CheckAttackEnemy(int x, int y)
-    {
-        switch (direction)
-        {
-            case DIRECTION.UP:
-                if (mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.PLAYER)
-                {
-                    return true;
-                }
-                return false;
-            case DIRECTION.DOWN:
-                if (mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.PLAYER)
-                {
-                    return true;
-                }
-                return false;
-            case DIRECTION.LEFT:
-                if (mapGenerator.MapStatusType[x - 1, y] == (int)MapGenerator.STATE.PLAYER)
-                {
-                    return true;
-                }
-                return false;
-            case DIRECTION.RIGHT:
-                if (mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.PLAYER)
-                {
-                    return true;
-                }
-                return false;
-            default:
-                return false;
-        }
-    }
 
 }
