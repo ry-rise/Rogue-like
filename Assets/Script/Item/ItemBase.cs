@@ -29,30 +29,24 @@ public abstract class ItemBase : MonoBehaviour
         if (spr) spr.enabled = false;
         if (mapGenerator != null)
         {
-            mapGenerator.MapStatusType[(int)transform.position.x, (int)transform.position.y] = (int)MapGenerator.STATE.FLOOR;
+            int x = (int)transform.position.x;
+            int y = (int)transform.position.y;
+            mapGenerator.MapStatusItem[x, y] = (int)MapGenerator.ITEM_STATE.NONE;
         }
         if (Log.Instance != null) Log.Instance.LogTextWrite($"{Name}を手に入れた");
     }
+
+    public void Collect()
+    {
+        PickUP();
+        gameObject.SetActive(false);
+    }
+
     ///<summary>  
     ///アイテムを使うときの処理
     ///</summary>
     public virtual void Use() { }
 
-    ///<summary>
-    ///Playerの位置と一致すると取る
-    ///</summary>    
-    protected virtual void Update()
-    {
-        if (gameObject.transform.position.x == player.gameObject.transform.position.x &&
-           gameObject.transform.position.y == player.gameObject.transform.position.y)
-        {
-            PickUP();
-            gameObject.SetActive(false);
-        }
-    }
-    protected virtual void OnDisable()
-    {
-
-    }
+    protected virtual void OnDisable() { }
 
 }

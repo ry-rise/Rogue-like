@@ -30,11 +30,17 @@ public sealed class MapGenerator : MonoBehaviour
         EXIT,
         WALL = -1
     }
+    public enum ITEM_STATE
+    {
+        NONE = 0,
+        ITEM = 1,
+    }
 
 
     private Transform mapHolder;
     public int[,] MapStatusType;
     public int[,] MapStatusMoveObject;
+    public int[,] MapStatusItem { get; private set; }
     //public int[,] MapStatusRoom;
     //private GameManager gameManager;
     #endregion
@@ -52,6 +58,7 @@ public sealed class MapGenerator : MonoBehaviour
     {
         MapStatusType = new int[MapWidth, MapHeight];
         MapStatusMoveObject = new int[MapWidth, MapHeight];
+        MapStatusItem = new int[MapWidth, MapHeight];
         //MapStatusRoom = new int[MapWidth, MapHeight];
         //一旦、すべて壁で初期化
         for (int y = 0; y < MapHeight; y += 1)
@@ -60,6 +67,7 @@ public sealed class MapGenerator : MonoBehaviour
             {
                 MapStatusType[x, y] = (int)STATE.WALL;
                 MapStatusMoveObject[x, y] = (int)STATE.WALL;
+                MapStatusItem[x, y] = (int)ITEM_STATE.NONE;
                 //MapStatusRoom[x, y] = (int)STATE.WALL;
             }
         }
@@ -210,7 +218,8 @@ public sealed class MapGenerator : MonoBehaviour
                 }
                 else if (MapStatusType[x, y] == (int)STATE.EXIT)
                 {
-                    /*GameObject instance =*/ Instantiate(exitPrefab,new Vector2(x, y),Quaternion.identity,mapHolder);// as GameObject;
+                    /*GameObject instance =*/
+                    Instantiate(exitPrefab, new Vector2(x, y), Quaternion.identity, mapHolder);// as GameObject;
                 }
                 else if (MapStatusType[x, y] == (int)STATE.TRAP_POISON)
                 {

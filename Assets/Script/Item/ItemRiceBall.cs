@@ -3,12 +3,12 @@
 public sealed class ItemRiceBall : ItemBase
 {
 
-    protected override void Awake ()
+    protected override void Awake()
     {
-        ID=0;
+        ID = 0;
         Name = "おにぎり";
         base.Awake();
-	}
+    }
 
     // private void OnTriggerEnter2D(Collider2D collision)
     // {
@@ -18,15 +18,12 @@ public sealed class ItemRiceBall : ItemBase
     //         PickUP();
     //     }
     // }
-    protected override void Update()
-    {
-        base.Update();
-    }
+
     protected override void PickUP()
     {
         base.PickUP();
     }
-    
+
 
     public override void Use()
     {

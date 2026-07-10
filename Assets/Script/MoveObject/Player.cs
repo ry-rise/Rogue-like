@@ -347,7 +347,7 @@ public sealed class Player : MoveObject
             mapGenerator.MapStatusMoveObject[x, y] = (int)MapGenerator.STATE.FLOOR;
             mapGenerator.MapStatusMoveObject[nx, ny] = (int)MapGenerator.STATE.PLAYER;
         }
-
+        GameManager.Instance.TryPickupItemAt(nx, ny);
         isMoving = true;
 
         // 既存のSquaresMoveに合わせて delta を作る

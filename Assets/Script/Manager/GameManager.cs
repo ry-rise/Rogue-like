@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
@@ -140,64 +142,80 @@ public sealed class GameManager : MonoBehaviour
     /// </summary>
     public void RandomDeploy()
     {
-        //FLOORのところにランダムでPlayerを配置
-        while (true)
+        int maxTry = 5000;
+
+        // -----------------------------
+        // Player配置（床 かつ 未占有）
+        // -----------------------------
         {
-            int playerRandomX = Random.Range(0, mapGenerator.MapWidth);
-            int playerRandomY = Random.Range(0, mapGenerator.MapHeight);
-            if (mapGenerator.MapStatusType[playerRandomX, playerRandomY]
-                == (int)MapGenerator.STATE.FLOOR)
+            int tries = 0;
+            while (tries++ < maxTry)
             {
-                playerObject.transform.position = new Vector2(playerRandomX, playerRandomY);
-                mapGenerator.MapStatusMoveObject[playerRandomX, playerRandomY] = (int)MapGenerator.STATE.PLAYER;
-                break;
-            }
-            else
-            {
-                continue;
+                int x = Random.Range(0, mapGenerator.MapWidth);
+                int y = Random.Range(0, mapGenerator.MapHeight);
+                if (mapGenerator.MapStatusType[x, y] == (int)MapGenerator.STATE.FLOOR &&
+                    mapGenerator.MapStatusMoveObject[x, y] == (int)MapGenerator.STATE.FLOOR)
+                {
+                    playerObject.transform.position = new Vector2(x, y);
+                    mapGenerator.MapStatusMoveObject[x, y] = (int)MapGenerator.STATE.PLAYER;
+                    break;
+                }
             }
         }
-        //FLOORのところにenemyを移動
+
+        int px = (int)playerObject.transform.position.x;
+        int py = (int)playerObject.transform.position.y;
+
+        //敵が近くに湧かない距離（マンハッタン距離）
+        int minEnemyDist = 6;
+
+        // -----------------------------
+        // Enemy配置（床 かつ 未占有 かつ プレイヤーから距離）
+        // -----------------------------
         foreach (var enemy in enemiesList)
         {
-            while (true)
+            int tries = 0;
+            while (tries++ < maxTry)
             {
-                int enemyRandomX = Random.Range(0, mapGenerator.MapWidth);
-                int enemyRandomY = Random.Range(0, mapGenerator.MapHeight);
-                if (mapGenerator.MapStatusType[enemyRandomX, enemyRandomY]
-                   == (int)MapGenerator.STATE.FLOOR)
+                int x = Random.Range(0, mapGenerator.MapWidth);
+                int y = Random.Range(0, mapGenerator.MapHeight);
+
+                int dist = Mathf.Abs(x - px) + Mathf.Abs(y - py);
+
+                if (mapGenerator.MapStatusType[x, y] == (int)MapGenerator.STATE.FLOOR &&
+                    mapGenerator.MapStatusMoveObject[x, y] == (int)MapGenerator.STATE.FLOOR &&
+                    dist >= minEnemyDist)
                 {
-                    enemy.transform.position = new Vector2(enemyRandomX, enemyRandomY);
-                    mapGenerator.MapStatusMoveObject[enemyRandomX, enemyRandomY] = (int)MapGenerator.STATE.ENEMY;
+                    enemy.transform.position = new Vector2(x, y);
+                    mapGenerator.MapStatusMoveObject[x, y] = (int)MapGenerator.STATE.ENEMY;
                     break;
-                }
-                else
-                {
-                    continue;
                 }
             }
         }
-        //FLOORのところにitemを移動
+
+        // -----------------------------
+        // Item配置（床 かつ 未占有 かつ まだItemじゃない）
+        // ※ Itemは MapStatusType を ITEM にして管理してるので、それも考慮
+        // -----------------------------
         foreach (var item in itemsList)
         {
-            while (true)
+            int tries = 0;
+            while (tries++ < maxTry)
             {
-                int itemRandomX = Random.Range(0, mapGenerator.MapWidth);
-                int itemRandomY = Random.Range(0, mapGenerator.MapHeight);
-                if (mapGenerator.MapStatusType[itemRandomX, itemRandomY]
-                    == (int)MapGenerator.STATE.FLOOR)
+                int x = Random.Range(0, mapGenerator.MapWidth);
+                int y = Random.Range(0, mapGenerator.MapHeight);
+                if (mapGenerator.MapStatusType[x, y] == (int)MapGenerator.STATE.FLOOR &&
+                    mapGenerator.MapStatusMoveObject[x, y] == (int)MapGenerator.STATE.FLOOR &&
+                    mapGenerator.MapStatusItem[x, y] == (int)MapGenerator.ITEM_STATE.NONE)
                 {
-                    item.transform.position = new Vector2(itemRandomX, itemRandomY);
-                    mapGenerator.MapStatusType[itemRandomX, itemRandomY] = (int)MapGenerator.STATE.ITEM;
+                    item.transform.position = new Vector2(x, y);
+                    mapGenerator.MapStatusItem[x, y] = (int)MapGenerator.ITEM_STATE.ITEM;
                     break;
-                }
-                else
-                {
-                    continue;
                 }
             }
         }
     }
+
     /// <summary>
     /// プレイヤーをカメラの中心に配置
     /// </summary>
@@ -223,6 +241,7 @@ public sealed class GameManager : MonoBehaviour
             itemsList.Add(Instantiate(itemPrefab[Random.Range(0, itemPrefab.Length)], itemHolder) as GameObject);
         }
     }
+
     /// <summary>
     /// 次の階層に行く時に呼ぶ
     /// </summary>
@@ -233,6 +252,7 @@ public sealed class GameManager : MonoBehaviour
         enemiesList = new List<GameObject>();
         itemsList = new List<GameObject>();
     }
+
     public void Exit()
     {
         player.isExit = false;
@@ -258,13 +278,41 @@ public sealed class GameManager : MonoBehaviour
         //}
         return FloorNumber;
     }
+
     public static void SetFloorNumber(int FloorNumberData)
     {
         FloorNumber = FloorNumberData;
     }
+
     public static int GetTotalScore()
     {
         return 0;
+    }
+
+    public void TryPickupItemAt(int x, int y)
+    {
+        if (mapGenerator.MapStatusItem[x, y] == (int)MapGenerator.ITEM_STATE.NONE)
+            return;
+
+        // itemsListから座標一致のアクティブなアイテムを探す
+        foreach (var go in itemsList)
+        {
+            if (go == null || !go.activeSelf) continue;
+
+            var p = go.transform.position;
+            if ((int)p.x == x && (int)p.y == y)
+            {
+                var item = go.GetComponent<ItemBase>();
+                if (item != null)
+                {
+                    item.Collect();
+                    return;
+                }
+            }
+        }
+
+        // フェイルセーフ：MapにITEMがあるのに実体が見つからない場合は掃除
+        mapGenerator.MapStatusItem[x, y] = (int)MapGenerator.ITEM_STATE.NONE;
     }
 
 }

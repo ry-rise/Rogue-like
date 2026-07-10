@@ -7,10 +7,7 @@
         Name = "";
         base.Awake();
 	}
-    protected override void Update()
-    {
-        base.Update();
-    }
+    
     protected override void PickUP()
     {
         base.PickUP();

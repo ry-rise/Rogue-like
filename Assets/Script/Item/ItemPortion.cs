@@ -1,18 +1,14 @@
 ﻿using UnityEngine;
 //HPを回復するアイテム
 public sealed class ItemPortion : ItemBase
-{    
+{
     protected override void Awake()
     {
-        ID=1;
+        ID = 1;
         Name = "ポーション";
         base.Awake();
     }
-   
-    protected override void Update()
-    {
-        base.Update();
-    }
+
     protected override void PickUP()
     {
         base.PickUP();
