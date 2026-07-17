@@ -11,7 +11,7 @@ public class Log : MonoBehaviour
             //既にキャッシュがあれば返す
             if (instance != null) return instance;
             //シーン内からLogオブジェクトを探す
-            instance = FindFirstObjectByType<Log>();
+            instance = FindAnyObjectByType<Log>();
             return instance;
         }
     }

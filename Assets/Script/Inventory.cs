@@ -30,7 +30,7 @@ public class Inventory : MonoBehaviour
     {
         if (playerInput != null && prevItemAction != null && nextItemAction != null) return;
 
-        playerInput = FindFirstObjectByType<PlayerInput>();
+        playerInput = FindAnyObjectByType<PlayerInput>();
         if (playerInput == null) return;
 
         prevItemAction = playerInput.actions["PrevItem"];

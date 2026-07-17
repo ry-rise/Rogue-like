@@ -31,7 +31,7 @@ public class RebindMenu : MonoBehaviour
     private void Awake()
     {
         if (playerInput == null)
-            playerInput = Object.FindFirstObjectByType<PlayerInput>();
+            playerInput = FindAnyObjectByType<PlayerInput>();
 
         // 保存済みがあれば適用（念のため）
         //InputBindingStore.ApplyTo(playerInput);
