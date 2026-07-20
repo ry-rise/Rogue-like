@@ -186,130 +186,46 @@ public sealed class Player : MoveObject
     }
 
     #region 攻撃
-    private void AttackPlayerFunc<T>(Vector3 Vec3)
-    where T : EnemyBase
+    private void AttackPlayer(int x, int y)
     {
-        if (mapGenerator.MapStatusType[(int)Vec3.x, (int)Vec3.y] == (int)MapGenerator.STATE.ENEMY)
+        Vector3 target = TargetVectorFromDirection(direction, x, y);
+        if (mapGenerator.MapStatusType[(int)target.x, (int)target.y] == (int)MapGenerator.STATE.ENEMY)
         {
-            if (JudgeAttack() == true)
+            if (JudgeAttack())
             {
                 foreach (var enemy in GameManager.Instance.enemiesList)
                 {
-                    if (enemy.transform.position == Vec3)
+                    if (enemy.transform.position == target)
                     {
-                        var enemyClass = enemy.GetComponent<T>();
-                        if (enemyClass != null)
+                        var enemyBase = enemy.GetComponent<EnemyBase>();
+                        if (enemyBase != null)
                         {
-                            enemyClass.HP -= ATK;
+                            int damage = Mathf.Max(1, ATK - enemyBase.DEF);
+                            enemyBase.HP -= damage;
+                            Log.Instance?.LogTextWrite($"敵に{damage}ダメージ与えた");
                         }
+                        break;
                     }
                 }
             }
+            else
+            {
+                Log.Instance?.LogTextWrite("攻撃はミスした！");
+            }
         }
+        GameManager.Instance.turnManager = GameManager.TurnManager.PlayerEnd;
     }
-    private void AttackPlayer(int x, int y)
+
+    private Vector3 TargetVectorFromDirection(DIRECTION dir, int x, int y)
     {
-        switch (direction)
+        switch (dir)
         {
-            case DIRECTION.UP:
-                if (mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.ENEMY)
-                {
-                    if (JudgeAttack() == true)
-                    {
-                        foreach (var enemy in GameManager.Instance.enemiesList)
-                        {
-                            if (enemy.transform.position == new Vector3(x, y + 1))
-                            {
-                                if (enemy.GetComponent<EnemyZombie>() != null)
-                                {
-                                    enemy.GetComponent<EnemyZombie>().HP -= ATK;
-                                }
-                                else if (enemy.GetComponent<EnemyKnight>() != null)
-                                {
-                                    enemy.GetComponent<EnemyKnight>().HP -= ATK;
-                                }
-                            }
-                        }
-                    }
-                }
-                GameManager.Instance.turnManager = GameManager.TurnManager.PlayerEnd;
-                break;
-            case DIRECTION.DOWN:
-                if (mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.ENEMY)
-                {
-                    if (JudgeAttack() == true)
-                    {
-                        foreach (var enemy in GameManager.Instance.enemiesList)
-                        {
-                            if (enemy.transform.position == new Vector3(x, y - 1))
-                            {
-                                if (enemy.gameObject.GetComponent<EnemyZombie>() != null)
-                                {
-                                    enemy.gameObject.GetComponent<EnemyZombie>().HP -= ATK;
-                                }
-                                else if (enemy.gameObject.GetComponent<EnemyKnight>() != null)
-                                {
-                                    enemy.gameObject.GetComponent<EnemyKnight>().HP -= ATK;
-                                }
-                            }
-                        }
-                    }
-                }
-                GameManager.Instance.turnManager = GameManager.TurnManager.PlayerEnd;
-                break;
-            case DIRECTION.LEFT:
-                if (mapGenerator.MapStatusType[x - 1, y] == (int)MapGenerator.STATE.ENEMY)
-                {
-                    if (JudgeAttack() == true)
-                    {
-                        foreach (var enemy in GameManager.Instance.enemiesList)
-                        {
-                            if (enemy.transform.position == new Vector3(x - 1, y))
-                            {
-                                if (enemy.gameObject.GetComponent<EnemyZombie>() != null)
-                                {
-                                    enemy.gameObject.GetComponent<EnemyZombie>().HP -= ATK;
-                                }
-                                else if (enemy.gameObject.GetComponent<EnemyKnight>() != null)
-                                {
-                                    enemy.gameObject.GetComponent<EnemyKnight>().HP -= ATK;
-                                }
-                            }
-                        }
-                    }
-                }
-                GameManager.Instance.turnManager = GameManager.TurnManager.PlayerEnd;
-                break;
-            case DIRECTION.RIGHT:
-                if (mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.ENEMY)
-                {
-                    if (JudgeAttack() == true)
-                    {
-                        foreach (var enemy in GameManager.Instance.enemiesList)
-                        {
-                            if (enemy.transform.position == new Vector3(x + 1, y))
-                            {
-                                if (enemy.gameObject.GetComponent<EnemyZombie>() != null)
-                                {
-                                    enemy.gameObject.GetComponent<EnemyZombie>().HP -= ATK;
-                                }
-                                else if (enemy.gameObject.GetComponent<EnemyKnight>() != null)
-                                {
-                                    enemy.gameObject.GetComponent<EnemyKnight>().HP -= ATK;
-                                }
-                            }
-                        }
-                    }
-                }
-                GameManager.Instance.turnManager = GameManager.TurnManager.PlayerEnd;
-                break;
+            case DIRECTION.UP: return new Vector3(x, y + 1);
+            case DIRECTION.DOWN: return new Vector3(x, y - 1);
+            case DIRECTION.LEFT: return new Vector3(x - 1, y);
+            case DIRECTION.RIGHT: return new Vector3(x + 1, y);
+            default: return new Vector3(x, y);
         }
-    }
-    private bool JudgeAttack()
-    {
-        int i = Random.Range(0, 2);
-        if (i == 1) { return true; }
-        else { return false; }
     }
     #endregion
 
@@ -356,6 +272,11 @@ public sealed class Player : MoveObject
 
         StartCoroutine(SquaresMove(dx, dy, MoveNum[(int)direction], direction, prevPosition));
         MoveNum[(int)direction] = 0;
+    }
+
+    public void RefreshDirectionSprite()
+    {
+        SpriteDirection();
     }
 }
 

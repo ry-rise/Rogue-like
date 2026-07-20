@@ -107,12 +107,18 @@ public class EnemyBase : MoveObject
         int manhattan = Mathf.Abs(ex - px) + Mathf.Abs(ey - py);
         if (manhattan != 1) return false;
 
-        // ダメ計算（今の式は回復しうるので修正）
-        int damage = Mathf.Max(1, ATK - playerScript.DEF); // 0ダメOKなら Max(0, ...)
-        playerScript.HP -= damage;
+        if (JudgeAttack())
+        {
+            int damage = Mathf.Max(1, ATK - playerScript.DEF);
+            playerScript.HP -= damage;
+            Log.Instance?.LogTextWrite($"プレイヤーは{damage}ダメージ受けた");
+        }
+        else
+        {
+            Log.Instance?.LogTextWrite("敵の攻撃はミスした！");
+        }
 
-        Log.Instance?.LogTextWrite($"プレイヤーは{damage}ダメージ受けた");
-        return true;
+        return true; // 攻撃を試みたこと自体は成立（ターン消費）age}ダメージ受けた");
     }
 
     private bool CanMove(int x, int y, DIRECTION dir)

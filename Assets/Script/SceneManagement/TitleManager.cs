@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -30,6 +31,12 @@ public class TitleManager : MonoBehaviour
             submit = map?.FindAction(submitActionName, throwIfNotFound: false);
             map?.Enable();
         }
+
+        if (loadButton != null)
+        {
+            bool hasSave = File.Exists($"{Application.persistentDataPath}{DataManager.GameFileName}");
+            loadButton.interactable = hasSave;
+        }
     }
 
     private void OnDisable()
@@ -41,6 +48,7 @@ public class TitleManager : MonoBehaviour
     private void Start()
     {
         startButton.onClick.AddListener(SceneChanger.ToStart);
+        loadButton.onClick.AddListener(SceneChanger.ToStart);
         settingButton.onClick.AddListener(SceneChanger.ToSettings);
         exitButton.onClick.AddListener(SceneChanger.ToExit);
         textButton.onClick.AddListener(CanvasSwitch);

@@ -22,7 +22,11 @@ public abstract class MoveObject : MonoBehaviour
     //次のレベルまでの経験値
     public int NextExp { get; set; }
     //方向
-    public int Direction { get; set; }
+    public int Direction
+    {
+        get => (int)direction;
+        set => direction = (DIRECTION)value;
+    }
     //攻撃力
     public int ATK { get; set; }
     //防御力
@@ -35,6 +39,14 @@ public abstract class MoveObject : MonoBehaviour
     {
         mapGenerator = GameObject.Find("Manager").GetComponent<MapGenerator>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+    }
+
+    /// <summary>
+    /// 攻撃の命中判定(50%)
+    /// </summary>
+    protected bool JudgeAttack()
+    {
+        return Random.Range(0, 2) == 1;
     }
 
     /// <summary>
@@ -53,6 +65,11 @@ public abstract class MoveObject : MonoBehaviour
     /// </summary>
     protected void SpriteDirection()
     {
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        }
+
         switch (direction)
         {
             case DIRECTION.UP:

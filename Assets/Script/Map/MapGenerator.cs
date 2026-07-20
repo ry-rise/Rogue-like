@@ -38,8 +38,8 @@ public sealed class MapGenerator : MonoBehaviour
 
 
     private Transform mapHolder;
-    public int[,] MapStatusType;
-    public int[,] MapStatusMoveObject;
+    public int[,] MapStatusType { get; private set; }
+    public int[,] MapStatusMoveObject { get; private set; }
     public int[,] MapStatusItem { get; private set; }
     //public int[,] MapStatusRoom;
     //private GameManager gameManager;

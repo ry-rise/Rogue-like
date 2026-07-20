@@ -68,6 +68,7 @@ public sealed class DataManager //: MonoBehaviour
             player.Direction = restoreData.Direction;
             player.DEF = restoreData.DEF;
             player.Satiety = restoreData.Satiety;
+            player.RefreshDirectionSprite();
         }
         catch (System.Exception e)
         {
