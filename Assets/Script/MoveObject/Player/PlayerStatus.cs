@@ -116,8 +116,8 @@ public class PlayerStatus : MonoBehaviour
     {
         Level += 1;
         NextExp -= 1;
-        ATK *= 2;
-        DEF *= 2;
+        ATK += 2;
+        DEF += 1;
         Log.Instance?.LogTextWrite("レベルが上がった！");
     }
     #endregion

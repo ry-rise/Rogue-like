@@ -7,13 +7,6 @@ public class EnemyBase : MoveObject
     protected string Name;
     private GameObject player;
     private Player playerScript;
-    protected bool check;
-    private int flag = 0;
-    private int flag_LEFT = 0x0001;
-    private int flag_RIGHT = 0x0002;
-    private int flag_UP = 0x0004;
-    private int flag_DOWN = 0x0008;
-
     protected override void Start()
     {
         base.Start();
@@ -57,7 +50,6 @@ public class EnemyBase : MoveObject
                     mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.ENEMY ||
                     mapGenerator.MapStatusType[x, y + 1] == (int)MapGenerator.STATE.PLAYER)
                 {
-                    flag += flag_UP;
                     return false;
                 }
                 return true;
@@ -66,7 +58,6 @@ public class EnemyBase : MoveObject
                     mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.ENEMY ||
                     mapGenerator.MapStatusType[x, y - 1] == (int)MapGenerator.STATE.PLAYER)
                 {
-                    flag += flag_DOWN;
                     return false;
                 }
                 return true;
@@ -75,7 +66,6 @@ public class EnemyBase : MoveObject
                     mapGenerator.MapStatusType[x - 1, y] == (int)MapGenerator.STATE.ENEMY ||
                     mapGenerator.MapStatusType[x - 1, y] == (int)MapGenerator.STATE.PLAYER)
                 {
-                    flag += flag_LEFT;
                     return false;
                 }
                 return true;
@@ -84,7 +74,6 @@ public class EnemyBase : MoveObject
                     mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.ENEMY ||
                     mapGenerator.MapStatusType[x + 1, y] == (int)MapGenerator.STATE.PLAYER)
                 {
-                    flag += flag_RIGHT;
                     return false;
                 }
                 return true;
@@ -157,7 +146,6 @@ public class EnemyBase : MoveObject
         }
 
         SpriteDirection();
-        check = true;
         return true;
     }
 
